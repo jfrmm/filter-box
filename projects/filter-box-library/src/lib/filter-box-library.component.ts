@@ -1,19 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'filter-box-filter-box-library',
+  selector: 'asp-filter-box-library',
   template: `
     <p>
       filter-box-library works!
     </p>
   `,
-  styles: []
+  styles: [],
 })
 export class FilterBoxLibraryComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

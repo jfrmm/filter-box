@@ -4,13 +4,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "filterBox",
+      "asp",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "filter-box",
+      "asp",
       "kebab-case"
     ]
   }

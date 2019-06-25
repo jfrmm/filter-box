@@ -121,7 +121,7 @@
       "projectType": "library",
       "root": "projects/filter-box-library",
       "sourceRoot": "projects/filter-box-library/src",
-      "prefix": "filter-box",
+      "prefix": "asp",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
