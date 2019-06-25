@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "filter-box-library": [
+        "dist/filter-box-library"
+      ],
+      "filter-box-library/*": [
+        "dist/filter-box-library/*"
+      ]
+    }
   }
 }

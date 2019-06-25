@@ -2,6 +2,26 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.1.
 
+## Generating a new angular workspace & project
+
+Run `ng new my-project-lib`. Optionally run: `ng new my-project-lib --createApplication=false` to generate a new angular workspace without a project.
+
+## Generate a new library
+
+Run `ng generate library my-lib` to generate a new my-lib inside src/projects. Adding the `-p my-lib` flag, adds a prefix to the library (recommended).
+
+## Build the library
+
+Run `ng build my-lib` to build the library. The build artifacts will be stored in the `dist/` directory.
+
+## Running unit tests on the library
+
+Run `ng test my-lib` to execute the unit test via [Karma](https://karma-runner.github.io).
+
+## Library access points
+
+The public-api.ts file defines what is available for the consumers. Use a NgModule to expose services and components. A consumer of the library should be able to acces public functionality through a single import path.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

@@ -114,6 +114,41 @@
           }
         }
       }
+    },
+    "filter-box-library": {
+      "projectType": "library",
+      "root": "projects/filter-box-library",
+      "sourceRoot": "projects/filter-box-library/src",
+      "prefix": "filter-box",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/filter-box-library/tsconfig.lib.json",
+            "project": "projects/filter-box-library/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/filter-box-library/src/test.ts",
+            "tsConfig": "projects/filter-box-library/tsconfig.spec.json",
+            "karmaConfig": "projects/filter-box-library/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/filter-box-library/tsconfig.lib.json",
+              "projects/filter-box-library/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "asp-filter-box-library"
 }
