@@ -21,9 +21,6 @@
     "paths": {
       "filter-box-library": [
         "dist/filter-box-library"
-      ],
-      "filter-box-library/*": [
-        "dist/filter-box-library/*"
       ]
     }
   }
