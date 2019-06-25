@@ -12,7 +12,7 @@ Run `ng generate library my-lib` to generate a new my-lib inside src/projects. A
 
 ## Build the library
 
-Run `ng build my-lib` to build the library. The build artifacts will be stored in the `dist/` directory.
+Run `ng build my-lib` to build the library. The build artifacts will be stored in the `dist/` directory. Adding the `--watch` flag while developing, allows to see the imediate changes.
 
 ## Running unit tests on the library
 
