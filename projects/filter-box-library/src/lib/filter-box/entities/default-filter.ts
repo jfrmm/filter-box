@@ -47,7 +47,7 @@ export class DefaultFilter extends Filter {
   }
 
   protected mapControlsValues(): string {
-    return this._filterElement.formControl.value;
+    return this._filterElement.formControl.value ? this._filterElement.formControl.value.id : null;
   }
 
   public clearAllElements(): void {
