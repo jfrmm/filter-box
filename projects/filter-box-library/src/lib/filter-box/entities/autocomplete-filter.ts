@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { filter, map, startWith, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { FilterParam } from '../models/filter-param.model';
 
-export class DefaultFilter extends Filter {
+export class AutocompleteFilter extends Filter {
   private _filterElement: FilterElement;
 
   constructor(paramName: string, placeholder: string, options: FilterOption[], initialValue: FilterOption = null) {
@@ -47,7 +47,7 @@ export class DefaultFilter extends Filter {
   }
 
   protected mapControlsValues(): string {
-    return this._filterElement.formControl.value;
+    return this._filterElement.formControl.value ? this._filterElement.formControl.value.id : null;
   }
 
   public clearAllElements(): void {
