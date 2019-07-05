@@ -4,19 +4,37 @@ import { FilterElement } from './filter-element';
 import { FormControl } from '@angular/forms';
 import { FilterParam } from '../models/filter-param.model';
 
-export class CheckboxFilter extends Filter {
+export class CheckboxFilter implements Filter {
   private initialValuesIds: string[] | number[];
 
-  constructor(paramName: string, options: FilterOption[], initialValuesIds: string[] | number[] = []) {
-    super(paramName, options, 'checkbox');
+  public elements: FilterElement[];
 
+  public initialOptions: FilterOption[];
+
+  public paramName: string;
+
+  get param(): FilterParam {
+    const filterParam: FilterParam = {
+      name: this.paramName,
+      value: this.mapControlsValues(),
+    };
+    return filterParam;
+  }
+
+  get type(): string {
+    return 'checkbox';
+  }
+
+  constructor(paramName: string, options: FilterOption[], initialValuesIds: string[] | number[] = []) {
+    this.paramName = paramName;
+    this.initialOptions = options;
     this.initialValuesIds = initialValuesIds;
 
     this.elements = this.buildFilterElements();
   }
 
   private buildFilterElements(): FilterElement[] {
-    return this._initialOptions.map(
+    return this.initialOptions.map(
       option => new FilterElement(option.value, new FormControl(this.getOptionDefaultValue(option)))
     );
   }
@@ -25,16 +43,8 @@ export class CheckboxFilter extends Filter {
     return this.initialValuesIds.some((id: number | string) => option.id === id);
   }
 
-  protected getFilterParam(): FilterParam {
-    const filterParam: FilterParam = {
-      name: this.paramName,
-      value: this.mapControlsValues(),
-    };
-    return filterParam;
-  }
-
   private getOptionId(index: number): string {
-    return this._initialOptions[index].id.toString();
+    return this.initialOptions[index].id.toString();
   }
 
   protected mapControlsValues(): string {
@@ -47,6 +57,6 @@ export class CheckboxFilter extends Filter {
   }
 
   public clearAllElements(): void {
-    this._elements.forEach(element => element.clear());
+    this.elements.forEach(element => element.clear());
   }
 }

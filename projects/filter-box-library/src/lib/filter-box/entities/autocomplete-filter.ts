@@ -6,17 +6,39 @@ import { Observable, of } from 'rxjs';
 import { filter, map, startWith, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { FilterParam } from '../models/filter-param.model';
 
-export class AutocompleteFilter extends Filter {
-  private _filterElement: FilterElement;
+export class AutocompleteFilter implements Filter {
+  private get filterElement(): FilterElement {
+    return this.elements[0];
+  }
+
+  public elements: FilterElement[];
+
+  public initialOptions: FilterOption[];
+
+  public options: FilterOption[];
+
+  public paramName: string;
+
+  get param(): FilterParam {
+    const filterParam: FilterParam = {
+      name: this.paramName,
+      value: this.mapControlsValues(),
+    };
+    return filterParam;
+  }
+
+  get type(): string {
+    return 'autocomplete';
+  }
 
   constructor(paramName: string, placeholder: string, options: FilterOption[], initialValue: FilterOption = null) {
-    super(paramName, options, 'default');
+    this.paramName = paramName;
+    this.initialOptions = options;
+    this.options = options;
 
     const formControl = new FormControl(initialValue);
 
-    this._filterElement = new FilterElement(placeholder, formControl, this.filterOptions(formControl));
-
-    this.elements = [this._filterElement];
+    this.elements = [new FilterElement(placeholder, formControl, this.filterOptions(formControl))];
   }
 
   private filterOptions(formControl: FormControl): Observable<FilterOption[]> {
@@ -30,7 +52,7 @@ export class AutocompleteFilter extends Filter {
       distinctUntilChanged(),
       switchMap((filterTerm: string) =>
         of(
-          this._initialOptions.filter((option: FilterOption) =>
+          this.initialOptions.filter((option: FilterOption) =>
             option.value.toLowerCase().includes(filterTerm.toLowerCase())
           )
         )
@@ -38,19 +60,11 @@ export class AutocompleteFilter extends Filter {
     );
   }
 
-  protected getFilterParam(): FilterParam {
-    const filterParam: FilterParam = {
-      name: this.paramName,
-      value: this.mapControlsValues(),
-    };
-    return filterParam;
-  }
-
-  protected mapControlsValues(): string {
-    return this._filterElement.formControl.value ? this._filterElement.formControl.value.id : null;
+  private mapControlsValues(): string {
+    return this.filterElement.formControl.value ? this.filterElement.formControl.value.id : null;
   }
 
   public clearAllElements(): void {
-    this._filterElement.clear();
+    this.filterElement.clear();
   }
 }
