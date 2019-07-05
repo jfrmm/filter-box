@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PizzaService } from '../shared/pizza.service';
 import { Subject, forkJoin, Observable, Subscription } from 'rxjs';
-import { Filter, FilterOption, DefaultFilter, FilterParam, CheckboxFilter } from 'filter-box-library';
+import { Filter, FilterOption, AutocompleteFilter, FilterParam, CheckboxFilter } from 'filter-box-library';
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
 import { takeUntil } from 'rxjs/operators';
 
@@ -52,8 +52,8 @@ export class PizzaListComponent implements OnInit {
     forkJoin([this.getPizzaBasesOptions(), this.getRestaurantOptions(), this.getRatingsOptions()]).subscribe(
       ([pizzaBases, restaurants, ratings]) => {
         this.filters.push(
-          new DefaultFilter('base', 'Base', pizzaBases),
-          new DefaultFilter('restaurant', 'Restaurant', restaurants),
+          new AutocompleteFilter('base', 'Base', pizzaBases),
+          new AutocompleteFilter('restaurant', 'Restaurant', restaurants),
           new CheckboxFilter('rating', ratings)
         );
       }
