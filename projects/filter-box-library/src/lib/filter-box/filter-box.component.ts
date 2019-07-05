@@ -32,12 +32,12 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToFilterElementsChanges(): void {
-    return this.filters.forEach(filterElement =>
-      filterElement.elements.forEach(element =>
+    this.filters.forEach(filterElement =>
+      filterElement.elements.forEach(element => {
         this.subscriptions.add(
-          element.formControl.valueChanges.pipe(filter(value => value === '')).subscribe(() => this.index.next())
-        )
-      )
+          element.formControl.valueChanges.pipe(filter(value => value === '')).subscribe(() => this.index.emit())
+        );
+      })
     );
   }
 

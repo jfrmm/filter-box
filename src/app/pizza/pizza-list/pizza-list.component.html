@@ -1,4 +1,4 @@
-<asp-filter-box [filters]="filters"></asp-filter-box>
+<asp-filter-box *ngIf="filters.length > 0" [filters]="filters" (index)="index(true)"></asp-filter-box>
 <mat-card>
   <mat-card-header>Pizzas</mat-card-header>
 
@@ -16,12 +16,12 @@
 
       <ng-container matColumnDef="base">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Base</th>
-        <td mat-cell *matCellDef="let pizza">{{ pizza.base }}</td>
+        <td mat-cell *matCellDef="let pizza">{{ pizza.base.value }}</td>
       </ng-container>
 
       <ng-container matColumnDef="restaurant">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Restaurant</th>
-        <td mat-cell *matCellDef="let pizza">{{ pizza?.restaurant }}</td>
+        <td mat-cell *matCellDef="let pizza">{{ pizza?.restaurant?.value }}</td>
       </ng-container>
 
       <ng-container matColumnDef="price">
@@ -31,7 +31,7 @@
 
       <ng-container matColumnDef="rating">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Rating</th>
-        <td mat-cell *matCellDef="let pizza">{{ pizza?.rating }}</td>
+        <td mat-cell *matCellDef="let pizza">{{ pizza?.rating?.value }}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
