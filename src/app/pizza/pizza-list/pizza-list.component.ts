@@ -48,14 +48,14 @@ export class PizzaListComponent implements OnInit {
       this.filters.push(
         new AutocompleteFilter('base', 'Base', pizzaBases),
         new AutocompleteAsyncFilter('restaurant', 'Restaurant', this.pizzaService.getRestaurants),
-        new DateFilter('from', 'From', '05/05/2019'),
+        new DateFilter('from', 'From'),
+        new DateFilter('to', 'To'),
         new CheckboxFilter('rating', ratings)
       );
     });
   }
 
   public index(reset: boolean): void {
-    console.log(this.params);
     this.pizzaService
       .getPizzasList(this.params)
       .pipe(takeUntil(this.destroy$))

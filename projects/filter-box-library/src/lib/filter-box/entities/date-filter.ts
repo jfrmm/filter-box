@@ -9,6 +9,7 @@ export class DateFilter implements Filter {
   }
 
   public elements: FilterElement[];
+
   /**
    * TODO: Value being returned is of type date.
    * Should we parse it here?
@@ -25,7 +26,10 @@ export class DateFilter implements Filter {
     return 'date';
   }
 
-  // TODO: Should we pass the date output format as an argument
+  /**
+   *  TODO: Should we pass the date output format as an argument,
+   * also, should we pass an optional parameter containing the datepicker options?
+   */
   constructor(public paramName: string, public placeholder: string, public initialValue?: string) {
     const initialDate: string = initialValue ? new Date(initialValue).toISOString() : null;
 
