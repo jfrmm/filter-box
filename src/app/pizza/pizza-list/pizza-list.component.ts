@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, forkJoin, Subscription } from 'rxjs';
-import { Filter, AutocompleteFilter, FilterParam, CheckboxFilter, AutocompleteAsyncFilter } from 'filter-box-library';
+import {
+  Filter,
+  AutocompleteFilter,
+  FilterParam,
+  CheckboxFilter,
+  AutocompleteAsyncFilter,
+  DateFilter,
+} from 'filter-box-library';
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
 import { PizzaService } from '../shared/pizza.service';
 
@@ -30,7 +37,7 @@ export class PizzaListComponent implements OnInit {
   ngOnInit() {
     this.filters = [];
     this.dataSource = new GenericDataSource();
-    this.displayedColumns = ['id', 'name', 'base', 'restaurant', 'price', 'rating'];
+    this.displayedColumns = ['id', 'name', 'base', 'restaurant', 'price', 'rating', 'ratingDate'];
 
     this.loadFilterBoxFilters();
     this.index(true);
@@ -41,6 +48,8 @@ export class PizzaListComponent implements OnInit {
       this.filters.push(
         new AutocompleteFilter('base', 'Base', pizzaBases),
         new AutocompleteAsyncFilter('restaurant', 'Restaurant', this.pizzaService.getRestaurants),
+        new DateFilter('from', 'From'),
+        new DateFilter('to', 'To'),
         new CheckboxFilter('rating', ratings)
       );
     });

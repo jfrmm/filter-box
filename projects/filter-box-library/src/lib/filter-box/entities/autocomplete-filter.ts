@@ -33,7 +33,6 @@ export class AutocompleteFilter implements Filter {
     public options: FilterOption[],
     initialValue: FilterOption = null
   ) {
-    this.paramName = paramName;
     this.initialOptions = options;
     this.options = options;
 

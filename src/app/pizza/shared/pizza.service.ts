@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, timer } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { PizzaModel } from './pizza.model';
 import { PIZZASLIST, PIZZABASES, RESTAURANTS, RATINGS } from './mock';
 import { FilterParam, FilterOption } from 'filter-box-library';
@@ -52,6 +52,10 @@ export class PizzaService {
         } catch (error) {
           filteredData = filteredData.filter(elem => (elem[param.name] ? elem[param.name].id === param.value : false));
         }
+      } else if (param.name === 'from') {
+        filteredData = filteredData.filter(elem => new Date(elem.ratingDate).toISOString() >= param.value);
+      } else if (param.name === 'to') {
+        filteredData = filteredData.filter(elem => new Date(elem.ratingDate).toISOString() <= param.value);
       }
     });
 
