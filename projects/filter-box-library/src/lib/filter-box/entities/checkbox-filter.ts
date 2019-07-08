@@ -45,7 +45,7 @@ export class CheckboxFilter implements Filter {
     return this.initialOptions[index].id.toString();
   }
 
-  protected mapControlsValues(): string {
+  private mapControlsValues(): string {
     const values = this.elements
       .map((element: FilterElement, index) => (element.formControl.value ? this.getOptionId(index) : null))
       .filter(value => value)
