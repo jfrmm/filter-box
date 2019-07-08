@@ -7,4 +7,5 @@ export class PizzaModel {
   restaurant?: FilterOption;
   price?: number;
   rating: FilterOption;
+  ratingDate: string;
 }

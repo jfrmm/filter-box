@@ -30,7 +30,7 @@ export class PizzaListComponent implements OnInit {
   ngOnInit() {
     this.filters = [];
     this.dataSource = new GenericDataSource();
-    this.displayedColumns = ['id', 'name', 'base', 'restaurant', 'price', 'rating'];
+    this.displayedColumns = ['id', 'name', 'base', 'restaurant', 'price', 'rating', 'ratingDate'];
 
     this.loadFilterBoxFilters();
     this.index(true);
