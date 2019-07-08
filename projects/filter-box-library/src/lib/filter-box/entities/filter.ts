@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 export interface Filter {
   elements: FilterElement[];
 
-  initialOptions: FilterOption[] | Observable<FilterOption[]>;
+  initialOptions?: FilterOption[] | Observable<FilterOption[]>;
 
   param: FilterParam;
 

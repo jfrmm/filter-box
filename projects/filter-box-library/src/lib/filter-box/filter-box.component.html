@@ -29,6 +29,7 @@
           <mat-icon>clear</mat-icon>
         </button>
       </div>
+
       <div *ngSwitchCase="'autocomplete'">
         <mat-form-field>
           <input
@@ -48,6 +49,23 @@
               {{ filterOption.value }}
             </mat-option>
           </mat-autocomplete>
+        </mat-form-field>
+        <button mat-icon-button (click)="onClickClearFilter($event, filter.elements[0])">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </div>
+
+      <div *ngSwitchCase="'date'">
+        <mat-form-field>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [formControl]="filter.elements[0].formControl"
+            [placeholder]="filter.elements[0].placeholder"
+            (dateChange)="index.next()"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <button mat-icon-button (click)="onClickClearFilter($event, filter.elements[0])">
           <mat-icon>clear</mat-icon>

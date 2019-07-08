@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, forkJoin, Subscription } from 'rxjs';
-import { Filter, AutocompleteFilter, FilterParam, CheckboxFilter, AutocompleteAsyncFilter } from 'filter-box-library';
+import {
+  Filter,
+  AutocompleteFilter,
+  FilterParam,
+  CheckboxFilter,
+  AutocompleteAsyncFilter,
+  DateFilter,
+} from 'filter-box-library';
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
 import { PizzaService } from '../shared/pizza.service';
 
@@ -41,12 +48,14 @@ export class PizzaListComponent implements OnInit {
       this.filters.push(
         new AutocompleteFilter('base', 'Base', pizzaBases),
         new AutocompleteAsyncFilter('restaurant', 'Restaurant', this.pizzaService.getRestaurants),
+        new DateFilter('from', 'From', '05/05/2019'),
         new CheckboxFilter('rating', ratings)
       );
     });
   }
 
   public index(reset: boolean): void {
+    console.log(this.params);
     this.pizzaService
       .getPizzasList(this.params)
       .pipe(takeUntil(this.destroy$))
