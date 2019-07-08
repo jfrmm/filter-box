@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { PizzaModel } from './pizza.model';
 import { PIZZASLIST, PIZZABASES, RESTAURANTS, RATINGS } from './mock';
 import { FilterParam, FilterOption } from 'filter-box-library';
@@ -21,8 +21,12 @@ export class PizzaService {
     return timer(500).pipe(map(() => PIZZABASES));
   }
 
-  public getRestaurants(): Observable<FilterOption[]> {
-    return timer(200).pipe(map(() => RESTAURANTS));
+  public getRestaurants(filterTerm?: string): Observable<FilterOption[]> {
+    filterTerm = filterTerm ? filterTerm.toLowerCase() : '';
+
+    return timer(1000).pipe(
+      map(() => RESTAURANTS.filter((restaurant: FilterOption) => restaurant.value.toLowerCase().includes(filterTerm)))
+    );
   }
 
   public getRatings(): Observable<FilterOption[]> {

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PizzaService } from '../shared/pizza.service';
-import { Subject, forkJoin, Observable, Subscription } from 'rxjs';
-import { Filter, FilterOption, AutocompleteFilter, FilterParam, CheckboxFilter } from 'filter-box-library';
-import { GenericDataSource } from 'src/app/shared/generic.datasource';
 import { takeUntil } from 'rxjs/operators';
+import { Subject, forkJoin, Subscription } from 'rxjs';
+import { Filter, AutocompleteFilter, FilterParam, CheckboxFilter, AutocompleteAsyncFilter } from 'filter-box-library';
+import { GenericDataSource } from 'src/app/shared/generic.datasource';
+import { PizzaService } from '../shared/pizza.service';
 
 @Component({
   selector: 'app-pizza-list',
@@ -36,28 +36,14 @@ export class PizzaListComponent implements OnInit {
     this.index(true);
   }
 
-  private getPizzaBasesOptions(): Observable<FilterOption[]> {
-    return this.pizzaService.getPizzaBases();
-  }
-
-  private getRestaurantOptions(): Observable<FilterOption[]> {
-    return this.pizzaService.getRestaurants();
-  }
-
-  private getRatingsOptions(): Observable<FilterOption[]> {
-    return this.pizzaService.getRatings();
-  }
-
   private loadFilterBoxFilters(): void {
-    forkJoin([this.getPizzaBasesOptions(), this.getRestaurantOptions(), this.getRatingsOptions()]).subscribe(
-      ([pizzaBases, restaurants, ratings]) => {
-        this.filters.push(
-          new AutocompleteFilter('base', 'Base', pizzaBases),
-          new AutocompleteFilter('restaurant', 'Restaurant', restaurants),
-          new CheckboxFilter('rating', ratings)
-        );
-      }
-    );
+    forkJoin([this.pizzaService.getPizzaBases(), this.pizzaService.getRatings()]).subscribe(([pizzaBases, ratings]) => {
+      this.filters.push(
+        new AutocompleteFilter('base', 'Base', pizzaBases),
+        new AutocompleteAsyncFilter('restaurant', 'Restaurant', this.pizzaService.getRestaurants),
+        new CheckboxFilter('rating', ratings)
+      );
+    });
   }
 
   public index(reset: boolean): void {

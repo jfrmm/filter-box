@@ -11,8 +11,6 @@ export class CheckboxFilter implements Filter {
 
   public initialOptions: FilterOption[];
 
-  public paramName: string;
-
   get param(): FilterParam {
     const filterParam: FilterParam = {
       name: this.paramName,
@@ -25,7 +23,7 @@ export class CheckboxFilter implements Filter {
     return 'checkbox';
   }
 
-  constructor(paramName: string, options: FilterOption[], initialValuesIds: string[] | number[] = []) {
+  constructor(public paramName: string, options: FilterOption[], initialValuesIds: string[] | number[] = []) {
     this.paramName = paramName;
     this.initialOptions = options;
     this.initialValuesIds = initialValuesIds;

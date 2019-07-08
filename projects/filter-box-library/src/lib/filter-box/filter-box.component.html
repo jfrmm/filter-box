@@ -5,6 +5,30 @@
     </button>
 
     <div *ngFor="let filter of filters" [ngSwitch]="filter.type">
+      <div *ngSwitchCase="'autocomplete-async'">
+        <mat-form-field>
+          <input
+            type="text"
+            matInput
+            [formControl]="filter.elements[0].formControl"
+            [placeholder]="filter.elements[0].placeholder"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete
+            (optionSelected)="index.next()"
+            autoActiveFirstOption
+            #auto="matAutocomplete"
+            [displayWith]="filterHelper.displayFilter"
+          >
+            <mat-option *ngFor="let filterOption of filter.elements[0].options | async" [value]="filterOption">
+              {{ filterOption.value }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <button mat-icon-button (click)="onClickClearFilter($event, filter.elements[0])">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </div>
       <div *ngSwitchCase="'autocomplete'">
         <mat-form-field>
           <input

@@ -1,19 +1,19 @@
-import { FilterElement } from './filter-element';
-import { FilterOption } from '../models/filter-option.model';
 import { FormControl } from '@angular/forms';
-import { Filter } from './filter';
-import { Observable, of } from 'rxjs';
 import { filter, map, startWith, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { FilterElement } from './filter-element';
+import { Filter } from './filter';
+import { FilterOption } from '../models/filter-option.model';
 import { FilterParam } from '../models/filter-param.model';
 
-export class AutocompleteFilter implements Filter {
+export class AutocompleteAsyncFilter implements Filter {
   private get filterElement(): FilterElement {
     return this.elements[0];
   }
 
   public elements: FilterElement[];
 
-  public initialOptions: FilterOption[];
+  public initialOptions: Observable<FilterOption[]>;
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -24,20 +24,17 @@ export class AutocompleteFilter implements Filter {
   }
 
   get type(): string {
-    return 'autocomplete';
+    return 'autocomplete-async';
   }
 
   constructor(
     public paramName: string,
     public placeholder: string,
-    public options: FilterOption[],
-    initialValue: FilterOption = null
+    private getAsyncOptions: (filterTerm?: string) => Observable<FilterOption[]>
   ) {
     this.paramName = paramName;
-    this.initialOptions = options;
-    this.options = options;
 
-    const formControl = new FormControl(initialValue);
+    const formControl = new FormControl('');
 
     this.elements = [new FilterElement(placeholder, formControl, this.filterOptions(formControl))];
   }
@@ -51,13 +48,7 @@ export class AutocompleteFilter implements Filter {
        */
       startWith(''),
       distinctUntilChanged(),
-      switchMap((filterTerm: string) =>
-        of(
-          this.initialOptions.filter((option: FilterOption) =>
-            option.value.toLowerCase().includes(filterTerm.toLowerCase())
-          )
-        )
-      )
+      switchMap((filterTerm: string) => this.getAsyncOptions(filterTerm))
     );
   }
 
