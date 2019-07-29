@@ -3,13 +3,19 @@ import { Filter } from './filter';
 import { FilterElement } from './filter-element';
 import { FormControl } from '@angular/forms';
 import { FilterParam } from '../models/filter-param.model';
+import { Subject, Subscription } from 'rxjs';
+import { OnDestroy } from '@angular/core';
 
-export class CheckboxFilter implements Filter {
+export class CheckboxFilter implements Filter, OnDestroy {
   private initialValuesIds: string[] | number[];
+
+  private subscription: Subscription;
 
   public elements: FilterElement[];
 
   public initialOptions: FilterOption[];
+
+  public params: Subject<FilterParam>;
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -24,11 +30,23 @@ export class CheckboxFilter implements Filter {
   }
 
   constructor(public paramName: string, options: FilterOption[], initialValuesIds: string[] | number[] = []) {
+    this.subscription = new Subscription();
+
+    this.params = new Subject();
+
     this.paramName = paramName;
+
     this.initialOptions = options;
+
     this.initialValuesIds = initialValuesIds;
 
     this.elements = this.buildFilterElements();
+
+    this.subscribeToParamValueChanges();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   private buildFilterElements(): FilterElement[] {
@@ -52,6 +70,12 @@ export class CheckboxFilter implements Filter {
       .join(',');
 
     return values ? values : null;
+  }
+
+  private subscribeToParamValueChanges(): void {
+    this.elements.forEach(element =>
+      this.subscription.add(element.formControl.valueChanges.subscribe(() => this.params.next(this.param)))
+    );
   }
 
   public clearAllElements(): void {

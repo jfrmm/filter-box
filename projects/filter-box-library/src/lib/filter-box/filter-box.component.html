@@ -15,7 +15,6 @@
             [matAutocomplete]="auto"
           />
           <mat-autocomplete
-            (optionSelected)="index.next()"
             autoActiveFirstOption
             #auto="matAutocomplete"
             [displayWith]="filterHelper.displayFilter"
@@ -40,7 +39,6 @@
             [matAutocomplete]="auto"
           />
           <mat-autocomplete
-            (optionSelected)="index.next()"
             autoActiveFirstOption
             #auto="matAutocomplete"
             [displayWith]="filterHelper.displayFilter"
@@ -62,7 +60,6 @@
             [matDatepicker]="picker"
             [formControl]="filter.elements[0].formControl"
             [placeholder]="filter.elements[0].placeholder"
-            (dateChange)="index.next()"
           />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -76,7 +73,6 @@
         <mat-checkbox
           *ngFor="let element of filter.elements; index as i"
           [formControl]="element.formControl"
-          (change)="index.next()"
         >
           {{ element.placeholder }}
         </mat-checkbox>
