@@ -2,20 +2,18 @@ import { FilterElement } from './filter-element';
 import { FilterOption } from '../models/filter-option.model';
 import { FormControl } from '@angular/forms';
 import { Filter } from './filter';
-import { Observable, of, Subject, Subscription } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { filter, map, startWith, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { FilterParam } from '../models/filter-param.model';
-import { OnDestroy, EventEmitter } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { FilterBoxEvent } from './filter-box-event';
 import { ClearEvent } from './clear-event';
 import { ValidValueChangeEvent } from './valid-value-change-event';
 
-export class AutocompleteFilter implements Filter, OnDestroy {
+export class AutocompleteFilter implements Filter {
   private get filterElement(): FilterElement {
     return this.elements[0];
   }
-
-  private subscription: Subscription;
 
   public elements: FilterElement[];
 
@@ -23,7 +21,7 @@ export class AutocompleteFilter implements Filter, OnDestroy {
 
   public initialOptions: FilterOption[];
 
-  public params: Subject<FilterParam>;
+  public params: Observable<FilterParam>;
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -45,8 +43,6 @@ export class AutocompleteFilter implements Filter, OnDestroy {
   ) {
     this.eventEmitter = new EventEmitter();
 
-    this.subscription = new Subscription();
-
     this.params = new Subject();
 
     this.initialOptions = options;
@@ -55,13 +51,10 @@ export class AutocompleteFilter implements Filter, OnDestroy {
 
     const formControl = new FormControl(initialValue);
 
+    // TODO: Change name
     this.subscribeToParamValueChanges(formControl);
 
     this.elements = [new FilterElement(placeholder, formControl, this.filterOptions(formControl))];
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 
   private filterOptions(formControl: FormControl): Observable<FilterOption[]> {
@@ -91,14 +84,11 @@ export class AutocompleteFilter implements Filter, OnDestroy {
    * Params will emit a value when the param changes
    */
   private subscribeToParamValueChanges(formControl: FormControl): void {
-    this.subscription.add(
-      formControl.valueChanges
-        .pipe(
-          filter(value => typeof value === 'object' || value === ''),
-          tap(value => (typeof value === 'object' ? this.eventEmitter.emit(new ValidValueChangeEvent()) : null)),
-          tap(value => (value === '' ? this.eventEmitter.emit(new ClearEvent()) : null))
-        )
-        .subscribe(() => this.params.next(this.param))
+    this.params = formControl.valueChanges.pipe(
+      filter(value => typeof value === 'object' || value === ''),
+      tap(value => (typeof value === 'object' ? this.eventEmitter.emit(new ValidValueChangeEvent()) : null)),
+      tap(value => (value === '' ? this.eventEmitter.emit(new ClearEvent()) : null)),
+      map(() => this.param)
     );
   }
 

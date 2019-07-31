@@ -2,22 +2,21 @@ import { Filter } from './filter';
 import { FilterElement } from './filter-element';
 import { FilterParam } from '../models/filter-param.model';
 import { FormControl } from '@angular/forms';
-import { Subject, Subscription } from 'rxjs';
-import { OnDestroy, EventEmitter } from '@angular/core';
+import { Observable, merge } from 'rxjs';
+import { EventEmitter } from '@angular/core';
 import { FilterBoxEvent } from './filter-box-event';
+import { map } from 'rxjs/operators';
 
-export class DateFilter implements Filter, OnDestroy {
+export class DateFilter implements Filter {
   private get filterElement(): FilterElement {
     return this.elements[0];
   }
-
-  private subscription: Subscription;
 
   public elements: FilterElement[];
 
   public eventEmitter: EventEmitter<FilterBoxEvent>;
 
-  public params: Subject<FilterParam>;
+  public params: Observable<FilterParam>;
 
   /**
    * TODO: Value being returned is of type date.
@@ -40,10 +39,6 @@ export class DateFilter implements Filter, OnDestroy {
    * also, should we pass an optional parameter containing the datepicker options?
    */
   constructor(public paramName: string, public placeholder: string, public initialValue?: string) {
-    this.subscription = new Subscription();
-
-    this.params = new Subject();
-
     const initialDate: string = initialValue ? new Date(initialValue).toISOString() : null;
 
     const formControl = new FormControl(initialDate);
@@ -53,17 +48,14 @@ export class DateFilter implements Filter, OnDestroy {
     this.subscribeToParamValueChanges();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   private mapControlsValues(): string {
     return this.filterElement.formControl.value ? (this.filterElement.formControl.value as Date).toISOString() : null;
   }
 
   private subscribeToParamValueChanges(): void {
-    this.elements.forEach(element =>
-      this.subscription.add(element.formControl.valueChanges.subscribe(() => this.params.next(this.param)))
+    this.params = new Observable();
+    this.elements.forEach(
+      element => (this.params = merge(this.params, element.formControl.valueChanges.pipe(map(() => this.param))))
     );
   }
 

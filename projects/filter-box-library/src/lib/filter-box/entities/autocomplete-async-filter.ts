@@ -1,19 +1,17 @@
 import { FormControl } from '@angular/forms';
 import { filter, map, startWith, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { FilterElement } from './filter-element';
 import { Filter } from './filter';
 import { FilterOption } from '../models/filter-option.model';
 import { FilterParam } from '../models/filter-param.model';
-import { OnDestroy, EventEmitter } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { FilterBoxEvent } from './filter-box-event';
 
-export class AutocompleteAsyncFilter implements Filter, OnDestroy {
+export class AutocompleteAsyncFilter implements Filter {
   private get filterElement(): FilterElement {
     return this.elements[0];
   }
-
-  private subscription: Subscription;
 
   public elements: FilterElement[];
 
@@ -21,7 +19,7 @@ export class AutocompleteAsyncFilter implements Filter, OnDestroy {
 
   public initialOptions: Observable<FilterOption[]>;
 
-  public params: Subject<FilterParam>;
+  public params: Observable<FilterParam>;
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -40,8 +38,6 @@ export class AutocompleteAsyncFilter implements Filter, OnDestroy {
     public placeholder: string,
     private getAsyncOptions: (filterTerm?: string) => Observable<FilterOption[]>
   ) {
-    this.subscription = new Subscription();
-
     this.params = new Subject();
 
     this.paramName = paramName;
@@ -51,10 +47,6 @@ export class AutocompleteAsyncFilter implements Filter, OnDestroy {
     this.subscribeToParamValueChanges(formControl);
 
     this.elements = [new FilterElement(placeholder, formControl, this.filterOptions(formControl))];
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 
   private filterOptions(formControl: FormControl): Observable<FilterOption[]> {
@@ -78,10 +70,9 @@ export class AutocompleteAsyncFilter implements Filter, OnDestroy {
    * Params will emit a value when the param changes
    */
   private subscribeToParamValueChanges(formControl: FormControl): void {
-    this.subscription.add(
-      formControl.valueChanges
-        .pipe(filter(value => typeof value === 'object' || value === ''))
-        .subscribe(() => this.params.next(this.param))
+    this.params = formControl.valueChanges.pipe(
+      filter(value => typeof value === 'object' || value === ''),
+      map(() => this.param)
     );
   }
 

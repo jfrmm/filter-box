@@ -3,14 +3,13 @@ import { Filter } from './filter';
 import { FilterElement } from './filter-element';
 import { FormControl } from '@angular/forms';
 import { FilterParam } from '../models/filter-param.model';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Observable, merge } from 'rxjs';
 import { OnDestroy, EventEmitter } from '@angular/core';
 import { FilterBoxEvent } from './filter-box-event';
+import { map } from 'rxjs/operators';
 
-export class CheckboxFilter implements Filter, OnDestroy {
+export class CheckboxFilter implements Filter {
   private initialValuesIds: string[] | number[];
-
-  private subscription: Subscription;
 
   public elements: FilterElement[];
 
@@ -18,7 +17,7 @@ export class CheckboxFilter implements Filter, OnDestroy {
 
   public initialOptions: FilterOption[];
 
-  public params: Subject<FilterParam>;
+  public params: Observable<FilterParam>;
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -33,8 +32,6 @@ export class CheckboxFilter implements Filter, OnDestroy {
   }
 
   constructor(public paramName: string, options: FilterOption[], initialValuesIds: string[] | number[] = []) {
-    this.subscription = new Subscription();
-
     this.params = new Subject();
 
     this.paramName = paramName;
@@ -46,10 +43,6 @@ export class CheckboxFilter implements Filter, OnDestroy {
     this.elements = this.buildFilterElements();
 
     this.subscribeToParamValueChanges();
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 
   private buildFilterElements(): FilterElement[] {
@@ -76,8 +69,9 @@ export class CheckboxFilter implements Filter, OnDestroy {
   }
 
   private subscribeToParamValueChanges(): void {
-    this.elements.forEach(element =>
-      this.subscription.add(element.formControl.valueChanges.subscribe(() => this.params.next(this.param)))
+    this.params = new Observable();
+    this.elements.forEach(
+      element => (this.params = merge(this.params, element.formControl.valueChanges.pipe(map(() => this.param))))
     );
   }
 

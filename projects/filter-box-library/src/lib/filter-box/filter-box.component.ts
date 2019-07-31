@@ -31,7 +31,7 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToFilterElementsChanges(): void {
-    this.filters.forEach(filter => filter.params.subscribe(() => this.index.emit()));
+    this.filters.forEach(filter => this.subscriptions.add(filter.params.subscribe(() => this.index.emit())));
   }
 
   public onClickClearAllFilters(): void {

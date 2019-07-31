@@ -17,7 +17,7 @@ export interface Filter {
    */
   param: FilterParam;
 
-  params: Subject<FilterParam>;
+  params: Observable<FilterParam>;
 
   paramName: string;
 
