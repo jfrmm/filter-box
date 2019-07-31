@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { Filter } from './entities/filter';
 import { FilterElement } from './entities/filter-element';
 import { FilterHelperService } from './filter-helper.service';

@@ -3,12 +3,15 @@ import { FilterElement } from './filter-element';
 import { FilterParam } from '../models/filter-param.model';
 import { FormControl } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
-import { OnDestroy } from '@angular/core';
+import { OnDestroy, EventEmitter } from '@angular/core';
+import { FilterBoxEvent } from './filter-box-event';
 
 export class DateFilter implements Filter, OnDestroy {
   private get filterElement(): FilterElement {
     return this.elements[0];
   }
+
+  eventEmitter: EventEmitter<FilterBoxEvent>;
 
   private subscription: Subscription;
 

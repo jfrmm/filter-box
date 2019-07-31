@@ -5,7 +5,8 @@ import { FilterElement } from './filter-element';
 import { Filter } from './filter';
 import { FilterOption } from '../models/filter-option.model';
 import { FilterParam } from '../models/filter-param.model';
-import { OnDestroy } from '@angular/core';
+import { OnDestroy, EventEmitter } from '@angular/core';
+import { FilterBoxEvent } from './filter-box-event';
 
 export class AutocompleteAsyncFilter implements Filter, OnDestroy {
   private get filterElement(): FilterElement {
@@ -13,6 +14,8 @@ export class AutocompleteAsyncFilter implements Filter, OnDestroy {
   }
 
   private subscription: Subscription;
+
+  eventEmitter: EventEmitter<FilterBoxEvent>;
 
   public elements: FilterElement[];
 
@@ -83,6 +86,7 @@ export class AutocompleteAsyncFilter implements Filter, OnDestroy {
   }
 
   public clearAllElements(): void {
+    console.log(this);
     this.filterElement.clear();
   }
 }

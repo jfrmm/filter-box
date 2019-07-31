@@ -8,6 +8,10 @@ import {
   CheckboxFilter,
   AutocompleteAsyncFilter,
   DateFilter,
+  Mediator,
+  FilterBehaviour,
+  ClearEvent,
+  ValidValueChangeEvent,
 } from 'filter-box-library';
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
 import { PizzaService } from '../shared/pizza.service';
@@ -21,6 +25,8 @@ export class PizzaListComponent implements OnInit {
   private destroy$ = new Subject();
 
   private subscription: Subscription = new Subscription();
+
+  private mediator: Mediator;
 
   public displayedColumns: string[];
 
@@ -52,6 +58,16 @@ export class PizzaListComponent implements OnInit {
         new DateFilter('to', 'To'),
         new CheckboxFilter('rating', ratings)
       );
+
+      const filterBehaviours: FilterBehaviour[] = [
+        {
+          emmitters: [this.filters[0]],
+          events: [new ClearEvent(), new ValidValueChangeEvent()],
+          callbacks: [this.filters[1].clearAllElements.bind(this.filters[1])],
+        },
+      ];
+
+      this.mediator = new Mediator(filterBehaviours);
     });
   }
 

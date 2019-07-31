@@ -4,7 +4,8 @@ import { FilterElement } from './filter-element';
 import { FormControl } from '@angular/forms';
 import { FilterParam } from '../models/filter-param.model';
 import { Subject, Subscription } from 'rxjs';
-import { OnDestroy } from '@angular/core';
+import { OnDestroy, EventEmitter } from '@angular/core';
+import { FilterBoxEvent } from './filter-box-event';
 
 export class CheckboxFilter implements Filter, OnDestroy {
   private initialValuesIds: string[] | number[];
@@ -12,6 +13,8 @@ export class CheckboxFilter implements Filter, OnDestroy {
   private subscription: Subscription;
 
   public elements: FilterElement[];
+
+  eventEmitter: EventEmitter<FilterBoxEvent>;
 
   public initialOptions: FilterOption[];
 
