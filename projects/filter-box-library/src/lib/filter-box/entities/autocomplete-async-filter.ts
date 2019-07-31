@@ -15,9 +15,9 @@ export class AutocompleteAsyncFilter implements Filter, OnDestroy {
 
   private subscription: Subscription;
 
-  eventEmitter: EventEmitter<FilterBoxEvent>;
-
   public elements: FilterElement[];
+
+  public eventEmitter: EventEmitter<FilterBoxEvent>;
 
   public initialOptions: Observable<FilterOption[]>;
 
@@ -86,7 +86,6 @@ export class AutocompleteAsyncFilter implements Filter, OnDestroy {
   }
 
   public clearAllElements(): void {
-    console.log(this);
     this.filterElement.clear();
   }
 }

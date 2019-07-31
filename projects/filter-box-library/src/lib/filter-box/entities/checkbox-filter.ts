@@ -14,7 +14,7 @@ export class CheckboxFilter implements Filter, OnDestroy {
 
   public elements: FilterElement[];
 
-  eventEmitter: EventEmitter<FilterBoxEvent>;
+  public eventEmitter: EventEmitter<FilterBoxEvent>;
 
   public initialOptions: FilterOption[];
 

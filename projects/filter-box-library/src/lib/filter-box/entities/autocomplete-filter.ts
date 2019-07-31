@@ -19,7 +19,7 @@ export class AutocompleteFilter implements Filter, OnDestroy {
 
   public elements: FilterElement[];
 
-  eventEmitter: EventEmitter<FilterBoxEvent>;
+  public eventEmitter: EventEmitter<FilterBoxEvent>;
 
   public initialOptions: FilterOption[];
 

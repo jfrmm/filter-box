@@ -11,11 +11,11 @@ export class DateFilter implements Filter, OnDestroy {
     return this.elements[0];
   }
 
-  eventEmitter: EventEmitter<FilterBoxEvent>;
-
   private subscription: Subscription;
 
   public elements: FilterElement[];
+
+  public eventEmitter: EventEmitter<FilterBoxEvent>;
 
   public params: Subject<FilterParam>;
 
