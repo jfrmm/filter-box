@@ -63,7 +63,7 @@ export class PizzaListComponent implements OnInit {
         {
           emmitters: [this.filters[0]],
           events: [new ClearEvent(), new ValidValueChangeEvent()],
-          callbacks: [this.filters[1].clearAllElements.bind(this.filters[1])],
+          callbacks: [() => this.filters[1].clearAllElements()],
         },
       ];
 
