@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
-import { Subject, forkJoin, Subscription } from 'rxjs';
+import { Subject, forkJoin } from 'rxjs';
 import {
   Filter,
   AutocompleteFilter,
@@ -8,7 +8,6 @@ import {
   CheckboxFilter,
   AutocompleteAsyncFilter,
   DateFilter,
-  Mediator,
   FilterBehaviour,
   ClearEvent,
   ValidValueChangeEvent,
@@ -24,15 +23,13 @@ import { PizzaService } from '../shared/pizza.service';
 export class PizzaListComponent implements OnInit {
   private destroy$ = new Subject();
 
-  private subscription: Subscription = new Subscription();
-
-  private mediator: Mediator;
-
   public displayedColumns: string[];
 
   public dataSource: GenericDataSource;
 
   public filters: Filter[];
+
+  public filterBehaviours: FilterBehaviour[];
 
   get params(): FilterParam[] {
     return this.filters.map(filter => filter.param).filter(filter => filter.value !== null);
@@ -59,15 +56,13 @@ export class PizzaListComponent implements OnInit {
         new CheckboxFilter('rating', ratings)
       );
 
-      const filterBehaviours: FilterBehaviour[] = [
+      this.filterBehaviours = [
         {
           emmitters: [this.filters[0]],
           events: [new ClearEvent(), new ValidValueChangeEvent()],
           callbacks: [() => this.filters[1].clearAllElements()],
         },
       ];
-
-      this.mediator = new Mediator(filterBehaviours);
     });
   }
 
