@@ -23,5 +23,5 @@ export interface Filter {
 
   type: string;
 
-  clearAllElements(): void;
+  clearAllElements(emit?: boolean): void;
 }

@@ -9,7 +9,7 @@ export class FilterElement {
     public options?: Observable<FilterOption[]>
   ) {}
 
-  public clear(): void {
-    this.formControl.setValue('');
+  public clear(emit: boolean = true): void {
+    this.formControl.setValue('', {emitEvent: emit});
   }
 }

@@ -47,7 +47,7 @@ export class FilterBoxComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public onClickClearAllFilters(): void {
-    this.filters.forEach((filter: Filter) => filter.clearAllElements());
+    this.filters.forEach((filter: Filter) => filter.clearAllElements(false));
 
     this.index.emit();
   }

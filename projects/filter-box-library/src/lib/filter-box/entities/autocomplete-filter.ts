@@ -91,8 +91,8 @@ export class AutocompleteFilter implements Filter {
     );
   }
 
-  public clearAllElements(): void {
-    this.filterElement.clear();
+  public clearAllElements(emit?: boolean): void {
+    this.filterElement.clear(emit);
     this.eventEmitter.emit(new ClearEvent());
   }
 }

@@ -57,31 +57,31 @@ export class PizzaListComponent implements OnInit {
       );
 
       this.filterBehaviours = [
-        {
-          emitters: [this.filters[0]],
-          events: [new ClearEvent(), new ValidValueChangeEvent()],
-          callbacks: [() => this.filters[1].clearAllElements()],
-        },
-        {
-          emitters: [this.filters[1]],
-          events: [new ValidValueChangeEvent()],
-          callbacks: [() => this.filters[2].elements[0].formControl.disable()],
-        },
-        {
-          emitters: [this.filters[1]],
-          events: [new ClearEvent()],
-          callbacks: [() => this.filters[2].elements[0].formControl.enable()],
-        },
-        {
-          emitters: [this.filters[2]],
-          events: [new ClearEvent()],
-          callbacks: [() => this.filters[3].elements[0].formControl.disable()],
-        },
-        {
-          emitters: [this.filters[4]],
-          events: [new ValidValueChangeEvent()],
-          callbacks: [() => this.filters[3].elements[0].formControl.enable()],
-        },
+        // {
+        //   emitters: [this.filters[0]],
+        //   events: [new ClearEvent(), new ValidValueChangeEvent()],
+        //   callbacks: [() => this.filters[1].clearAllElements()],
+        // },
+        // {
+        //   emitters: [this.filters[1]],
+        //   events: [new ValidValueChangeEvent()],
+        //   callbacks: [() => this.filters[2].elements[0].formControl.disable()],
+        // },
+        // {
+        //   emitters: [this.filters[1]],
+        //   events: [new ClearEvent()],
+        //   callbacks: [() => this.filters[2].elements[0].formControl.enable()],
+        // },
+        // {
+        //   emitters: [this.filters[2]],
+        //   events: [new ClearEvent()],
+        //   callbacks: [() => this.filters[3].elements[0].formControl.disable()],
+        // },
+        // {
+        //   emitters: [this.filters[4]],
+        //   events: [new ValidValueChangeEvent()],
+        //   callbacks: [() => this.filters[3].elements[0].formControl.enable()],
+        // },
       ];
     });
   }

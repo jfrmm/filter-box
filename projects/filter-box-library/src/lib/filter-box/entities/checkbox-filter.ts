@@ -88,7 +88,7 @@ export class CheckboxFilter implements Filter {
     );
   }
 
-  public clearAllElements(): void {
-    this.elements.forEach(element => element.clear());
+  public clearAllElements(emit?: boolean): void {
+    this.elements.forEach(element => element.clear(emit));
   }
 }
