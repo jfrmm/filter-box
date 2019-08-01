@@ -33,7 +33,6 @@ export class FilterBoxComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     if (this.filterBehaviours) {
       this.filterMediator.setFilterBehaviours(this.filterBehaviours);
     }
