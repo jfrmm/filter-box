@@ -32,7 +32,7 @@ export class FilterMediatorService implements OnDestroy {
     this.destroy$.next();
 
     filterBehaviours.forEach((filterBehaviour: FilterBehaviour) => {
-      filterBehaviour.emmitters.forEach((emitter: Filter) => {
+      filterBehaviour.emitters.forEach((emitter: Filter) => {
         emitter.eventEmitter
           .pipe(takeUntil(this.destroy$))
           .subscribe((event: FilterBoxEvent) => this.propagateEvent(event, filterBehaviour));

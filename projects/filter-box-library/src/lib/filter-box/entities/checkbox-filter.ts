@@ -6,7 +6,9 @@ import { FilterParam } from '../models/filter-param.model';
 import { Subject, Observable, merge } from 'rxjs';
 import { OnDestroy, EventEmitter } from '@angular/core';
 import { FilterBoxEvent } from './filter-box-event';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { ValidValueChangeEvent } from './valid-value-change-event';
+import { ClearEvent } from './clear-event';
 
 export class CheckboxFilter implements Filter {
   private initialValuesIds: string[] | number[];
@@ -32,6 +34,8 @@ export class CheckboxFilter implements Filter {
   }
 
   constructor(public paramName: string, options: FilterOption[], initialValuesIds: string[] | number[] = []) {
+    this.eventEmitter = new EventEmitter();
+
     this.params = new Subject();
 
     this.paramName = paramName;
@@ -71,7 +75,16 @@ export class CheckboxFilter implements Filter {
   private setParams(): void {
     this.params = new Observable();
     this.elements.forEach(
-      element => (this.params = merge(this.params, element.formControl.valueChanges.pipe(map(() => this.param))))
+      element =>
+        (this.params = merge(
+          this.params,
+          element.formControl.valueChanges.pipe(
+            tap(value =>
+              value ? this.eventEmitter.emit(new ValidValueChangeEvent()) : this.eventEmitter.emit(new ClearEvent())
+            ),
+            map(() => this.param)
+          )
+        ))
     );
   }
 

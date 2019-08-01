@@ -1,5 +1,5 @@
 import { FormControl } from '@angular/forms';
-import { filter, map, startWith, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { filter, map, startWith, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { FilterElement } from './filter-element';
 import { Filter } from './filter';
@@ -7,6 +7,8 @@ import { FilterOption } from '../models/filter-option.model';
 import { FilterParam } from '../models/filter-param.model';
 import { EventEmitter } from '@angular/core';
 import { FilterBoxEvent } from './filter-box-event';
+import { ClearEvent } from './clear-event';
+import { ValidValueChangeEvent } from './valid-value-change-event';
 
 export class AutocompleteAsyncFilter implements Filter {
   private get filterElement(): FilterElement {
@@ -38,9 +40,9 @@ export class AutocompleteAsyncFilter implements Filter {
     public placeholder: string,
     private getAsyncOptions: (filterTerm?: string) => Observable<FilterOption[]>
   ) {
-    this.params = new Subject();
+    this.eventEmitter = new EventEmitter();
 
-    this.paramName = paramName;
+    this.params = new Subject();
 
     const formControl = new FormControl('');
 
@@ -72,11 +74,15 @@ export class AutocompleteAsyncFilter implements Filter {
   private setParams(formControl: FormControl): void {
     this.params = formControl.valueChanges.pipe(
       filter(value => typeof value === 'object' || value === ''),
+      tap(value => (typeof value === 'object' ? this.eventEmitter.emit(new ValidValueChangeEvent()) : null)),
+      tap(value => (value === '' ? this.eventEmitter.emit(new ClearEvent()) : null)),
       map(() => this.param)
     );
   }
 
   public clearAllElements(): void {
     this.filterElement.clear();
+
+    this.eventEmitter.emit(new ClearEvent());
   }
 }

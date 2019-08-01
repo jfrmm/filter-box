@@ -5,7 +5,9 @@ import { FormControl } from '@angular/forms';
 import { Observable, merge } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { FilterBoxEvent } from './filter-box-event';
-import { map } from 'rxjs/operators';
+import { map, filter, tap } from 'rxjs/operators';
+import { ClearEvent } from './clear-event';
+import { ValidValueChangeEvent } from './valid-value-change-event';
 
 export class DateFilter implements Filter {
   private get filterElement(): FilterElement {
@@ -39,6 +41,8 @@ export class DateFilter implements Filter {
    * also, should we pass an optional parameter containing the datepicker options?
    */
   constructor(public paramName: string, public placeholder: string, public initialValue?: string) {
+    this.eventEmitter = new EventEmitter();
+
     const initialDate: string = initialValue ? new Date(initialValue).toISOString() : null;
 
     const formControl = new FormControl(initialDate);
@@ -56,11 +60,20 @@ export class DateFilter implements Filter {
 
   private setParams(): void {
     this.elements.forEach(
-      element => (this.params = merge(this.params, element.formControl.valueChanges.pipe(map(() => this.param))))
+      element =>
+        (this.params = merge(
+          this.params,
+          element.formControl.valueChanges.pipe(
+            filter(value => (value === '' || value) && element.formControl.valid),
+            tap(value => (value === '' ? this.eventEmitter.emit(new ClearEvent()) : new ValidValueChangeEvent())),
+            map(() => this.param)
+          )
+        ))
     );
   }
 
   public clearAllElements(): void {
     this.filterElement.clear();
+    this.eventEmitter.emit(new ClearEvent());
   }
 }

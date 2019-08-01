@@ -10,6 +10,6 @@ export class FilterElement {
   ) {}
 
   public clear(): void {
-    this.formControl.setValue(null);
+    this.formControl.setValue('');
   }
 }
