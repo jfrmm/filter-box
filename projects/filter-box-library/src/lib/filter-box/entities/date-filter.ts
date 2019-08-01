@@ -43,17 +43,18 @@ export class DateFilter implements Filter {
 
     const formControl = new FormControl(initialDate);
 
+    this.params = new Observable();
+
     this.elements = [new FilterElement(placeholder, formControl)];
 
-    this.subscribeToParamValueChanges();
+    this.setParams();
   }
 
   private mapControlsValues(): string {
     return this.filterElement.formControl.value ? (this.filterElement.formControl.value as Date).toISOString() : null;
   }
 
-  private subscribeToParamValueChanges(): void {
-    this.params = new Observable();
+  private setParams(): void {
     this.elements.forEach(
       element => (this.params = merge(this.params, element.formControl.valueChanges.pipe(map(() => this.param))))
     );

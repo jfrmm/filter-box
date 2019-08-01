@@ -42,7 +42,7 @@ export class CheckboxFilter implements Filter {
 
     this.elements = this.buildFilterElements();
 
-    this.subscribeToParamValueChanges();
+    this.setParams();
   }
 
   private buildFilterElements(): FilterElement[] {
@@ -68,7 +68,7 @@ export class CheckboxFilter implements Filter {
     return values ? values : null;
   }
 
-  private subscribeToParamValueChanges(): void {
+  private setParams(): void {
     this.params = new Observable();
     this.elements.forEach(
       element => (this.params = merge(this.params, element.formControl.valueChanges.pipe(map(() => this.param))))

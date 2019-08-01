@@ -1,10 +1,9 @@
 import { FilterBehaviour } from '../models/filter-behaviour.model';
 import { FilterBoxEvent } from './filter-box-event';
 import { Filter } from './filter';
-import { OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-export class Mediator implements OnDestroy {
+export class Mediator {
   private subscription: Subscription;
 
   constructor(filterBehaviours: FilterBehaviour[]) {
@@ -18,14 +17,11 @@ export class Mediator implements OnDestroy {
       });
     });
   }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  // retornar a subscrição e o component que trate dela?
 
   private propagateEvent(event: FilterBoxEvent, filterBehaviour: FilterBehaviour) {
     if (filterBehaviour.events.some((behaviourEvent: FilterBoxEvent) => event instanceof behaviourEvent.constructor)) {
-      filterBehaviour.callbacks.forEach(callback => callback());
+      filterBehaviour.callbacks.forEach((callback: (callback?: any) => void) => callback());
     }
   }
 }

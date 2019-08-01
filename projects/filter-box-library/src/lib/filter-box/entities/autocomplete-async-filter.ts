@@ -44,7 +44,7 @@ export class AutocompleteAsyncFilter implements Filter {
 
     const formControl = new FormControl('');
 
-    this.subscribeToParamValueChanges(formControl);
+    this.setParams(formControl);
 
     this.elements = [new FilterElement(placeholder, formControl, this.filterOptions(formControl))];
   }
@@ -69,7 +69,7 @@ export class AutocompleteAsyncFilter implements Filter {
   /**
    * Params will emit a value when the param changes
    */
-  private subscribeToParamValueChanges(formControl: FormControl): void {
+  private setParams(formControl: FormControl): void {
     this.params = formControl.valueChanges.pipe(
       filter(value => typeof value === 'object' || value === ''),
       map(() => this.param)
