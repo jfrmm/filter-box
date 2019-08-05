@@ -2,23 +2,27 @@ import { FilterElement } from './filter-element';
 import { FilterOption } from '../models/filter-option.model';
 import { FormControl } from '@angular/forms';
 import { Filter } from './filter';
-import { Observable, of } from 'rxjs';
+import { Observable, of, merge, Subject } from 'rxjs';
 import { filter, map, startWith, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { FilterParam } from '../models/filter-param.model';
-import { FilterBoxEvent } from './filter-box-event';
-import { ClearEvent } from './clear-event';
-import { ValidValueChangeEvent } from './valid-value-change-event';
+import { FilterEvent } from '../events/filter-event';
+import { FilterClearEvent } from '../events/filter-clear-event';
+import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
+import { FilterDisabledEvent } from '../events/filter-disabled-event';
+import { FilterEnabledEvent } from '../events/filter-enabled-event';
 
 export class AutocompleteFilter implements Filter {
   private get filterElement(): FilterElement {
     return this.elements[0];
   }
 
+  private internalEvent: Subject<FilterEvent>;
+
   public elements: FilterElement[];
 
   public initialOptions: FilterOption[];
 
-  public events: Observable<FilterBoxEvent>;
+  public events: Observable<FilterEvent>;
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -38,6 +42,8 @@ export class AutocompleteFilter implements Filter {
     public options: FilterOption[],
     initialValue: FilterOption = null
   ) {
+    this.internalEvent = new Subject();
+
     this.initialOptions = options;
 
     this.options = options;
@@ -76,14 +82,23 @@ export class AutocompleteFilter implements Filter {
    * Params will emit a value when the param changes
    */
   private setEvents(formControl: FormControl): void {
-    this.events = formControl.valueChanges.pipe(
+    this.events = merge(formControl.valueChanges.pipe(
       filter(value => typeof value === 'object' || value === ''),
-      map(value => (typeof value === 'object' ? new ValidValueChangeEvent() : new ClearEvent()))
-    );
+      map(value => (typeof value === 'object' ? new FilterValidValueChangeEvent() : new FilterClearEvent()))
+    ), this.internalEvent);
   }
 
-  public clearAllElements(emit?: boolean): void {
+  public clearFilter(emit?: boolean): void {
     this.filterElement.clear(emit);
-    // this.eventEmitter.emit(new ClearEvent()); //TODO: maybe remove the emit to allow it to change the form
+  }
+
+  public disableFilter(): void {
+    this.filterElement.formControl.disable();
+    this.internalEvent.next(new FilterDisabledEvent());
+  }
+
+  public enableFilter(): void {
+    this.filterElement.formControl.enable();
+    this.internalEvent.next(new FilterEnabledEvent());
   }
 }

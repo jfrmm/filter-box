@@ -2,20 +2,24 @@ import { Filter } from './filter';
 import { FilterElement } from './filter-element';
 import { FilterParam } from '../models/filter-param.model';
 import { FormControl } from '@angular/forms';
-import { Observable, merge } from 'rxjs';
-import { FilterBoxEvent } from './filter-box-event';
+import { Observable, merge, Subject } from 'rxjs';
+import { FilterEvent } from '../events/filter-event';
 import { map, filter } from 'rxjs/operators';
-import { ClearEvent } from './clear-event';
-import { ValidValueChangeEvent } from './valid-value-change-event';
+import { FilterClearEvent } from '../events/filter-clear-event';
+import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
+import { FilterDisabledEvent } from '../events/filter-disabled-event';
+import { FilterEnabledEvent } from '../events/filter-enabled-event';
 
 export class DateFilter implements Filter {
   private get filterElement(): FilterElement {
     return this.elements[0];
   }
 
+  private internalEvent: Subject<FilterEvent>;
+
   public elements: FilterElement[];
 
-  public events: Observable<FilterBoxEvent>;
+  public events: Observable<FilterEvent>;
 
   /**
    * TODO: Value being returned is of type date.
@@ -38,6 +42,8 @@ export class DateFilter implements Filter {
    * also, should we pass an optional parameter containing the datepicker options?
    */
   constructor(public paramName: string, public placeholder: string, public initialValue?: string) {
+    this.internalEvent = new Subject();
+
     const initialDate: string = initialValue ? new Date(initialValue).toISOString() : null;
 
     const formControl = new FormControl(initialDate);
@@ -60,14 +66,25 @@ export class DateFilter implements Filter {
           this.events,
           element.formControl.valueChanges.pipe(
             filter(value => (value === '' || value) && element.formControl.valid),
-            map(value => (value === '' ? new ClearEvent() : new ValidValueChangeEvent()))
+            map(value => (value === '' ? new FilterClearEvent() : new FilterValidValueChangeEvent()))
           )
         ))
     );
+
+    this.events = merge(this.events, this.internalEvent);
   }
 
-  public clearAllElements(emit?: boolean): void {
+  public clearFilter(emit?: boolean): void {
     this.filterElement.clear(emit);
-    // this.eventEmitter.emit(new ClearEvent());
+  }
+
+  public disableFilter(): void {
+    this.filterElement.formControl.disable();
+    this.internalEvent.next(new FilterDisabledEvent());
+  }
+
+  public enableFilter(): void {
+    this.filterElement.formControl.enable();
+    this.internalEvent.next(new FilterEnabledEvent());
   }
 }

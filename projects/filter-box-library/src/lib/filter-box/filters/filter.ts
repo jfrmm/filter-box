@@ -2,7 +2,7 @@ import { FilterOption } from '../models/filter-option.model';
 import { FilterParam } from '../models/filter-param.model';
 import { FilterElement } from './filter-element';
 import { Observable } from 'rxjs';
-import { FilterBoxEvent } from './filter-box-event';
+import { FilterEvent } from '../events/filter-event';
 
 export interface Filter {
   elements: FilterElement[];
@@ -11,11 +11,15 @@ export interface Filter {
 
   param: FilterParam;
 
-  events: Observable<FilterBoxEvent>;
+  events: Observable<FilterEvent>;
 
   paramName: string;
 
   type: string;
 
-  clearAllElements(emit?: boolean): void;
+  clearFilter(emit?: boolean): void;
+
+  enableFilter(): void;
+
+  disableFilter(): void;
 }

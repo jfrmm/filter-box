@@ -3,20 +3,24 @@ import { Filter } from './filter';
 import { FilterElement } from './filter-element';
 import { FormControl } from '@angular/forms';
 import { FilterParam } from '../models/filter-param.model';
-import { Observable, merge } from 'rxjs';
-import { FilterBoxEvent } from './filter-box-event';
+import { Observable, merge, Subject } from 'rxjs';
+import { FilterEvent } from '../events/filter-event';
 import { map } from 'rxjs/operators';
-import { ValidValueChangeEvent } from './valid-value-change-event';
-import { ClearEvent } from './clear-event';
+import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
+import { FilterClearEvent } from '../events/filter-clear-event';
+import { FilterDisabledEvent } from '../events/filter-disabled-event';
+import { FilterEnabledEvent } from '../events/filter-enabled-event';
 
 export class CheckboxFilter implements Filter {
   private initialValuesIds: string[] | number[];
+
+  private internalEvent: Subject<FilterEvent>;
 
   public elements: FilterElement[];
 
   public initialOptions: FilterOption[];
 
-  public events: Observable<FilterBoxEvent>;
+  public events: Observable<FilterEvent>;
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -31,6 +35,8 @@ export class CheckboxFilter implements Filter {
   }
 
   constructor(public paramName: string, options: FilterOption[], initialValuesIds: string[] | number[] = []) {
+    this.internalEvent = new Subject();
+
     this.paramName = paramName;
 
     this.initialOptions = options;
@@ -71,12 +77,26 @@ export class CheckboxFilter implements Filter {
       element =>
         (this.events = merge(
           this.events,
-          element.formControl.valueChanges.pipe(map(value => (value ? new ValidValueChangeEvent() : new ClearEvent())))
+          element.formControl.valueChanges.pipe(
+            map(value => (value ? new FilterValidValueChangeEvent() : new FilterClearEvent()))
+          )
         ))
     );
+
+    this.events = merge(this.events, this.internalEvent);
   }
 
-  public clearAllElements(emit?: boolean): void {
+  public clearFilter(emit?: boolean): void {
     this.elements.forEach(element => element.clear(emit));
+  }
+
+  public disableFilter(): void {
+    this.elements.forEach(element => element.formControl.disable());
+    this.internalEvent.next(new FilterDisabledEvent());
+  }
+
+  public enableFilter(): void {
+    this.elements.forEach(element => element.formControl.enable());
+    this.internalEvent.next(new FilterEnabledEvent());
   }
 }

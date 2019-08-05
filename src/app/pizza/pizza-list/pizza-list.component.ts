@@ -9,8 +9,8 @@ import {
   AutocompleteAsyncFilter,
   DateFilter,
   FilterBehaviour,
-  ClearEvent,
-  ValidValueChangeEvent,
+  FilterClearEvent,
+  FilterValidValueChangeEvent
 } from 'filter-box-library';
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
 import { PizzaService } from '../shared/pizza.service';
@@ -59,27 +59,27 @@ export class PizzaListComponent implements OnInit {
       this.filterBehaviours = [
         {
           emitters: [this.filters[0]],
-          events: [new ClearEvent(), new ValidValueChangeEvent()],
-          callbacks: [() => this.filters[1].clearAllElements()],
+          events: [new FilterClearEvent(), new FilterValidValueChangeEvent()],
+          callbacks: [() => this.filters[1].clearFilter()],
         },
         {
           emitters: [this.filters[1]],
-          events: [new ValidValueChangeEvent()],
-          callbacks: [() => this.filters[2].elements[0].formControl.disable()],
+          events: [new FilterValidValueChangeEvent()],
+          callbacks: [() => this.filters[2].disableFilter()],
         },
         {
           emitters: [this.filters[1]],
-          events: [new ClearEvent()],
-          callbacks: [() => this.filters[2].elements[0].formControl.enable()],
+          events: [new FilterClearEvent()],
+          callbacks: [() => this.filters[2].enableFilter()],
         },
         {
           emitters: [this.filters[2]],
-          events: [new ClearEvent()],
+          events: [new FilterClearEvent()],
           callbacks: [() => this.filters[3].elements[0].formControl.disable()],
         },
         {
           emitters: [this.filters[4]],
-          events: [new ValidValueChangeEvent()],
+          events: [new FilterValidValueChangeEvent()],
           callbacks: [() => this.filters[3].elements[0].formControl.enable()],
         },
       ];
