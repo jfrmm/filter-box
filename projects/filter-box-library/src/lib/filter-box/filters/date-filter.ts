@@ -4,7 +4,7 @@ import { FilterParam } from '../models/filter-param.model';
 import { FormControl } from '@angular/forms';
 import { Observable, merge, Subject } from 'rxjs';
 import { FilterEvent } from '../events/filter-event';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, tap } from 'rxjs/operators';
 import { FilterClearEvent } from '../events/filter-clear-event';
 import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
@@ -52,26 +52,21 @@ export class DateFilter implements Filter {
 
     this.elements = [new FilterElement(placeholder, formControl)];
 
-    this.setParams();
+    this.setEvents(formControl);
   }
 
   private mapControlsValues(): string {
     return this.filterElement.formControl.value ? (this.filterElement.formControl.value as Date).toISOString() : null;
   }
 
-  private setParams(): void {
-    this.elements.forEach(
-      element =>
-        (this.events = merge(
-          this.events,
-          element.formControl.valueChanges.pipe(
-            filter(value => (value === '' || value) && element.formControl.valid),
-            map(value => (value === '' ? new FilterClearEvent() : new FilterValidValueChangeEvent()))
-          )
-        ))
+  private setEvents(formControl: FormControl): void {
+    this.events = merge(
+      formControl.valueChanges.pipe(
+        filter(value => (value === '' || value) && formControl.valid),
+        map(value => (value === '' ? new FilterClearEvent() : new FilterValidValueChangeEvent()))
+      ),
+      this.internalEvent
     );
-
-    this.events = merge(this.events, this.internalEvent);
   }
 
   public clearFilter(emit?: boolean): void {
@@ -79,12 +74,12 @@ export class DateFilter implements Filter {
   }
 
   public disableFilter(): void {
-    this.filterElement.formControl.disable();
+    this.filterElement.formControl.disable({ onlySelf: true, emitEvent: false });
     this.internalEvent.next(new FilterDisabledEvent());
   }
 
   public enableFilter(): void {
-    this.filterElement.formControl.enable();
+    this.filterElement.formControl.enable({ onlySelf: true, emitEvent: false });
     this.internalEvent.next(new FilterEnabledEvent());
   }
 }

@@ -10,7 +10,7 @@ import {
   DateFilter,
   FilterBehaviour,
   FilterClearEvent,
-  FilterValidValueChangeEvent
+  FilterValidValueChangeEvent,
 } from 'filter-box-library';
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
 import { PizzaService } from '../shared/pizza.service';
@@ -60,27 +60,27 @@ export class PizzaListComponent implements OnInit {
         {
           emitters: [this.filters[0]],
           events: [new FilterClearEvent(), new FilterValidValueChangeEvent()],
-          callbacks: [() => this.filters[1].clearFilter()],
+          callbacks: () => this.filters[1].clearFilter(),
         },
         {
           emitters: [this.filters[1]],
           events: [new FilterValidValueChangeEvent()],
-          callbacks: [() => this.filters[2].disableFilter()],
+          callbacks: () => this.filters[2].disableFilter(),
         },
         {
           emitters: [this.filters[1]],
           events: [new FilterClearEvent()],
-          callbacks: [() => this.filters[2].enableFilter()],
+          callbacks: () => this.filters[2].enableFilter(),
         },
         {
           emitters: [this.filters[2]],
           events: [new FilterClearEvent()],
-          callbacks: [() => this.filters[3].elements[0].formControl.disable()],
+          callbacks: () => this.filters[3].disableFilter(),
         },
         {
           emitters: [this.filters[4]],
           events: [new FilterValidValueChangeEvent()],
-          callbacks: [() => this.filters[3].elements[0].formControl.enable()],
+          callbacks: () => this.filters[3].elements[0].formControl.enable(),
         },
       ];
     });

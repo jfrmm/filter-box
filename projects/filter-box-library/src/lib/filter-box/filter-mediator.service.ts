@@ -23,7 +23,6 @@ export class FilterMediatorService implements OnDestroy {
   }
 
   private propagateEvent(filter: Filter, event: FilterEvent): void {
-    console.log(event);
     const filterBehaviour: FilterBehaviour = this.filterBehaviours.find((behaviour: FilterBehaviour) =>
       behaviour.emitters.some(
         (emittingFilter: Filter) =>
@@ -33,7 +32,8 @@ export class FilterMediatorService implements OnDestroy {
     );
 
     if (filterBehaviour) {
-      filterBehaviour.callbacks.forEach((callback: (callback?: any) => void) => callback());
+      // filterBehaviour.callbacks.forEach((callback: (callback?: any) => void) => callback());
+      filterBehaviour.callbacks();
     } else {
       this.filterChanged.emit();
     }

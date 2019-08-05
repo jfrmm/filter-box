@@ -1,15 +1,15 @@
-import { FilterElement } from './filter-element';
-import { FilterOption } from '../models/filter-option.model';
-import { FormControl } from '@angular/forms';
-import { Filter } from './filter';
-import { Observable, of, merge, Subject } from 'rxjs';
 import { filter, map, startWith, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { FilterParam } from '../models/filter-param.model';
-import { FilterEvent } from '../events/filter-event';
-import { FilterClearEvent } from '../events/filter-clear-event';
 import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
+import { FilterClearEvent } from '../events/filter-clear-event';
+import { FilterOption } from '../models/filter-option.model';
+import { FilterParam } from '../models/filter-param.model';
+import { Observable, of, merge, Subject } from 'rxjs';
+import { FilterEvent } from '../events/filter-event';
+import { FilterElement } from './filter-element';
+import { FormControl } from '@angular/forms';
+import { Filter } from './filter';
 
 export class AutocompleteFilter implements Filter {
   private get filterElement(): FilterElement {
@@ -93,12 +93,12 @@ export class AutocompleteFilter implements Filter {
   }
 
   public disableFilter(): void {
-    this.filterElement.formControl.disable();
+    this.filterElement.formControl.disable({onlySelf: true, emitEvent: false});
     this.internalEvent.next(new FilterDisabledEvent());
   }
 
   public enableFilter(): void {
-    this.filterElement.formControl.enable();
+    this.filterElement.formControl.enable({onlySelf: true, emitEvent: false});
     this.internalEvent.next(new FilterEnabledEvent());
   }
 }

@@ -91,12 +91,12 @@ export class CheckboxFilter implements Filter {
   }
 
   public disableFilter(): void {
-    this.elements.forEach(element => element.formControl.disable());
+    this.elements.forEach(element => element.formControl.disable({ onlySelf: true, emitEvent: false }));
     this.internalEvent.next(new FilterDisabledEvent());
   }
 
   public enableFilter(): void {
-    this.elements.forEach(element => element.formControl.enable());
+    this.elements.forEach(element => element.formControl.enable({ onlySelf: true, emitEvent: false }));
     this.internalEvent.next(new FilterEnabledEvent());
   }
 }

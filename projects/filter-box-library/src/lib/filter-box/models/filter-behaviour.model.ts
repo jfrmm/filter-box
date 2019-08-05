@@ -4,7 +4,6 @@ import { FilterEvent } from '../events/filter-event';
 export interface FilterBehaviour {
   emitters: Filter[];
   events: FilterEvent[];
-  callbacks: [(callback?: any) => void];
+  // callbacks: ((callback?: any) => void)[];
+  callbacks: ((callback?: any) => void);
 }
-
-

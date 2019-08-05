@@ -85,12 +85,12 @@ export class AutocompleteAsyncFilter implements Filter {
   }
 
   public disableFilter(): void {
-    this.filterElement.formControl.disable();
+    this.filterElement.formControl.disable({ onlySelf: true, emitEvent: false });
     this.internalEvent.next(new FilterDisabledEvent());
   }
 
   public enableFilter(): void {
-    this.filterElement.formControl.enable();
+    this.filterElement.formControl.enable({ onlySelf: true, emitEvent: false });
     this.internalEvent.next(new FilterEnabledEvent());
   }
 }
