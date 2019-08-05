@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Filter } from './entities/filter';
-import { FilterElement } from './entities/filter-element';
 import { FilterHelperService } from './filter-helper.service';
 import { FilterMediatorService } from './filter-mediator.service';
 import { FilterBehaviour } from './models/filter-behaviour.model';

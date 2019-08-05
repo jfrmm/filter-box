@@ -18,7 +18,7 @@ export class FilterMediatorService implements OnDestroy {
     this.destroy$.complete();
   }
 
-  private propagateEvent(event: FilterBoxEvent, filterBehaviour: FilterBehaviour) {
+  private propagateEvent(event: FilterBoxEvent, filterBehaviour: FilterBehaviour): void {
     if (filterBehaviour.events.some((behaviourEvent: FilterBoxEvent) => event instanceof behaviourEvent.constructor)) {
       filterBehaviour.callbacks.forEach((callback: (callback?: any) => void) => callback());
     }
@@ -28,7 +28,7 @@ export class FilterMediatorService implements OnDestroy {
    * Set the FilterBehaviours, previous
    * Behaviours are removed
    */
-  public setFilterBehaviours(filterBehaviours: FilterBehaviour[]) {
+  public setFilterBehaviours(filterBehaviours: FilterBehaviour[]): void {
     this.destroy$.next();
 
     filterBehaviours.forEach((filterBehaviour: FilterBehaviour) => {
