@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Filter } from './entities/filter';
 import { FilterHelperService } from './filter-helper.service';
@@ -11,7 +11,7 @@ import { FilterBehaviour } from './models/filter-behaviour.model';
   styleUrls: ['./filter-box.component.css'],
   providers: [FilterMediatorService],
 })
-export class FilterBoxComponent implements OnInit, OnDestroy, OnChanges {
+export class FilterBoxComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription;
 
   @Input()
@@ -23,26 +23,18 @@ export class FilterBoxComponent implements OnInit, OnDestroy, OnChanges {
   @Output()
   public index = new EventEmitter();
 
-  constructor(private filterMediator: FilterMediatorService, public filterHelper: FilterHelperService) {}
+  constructor(private filterMediatorService: FilterMediatorService, public filterHelper: FilterHelperService) {}
 
   ngOnInit() {
     this.subscriptions = new Subscription();
 
-    this.subscribeToFilterElementsChanges();
-  }
+    this.filterMediatorService.setFilters(this.filters);
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.filterBehaviours) {
-      this.filterMediator.setFilterBehaviours(this.filterBehaviours);
-    }
+    this.subscriptions.add(this.filterMediatorService.filterChanged.subscribe(() => this.index.emit()));
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
-  }
-
-  private subscribeToFilterElementsChanges(): void {
-    this.filters.forEach(filter => this.subscriptions.add(filter.params.subscribe(() => this.index.emit())));
   }
 
   public onClickClearAllFilters(): void {

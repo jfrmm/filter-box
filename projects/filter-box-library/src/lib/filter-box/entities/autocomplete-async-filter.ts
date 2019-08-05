@@ -1,11 +1,10 @@
 import { FormControl } from '@angular/forms';
-import { filter, map, startWith, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { filter, map, startWith, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { FilterElement } from './filter-element';
 import { Filter } from './filter';
 import { FilterOption } from '../models/filter-option.model';
 import { FilterParam } from '../models/filter-param.model';
-import { EventEmitter } from '@angular/core';
 import { FilterBoxEvent } from './filter-box-event';
 import { ClearEvent } from './clear-event';
 import { ValidValueChangeEvent } from './valid-value-change-event';
@@ -17,11 +16,9 @@ export class AutocompleteAsyncFilter implements Filter {
 
   public elements: FilterElement[];
 
-  public eventEmitter: EventEmitter<FilterBoxEvent>;
-
   public initialOptions: Observable<FilterOption[]>;
 
-  public params: Observable<FilterParam>;
+  public events: Observable<FilterBoxEvent>;
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -40,13 +37,9 @@ export class AutocompleteAsyncFilter implements Filter {
     public placeholder: string,
     private getAsyncOptions: (filterTerm?: string) => Observable<FilterOption[]>
   ) {
-    this.eventEmitter = new EventEmitter();
-
-    this.params = new Subject();
-
     const formControl = new FormControl('');
 
-    this.setParams(formControl);
+    this.setEvents(formControl);
 
     this.elements = [new FilterElement(placeholder, formControl, this.filterOptions(formControl))];
   }
@@ -71,18 +64,16 @@ export class AutocompleteAsyncFilter implements Filter {
   /**
    * Params will emit a value when the param changes
    */
-  private setParams(formControl: FormControl): void {
-    this.params = formControl.valueChanges.pipe(
+  private setEvents(formControl: FormControl): void {
+    this.events = formControl.valueChanges.pipe(
       filter(value => typeof value === 'object' || value === ''),
-      tap(value => (typeof value === 'object' ? this.eventEmitter.emit(new ValidValueChangeEvent()) : null)),
-      tap(value => (value === '' ? this.eventEmitter.emit(new ClearEvent()) : null)),
-      map(() => this.param)
+      map(value => (typeof value === 'object' ? new ValidValueChangeEvent() : new ClearEvent()))
     );
   }
 
   public clearAllElements(emit?: boolean): void {
     this.filterElement.clear(emit);
 
-    this.eventEmitter.emit(new ClearEvent());
+    // this.eventEmitter.emit(new ClearEvent());
   }
 }

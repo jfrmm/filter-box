@@ -3,10 +3,9 @@ import { Filter } from './filter';
 import { FilterElement } from './filter-element';
 import { FormControl } from '@angular/forms';
 import { FilterParam } from '../models/filter-param.model';
-import { Subject, Observable, merge } from 'rxjs';
-import { OnDestroy, EventEmitter } from '@angular/core';
+import { Observable, merge } from 'rxjs';
 import { FilterBoxEvent } from './filter-box-event';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ValidValueChangeEvent } from './valid-value-change-event';
 import { ClearEvent } from './clear-event';
 
@@ -15,11 +14,9 @@ export class CheckboxFilter implements Filter {
 
   public elements: FilterElement[];
 
-  public eventEmitter: EventEmitter<FilterBoxEvent>;
-
   public initialOptions: FilterOption[];
 
-  public params: Observable<FilterParam>;
+  public events: Observable<FilterBoxEvent>;
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -34,10 +31,6 @@ export class CheckboxFilter implements Filter {
   }
 
   constructor(public paramName: string, options: FilterOption[], initialValuesIds: string[] | number[] = []) {
-    this.eventEmitter = new EventEmitter();
-
-    this.params = new Subject();
-
     this.paramName = paramName;
 
     this.initialOptions = options;
@@ -46,7 +39,7 @@ export class CheckboxFilter implements Filter {
 
     this.elements = this.buildFilterElements();
 
-    this.setParams();
+    this.setEvents();
   }
 
   private buildFilterElements(): FilterElement[] {
@@ -72,18 +65,13 @@ export class CheckboxFilter implements Filter {
     return values ? values : null;
   }
 
-  private setParams(): void {
-    this.params = new Observable();
+  private setEvents(): void {
+    this.events = new Observable();
     this.elements.forEach(
       element =>
-        (this.params = merge(
-          this.params,
-          element.formControl.valueChanges.pipe(
-            tap(value =>
-              value ? this.eventEmitter.emit(new ValidValueChangeEvent()) : this.eventEmitter.emit(new ClearEvent())
-            ),
-            map(() => this.param)
-          )
+        (this.events = merge(
+          this.events,
+          element.formControl.valueChanges.pipe(map(value => (value ? new ValidValueChangeEvent() : new ClearEvent())))
         ))
     );
   }

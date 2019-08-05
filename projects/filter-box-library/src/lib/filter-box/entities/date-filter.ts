@@ -3,9 +3,8 @@ import { FilterElement } from './filter-element';
 import { FilterParam } from '../models/filter-param.model';
 import { FormControl } from '@angular/forms';
 import { Observable, merge } from 'rxjs';
-import { EventEmitter } from '@angular/core';
 import { FilterBoxEvent } from './filter-box-event';
-import { map, filter, tap } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { ClearEvent } from './clear-event';
 import { ValidValueChangeEvent } from './valid-value-change-event';
 
@@ -16,9 +15,7 @@ export class DateFilter implements Filter {
 
   public elements: FilterElement[];
 
-  public eventEmitter: EventEmitter<FilterBoxEvent>;
-
-  public params: Observable<FilterParam>;
+  public events: Observable<FilterBoxEvent>;
 
   /**
    * TODO: Value being returned is of type date.
@@ -41,13 +38,11 @@ export class DateFilter implements Filter {
    * also, should we pass an optional parameter containing the datepicker options?
    */
   constructor(public paramName: string, public placeholder: string, public initialValue?: string) {
-    this.eventEmitter = new EventEmitter();
-
     const initialDate: string = initialValue ? new Date(initialValue).toISOString() : null;
 
     const formControl = new FormControl(initialDate);
 
-    this.params = new Observable();
+    this.events = new Observable();
 
     this.elements = [new FilterElement(placeholder, formControl)];
 
@@ -61,12 +56,11 @@ export class DateFilter implements Filter {
   private setParams(): void {
     this.elements.forEach(
       element =>
-        (this.params = merge(
-          this.params,
+        (this.events = merge(
+          this.events,
           element.formControl.valueChanges.pipe(
             filter(value => (value === '' || value) && element.formControl.valid),
-            tap(value => (value === '' ? this.eventEmitter.emit(new ClearEvent()) : new ValidValueChangeEvent())),
-            map(() => this.param)
+            map(value => (value === '' ? new ClearEvent() : new ValidValueChangeEvent()))
           )
         ))
     );
@@ -74,6 +68,6 @@ export class DateFilter implements Filter {
 
   public clearAllElements(emit?: boolean): void {
     this.filterElement.clear(emit);
-    this.eventEmitter.emit(new ClearEvent());
+    // this.eventEmitter.emit(new ClearEvent());
   }
 }
