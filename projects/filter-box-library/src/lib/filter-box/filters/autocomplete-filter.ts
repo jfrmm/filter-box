@@ -126,6 +126,6 @@ export class AutocompleteFilter implements Filter {
      */
     this.getFilterOptions(params).subscribe(options => options);
     return new FilterEvent(new FilterEmptyEvent(), this);
-    // TODO: SHould i throw a error if getFilterOptions is not defined?
+    // TODO: Should i throw a custom error if getFilterOptions is not defined?
   }
 }

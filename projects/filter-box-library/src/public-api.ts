@@ -16,6 +16,7 @@ export * from './lib/filter-box/events/filter-event';
 export * from './lib/filter-box/events/filter-clear-event';
 export * from './lib/filter-box/events/filter-disabled-event';
 export * from './lib/filter-box/events/filter-enabled-event';
+export * from './lib/filter-box/events/filter-empty-event';
 
 export * from './lib/filter-box/models/filter-option.model';
 export * from './lib/filter-box/models/filter-param.model';
