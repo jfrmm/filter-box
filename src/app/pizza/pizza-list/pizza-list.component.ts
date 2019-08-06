@@ -23,6 +23,8 @@ import {
 export class PizzaListComponent implements OnInit {
   private destroy$ = new Subject();
 
+  public indexCount = 0;
+
   public displayedColumns: string[];
 
   public dataSource: GenericDataSource;
@@ -100,14 +102,13 @@ export class PizzaListComponent implements OnInit {
     });
   }
 
-  count = 0;
   public index(reset: boolean): void {
-    console.log('index', this.count++);
     this.pizzaService
-      .getPizzasList(this.params)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(response => {
-        this.dataSource.update(response.elements, reset);
-      });
+    .getPizzasList(this.params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(response => {
+      this.dataSource.update(response.elements, reset);
+    });
+    this.indexCount++;
   }
 }
