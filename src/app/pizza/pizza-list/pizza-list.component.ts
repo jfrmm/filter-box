@@ -60,34 +60,34 @@ export class PizzaListComponent implements OnInit {
         {
           emitters: [this.filters[0]],
           events: [new FilterClearEvent(), new FilterValidValueChangeEvent()],
-          callbacks: () => this.filters[1].clearFilter(),
+          callbacks: [() => this.filters[1].clearFilter(false), () => this.filters[2].clearFilter(false)],
         },
         {
           emitters: [this.filters[1]],
           events: [new FilterValidValueChangeEvent()],
-          callbacks: () => this.filters[2].disableFilter(),
+          callbacks: [() => this.filters[2].disableFilter(), () => this.filters[4].disableFilter()],
         },
         {
           emitters: [this.filters[1]],
           events: [new FilterClearEvent()],
-          callbacks: () => this.filters[2].enableFilter(),
+          callbacks: [() => this.filters[2].enableFilter()],
         },
         {
           emitters: [this.filters[2]],
           events: [new FilterClearEvent()],
-          callbacks: () => this.filters[3].disableFilter(),
+          callbacks: [() => this.filters[3].disableFilter(), () => this.filters[4].enableFilter()],
         },
-        {
-          emitters: [this.filters[4]],
-          events: [new FilterValidValueChangeEvent()],
-          callbacks: () => this.filters[3].elements[0].formControl.enable(),
-        },
+        // {
+        //   emitters: [this.filters[4]],
+        //   events: [new FilterValidValueChangeEvent()],
+        //   callbacks: [() => this.filters[3].elements[0].formControl.enable()],
+        // },
       ];
     });
   }
-
+  count = 0;
   public index(reset: boolean): void {
-    console.log('index');
+    console.log('index', this.count++);
     this.pizzaService
       .getPizzasList(this.params)
       .pipe(takeUntil(this.destroy$))

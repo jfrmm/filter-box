@@ -22,28 +22,29 @@ export class FilterMediatorService implements OnDestroy {
     this.destroy$.complete();
   }
 
-  private propagateEvent(filter: Filter, event: FilterEvent): void {
-    const filterBehaviour: FilterBehaviour = this.filterBehaviours.find((behaviour: FilterBehaviour) =>
-      behaviour.emitters.some(
-        (emittingFilter: Filter) =>
-          emittingFilter === filter &&
-          behaviour.events.some((behaviourEvent: FilterEvent) => event instanceof behaviourEvent.constructor)
-      )
-    );
-
-    if (filterBehaviour) {
-      // filterBehaviour.callbacks.forEach((callback: (callback?: any) => void) => callback());
-      filterBehaviour.callbacks();
-    } else {
-      this.filterChanged.emit();
-    }
+  private propagateEvent(event: FilterEvent): void {
+    this.findAndExecuteBehaviours(event);
+    this.filterChanged.emit();
   }
 
+  public findAndExecuteBehaviours(event: FilterEvent) {
+    const behaviours = this.filterBehaviours.filter(
+      behaviour =>
+        behaviour.emitters.some(emitter => event.filter === emitter) &&
+        behaviour.events.some(behaviourEvent => behaviourEvent instanceof event.event.constructor)
+    );
+
+    behaviours.forEach(behaviour => {
+      behaviour.callbacks.forEach(callback => {
+        this.findAndExecuteBehaviours(callback());
+      });
+    });
+  }
   public setFilters(filters: Filter[], filterBehaviours?: FilterBehaviour[]): void {
     this.filterBehaviours = filterBehaviours;
 
     filters.forEach(filter =>
-      filter.events.pipe(takeUntil(this.destroy$)).subscribe((event: FilterEvent) => this.propagateEvent(filter, event))
+      filter.events.pipe(takeUntil(this.destroy$)).subscribe((event: FilterEvent) => this.propagateEvent(event))
     );
   }
 }

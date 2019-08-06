@@ -63,23 +63,30 @@ export class DateFilter implements Filter {
     this.events = merge(
       formControl.valueChanges.pipe(
         filter(value => (value === '' || value) && formControl.valid),
-        map(value => (value === '' ? new FilterClearEvent() : new FilterValidValueChangeEvent()))
+        map(value =>
+          value === ''
+            ? new FilterEvent(new FilterValidValueChangeEvent(), this)
+            : new FilterEvent(new FilterClearEvent(), this)
+        )
       ),
       this.internalEvent
     );
   }
 
-  public clearFilter(emit?: boolean): void {
+  public clearFilter(emit?: boolean): FilterEvent {
     this.filterElement.clear(emit);
+    return new FilterEvent(new FilterClearEvent(), this);
   }
 
-  public disableFilter(): void {
+  public disableFilter(): FilterEvent {
     this.filterElement.formControl.disable({ onlySelf: true, emitEvent: false });
-    this.internalEvent.next(new FilterDisabledEvent());
+    // this.internalEvent.next(new FilterEvent(new FilterDisabledEvent(), this));
+    return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
-  public enableFilter(): void {
+  public enableFilter(): FilterEvent {
     this.filterElement.formControl.enable({ onlySelf: true, emitEvent: false });
-    this.internalEvent.next(new FilterEnabledEvent());
+    // this.internalEvent.next(new FilterEvent(new FilterEnabledEvent(), this));
+    return new FilterEvent(new FilterEnabledEvent(), this);
   }
 }

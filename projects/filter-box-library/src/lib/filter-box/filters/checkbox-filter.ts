@@ -78,7 +78,11 @@ export class CheckboxFilter implements Filter {
         (this.events = merge(
           this.events,
           element.formControl.valueChanges.pipe(
-            map(value => (value ? new FilterValidValueChangeEvent() : new FilterClearEvent()))
+            map(value =>
+              value
+                ? new FilterEvent(new FilterValidValueChangeEvent(), this)
+                : new FilterEvent(new FilterClearEvent(), this)
+            )
           )
         ))
     );
@@ -86,17 +90,20 @@ export class CheckboxFilter implements Filter {
     this.events = merge(this.events, this.internalEvent);
   }
 
-  public clearFilter(emit?: boolean): void {
+  public clearFilter(emit?: boolean): FilterEvent {
     this.elements.forEach(element => element.clear(emit));
+    return new FilterEvent(new FilterClearEvent(), this);
   }
 
-  public disableFilter(): void {
+  public disableFilter(): FilterEvent {
     this.elements.forEach(element => element.formControl.disable({ onlySelf: true, emitEvent: false }));
-    this.internalEvent.next(new FilterDisabledEvent());
+    // this.internalEvent.next(new FilterEvent(new FilterDisabledEvent(), this));
+    return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
-  public enableFilter(): void {
+  public enableFilter(): FilterEvent {
     this.elements.forEach(element => element.formControl.enable({ onlySelf: true, emitEvent: false }));
-    this.internalEvent.next(new FilterEnabledEvent());
+    // this.internalEvent.next(new FilterEvent(new FilterEnabledEvent(), this));
+    return new FilterEvent(new FilterEnabledEvent(), this);
   }
 }

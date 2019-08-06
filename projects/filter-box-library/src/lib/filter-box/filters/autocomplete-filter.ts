@@ -82,23 +82,33 @@ export class AutocompleteFilter implements Filter {
    * Params will emit a value when the param changes
    */
   private setEvents(formControl: FormControl): void {
-    this.events = merge(formControl.valueChanges.pipe(
-      filter(value => typeof value === 'object' || value === ''),
-      map(value => (typeof value === 'object' ? new FilterValidValueChangeEvent() : new FilterClearEvent()))
-    ), this.internalEvent);
+    this.events = merge(
+      formControl.valueChanges.pipe(
+        filter(value => typeof value === 'object' || value === ''),
+        map(value =>
+          typeof value === 'object'
+            ? new FilterEvent(new FilterValidValueChangeEvent(), this)
+            : new FilterEvent(new FilterClearEvent(), this)
+        )
+      ),
+      this.internalEvent
+    );
   }
 
-  public clearFilter(emit?: boolean): void {
+  public clearFilter(emit?: boolean): FilterEvent {
     this.filterElement.clear(emit);
+    return new FilterEvent(new FilterClearEvent(), this);
   }
 
-  public disableFilter(): void {
-    this.filterElement.formControl.disable({onlySelf: true, emitEvent: false});
-    this.internalEvent.next(new FilterDisabledEvent());
+  public disableFilter(): FilterEvent {
+    this.filterElement.formControl.disable({ onlySelf: true, emitEvent: false });
+    // this.internalEvent.next(new FilterEvent(new FilterDisabledEvent(), this));
+    return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
-  public enableFilter(): void {
-    this.filterElement.formControl.enable({onlySelf: true, emitEvent: false});
-    this.internalEvent.next(new FilterEnabledEvent());
+  public enableFilter(): FilterEvent {
+    this.filterElement.formControl.enable({ onlySelf: true, emitEvent: false });
+    // this.internalEvent.next(new FilterEvent(new FilterEnabledEvent(), this));
+    return new FilterEvent(new FilterEnabledEvent(), this);
   }
 }
