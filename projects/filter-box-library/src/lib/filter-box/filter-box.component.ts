@@ -38,7 +38,7 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
   }
 
   public onClickClearAllFilters(): void {
-    this.filters.forEach((filter: Filter) => filter.clearFilter(false));
+    this.filters.forEach((filter: Filter) => filter.clearFilter());
 
     this.index.emit();
   }
@@ -46,6 +46,6 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
   public onClickClearFilter(event: MouseEvent, filter: Filter): void {
     event.stopImmediatePropagation();
 
-    filter.clearFilter();
+    filter.clearFilter(true);
   }
 }

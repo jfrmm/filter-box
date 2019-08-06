@@ -60,7 +60,7 @@ export class PizzaListComponent implements OnInit {
         {
           emitters: [this.filters[0]],
           events: [new FilterClearEvent(), new FilterValidValueChangeEvent()],
-          callbacks: [() => this.filters[1].clearFilter(false), () => this.filters[2].clearFilter(false)],
+          callbacks: [() => this.filters[1].clearFilter(), () => this.filters[2].clearFilter()],
         },
         {
           emitters: [this.filters[1]],
