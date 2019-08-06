@@ -91,6 +91,12 @@ export class PizzaListComponent implements OnInit {
           ],
         },
       ];
+      /** TODO:
+       * If the goal is to have a group of filters become reactive to eachother
+       * Create a function that returns the null event and then call the filters
+       *  updateFilterOptions inside that function, this way, it will happen at the same time,
+       * "not respecting the callback order"
+       */
     });
   }
 
