@@ -1,3 +1,5 @@
+import { GenericDataSource } from 'src/app/shared/generic.datasource';
+import { PizzaService } from '../shared/pizza.service';
 import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, forkJoin } from 'rxjs';
@@ -12,8 +14,6 @@ import {
   FilterClearEvent,
   FilterValidValueChangeEvent,
 } from 'filter-box-library';
-import { GenericDataSource } from 'src/app/shared/generic.datasource';
-import { PizzaService } from '../shared/pizza.service';
 
 @Component({
   selector: 'app-pizza-list',
@@ -90,6 +90,7 @@ export class PizzaListComponent implements OnInit {
       ];
     });
   }
+
   count = 0;
   public index(reset: boolean): void {
     console.log('index', this.count++);
