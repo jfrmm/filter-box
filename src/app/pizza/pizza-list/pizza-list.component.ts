@@ -65,7 +65,12 @@ export class PizzaListComponent implements OnInit {
         {
           emitters: [this.filters[1]],
           events: [new FilterValidValueChangeEvent()],
-          callbacks: [() => this.filters[2].disableFilter(), () => this.filters[4].disableFilter()],
+          callbacks: [
+            () => this.filters[2].disableFilter(),
+            () => this.filters[4].disableFilter(),
+            () => this.filters[4].enableFilter(0),
+            () => this.filters[4].setValue(true, 0),
+          ],
         },
         {
           emitters: [this.filters[1]],
@@ -77,11 +82,11 @@ export class PizzaListComponent implements OnInit {
           events: [new FilterClearEvent()],
           callbacks: [() => this.filters[3].disableFilter(), () => this.filters[4].enableFilter()],
         },
-        // {
-        //   emitters: [this.filters[4]],
-        //   events: [new FilterValidValueChangeEvent()],
-        //   callbacks: [() => this.filters[3].elements[0].formControl.enable()],
-        // },
+        {
+          emitters: [this.filters[3]],
+          events: [new FilterClearEvent()],
+          callbacks: [() => this.filters[0].setValue({ id: 1, value: 'Tomato' })],
+        },
       ];
     });
   }

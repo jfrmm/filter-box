@@ -90,20 +90,35 @@ export class CheckboxFilter implements Filter {
     this.events = merge(this.events, this.internalEvent);
   }
 
-  public clearFilter(emit?: boolean): FilterEvent {
-    this.elements.forEach(element => element.clear(emit));
+  public clearFilter(emit?: boolean, index?: number): FilterEvent {
+    if (index >= 0) {
+      this.elements[index].clear(emit);
+    } else {
+      this.elements.forEach(element => element.clear(emit));
+    }
     return new FilterEvent(new FilterClearEvent(), this);
   }
 
-  public disableFilter(): FilterEvent {
-    this.elements.forEach(element => element.formControl.disable({ onlySelf: true, emitEvent: false }));
-    // this.internalEvent.next(new FilterEvent(new FilterDisabledEvent(), this));
+  public enableFilter(index?: number): FilterEvent {
+    if (index >= 0) {
+      this.elements[index].formControl.enable({ onlySelf: true, emitEvent: false });
+    } else {
+      this.elements.forEach(element => element.formControl.enable({ onlySelf: true, emitEvent: false }));
+    }
+    return new FilterEvent(new FilterEnabledEvent(), this);
+  }
+
+  public disableFilter(index?: number): FilterEvent {
+    if (index >= 0) {
+      this.elements[index].formControl.disable({ onlySelf: true, emitEvent: false });
+    } else {
+      this.elements.forEach(element => element.formControl.disable({ onlySelf: true, emitEvent: false }));
+    }
     return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
-  public enableFilter(): FilterEvent {
-    this.elements.forEach(element => element.formControl.enable({ onlySelf: true, emitEvent: false }));
-    // this.internalEvent.next(new FilterEvent(new FilterEnabledEvent(), this));
-    return new FilterEvent(new FilterEnabledEvent(), this);
+  public setValue(value: any, index: number): FilterEvent {
+    this.elements[index].formControl.setValue(value, { onlySelf: true, emitEvent: false });
+    return new FilterEvent(new FilterValidValueChangeEvent(), this);
   }
 }

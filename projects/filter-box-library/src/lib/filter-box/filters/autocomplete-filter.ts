@@ -100,15 +100,20 @@ export class AutocompleteFilter implements Filter {
     return new FilterEvent(new FilterClearEvent(), this);
   }
 
+  public enableFilter(): FilterEvent {
+    this.filterElement.formControl.enable({ onlySelf: true, emitEvent: false });
+    // this.internalEvent.next(new FilterEvent(new FilterEnabledEvent(), this));
+    return new FilterEvent(new FilterEnabledEvent(), this);
+  }
+
   public disableFilter(): FilterEvent {
     this.filterElement.formControl.disable({ onlySelf: true, emitEvent: false });
     // this.internalEvent.next(new FilterEvent(new FilterDisabledEvent(), this));
     return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
-  public enableFilter(): FilterEvent {
-    this.filterElement.formControl.enable({ onlySelf: true, emitEvent: false });
-    // this.internalEvent.next(new FilterEvent(new FilterEnabledEvent(), this));
-    return new FilterEvent(new FilterEnabledEvent(), this);
+  public setValue(value: any): FilterEvent {
+    this.filterElement.formControl.setValue(value, { onlySelf: true, emitEvent: false });
+    return new FilterEvent(new FilterValidValueChangeEvent(), this);
   }
 }

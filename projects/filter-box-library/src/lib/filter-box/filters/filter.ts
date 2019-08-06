@@ -17,9 +17,11 @@ export interface Filter {
 
   type: string;
 
-  clearFilter(emit?: boolean): void;
+  clearFilter(emit?: boolean, index?: number): FilterEvent;
 
-  enableFilter(): void;
+  enableFilter(index?: number): FilterEvent;
 
-  disableFilter(): void;
+  disableFilter(index?: number): FilterEvent;
+
+  setValue(value: any, index?: number): FilterEvent;
 }
