@@ -49,7 +49,7 @@ export class PizzaListComponent implements OnInit {
   private loadFilterBoxFilters(): void {
     forkJoin([this.pizzaService.getPizzaBases(), this.pizzaService.getRatings()]).subscribe(([pizzaBases, ratings]) => {
       this.filters.push(
-        new AutocompleteFilter('base', 'Base', pizzaBases),
+        new AutocompleteFilter('base', 'Base', pizzaBases, null, this.pizzaService.getPizzaBases),
         new AutocompleteAsyncFilter('restaurant', 'Restaurant', this.pizzaService.getRestaurants),
         new DateFilter('from', 'From'),
         new DateFilter('to', 'To'),
@@ -85,7 +85,10 @@ export class PizzaListComponent implements OnInit {
         {
           emitters: [this.filters[3]],
           events: [new FilterClearEvent()],
-          callbacks: [() => this.filters[0].setValue({ id: 1, value: 'Tomato' })],
+          callbacks: [
+            () => this.filters[0].setValue({ id: 1, value: 'Tomato' }),
+            () => (this.filters[0] as AutocompleteFilter).updateFilterOptions(this.params),
+          ],
         },
       ];
     });

@@ -10,6 +10,7 @@ import { FilterEvent } from '../events/filter-event';
 import { FilterElement } from './filter-element';
 import { FormControl } from '@angular/forms';
 import { Filter } from './filter';
+import { FilterEmptyEvent } from '../events/filter-empty-event';
 
 export class AutocompleteFilter implements Filter {
   private get filterElement(): FilterElement {
@@ -40,7 +41,8 @@ export class AutocompleteFilter implements Filter {
     public paramName: string,
     public placeholder: string,
     public options: FilterOption[],
-    initialValue: FilterOption = null
+    initialValue: FilterOption = null,
+    public getFilterOptions?: (params?: FilterParam[]) => Observable<FilterOption[]>
   ) {
     this.internalEvent = new Subject();
 
@@ -115,5 +117,15 @@ export class AutocompleteFilter implements Filter {
   public setValue(value: any): FilterEvent {
     this.filterElement.formControl.setValue(value, { onlySelf: true, emitEvent: false });
     return new FilterEvent(new FilterValidValueChangeEvent(), this);
+  }
+
+  public updateFilterOptions(params: FilterParam[]): FilterEvent {
+    /** Should a filter be disabled while waiting for the new options?
+     * If yes, should that disable emit an event to the mediator? (I think
+     * it should be disabled, but not emit an event)
+     */
+    this.getFilterOptions(params).subscribe(options => options);
+    return new FilterEvent(new FilterEmptyEvent(), this);
+    // TODO: SHould i throw a error if getFilterOptions is not defined?
   }
 }
