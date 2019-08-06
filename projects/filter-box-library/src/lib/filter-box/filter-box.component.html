@@ -14,17 +14,17 @@
             [placeholder]="filter.elements[0].placeholder"
             [matAutocomplete]="auto"
           />
-          <mat-autocomplete
-            autoActiveFirstOption
-            #auto="matAutocomplete"
-            [displayWith]="filterHelper.displayFilter"
-          >
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="filterHelper.displayFilter">
             <mat-option *ngFor="let filterOption of filter.elements[0].options | async" [value]="filterOption">
               {{ filterOption.value }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
-        <button mat-icon-button (click)="onClickClearFilter($event, filter)">
+        <button
+          mat-icon-button
+          [disabled]="!filter.elements[0].formControl.value"
+          (click)="onClickClearFilter($event, filter)"
+        >
           <mat-icon>clear</mat-icon>
         </button>
       </div>
@@ -38,17 +38,17 @@
             [placeholder]="filter.elements[0].placeholder"
             [matAutocomplete]="auto"
           />
-          <mat-autocomplete
-            autoActiveFirstOption
-            #auto="matAutocomplete"
-            [displayWith]="filterHelper.displayFilter"
-          >
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="filterHelper.displayFilter">
             <mat-option *ngFor="let filterOption of filter.elements[0].options | async" [value]="filterOption">
               {{ filterOption.value }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
-        <button mat-icon-button (click)="onClickClearFilter($event, filter)">
+        <button
+          mat-icon-button
+          [disabled]="!filter.elements[0].formControl.value"
+          (click)="onClickClearFilter($event, filter)"
+        >
           <mat-icon>clear</mat-icon>
         </button>
       </div>
@@ -64,16 +64,17 @@
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        <button mat-icon-button (click)="onClickClearFilter($event, filter)">
+        <button
+          mat-icon-button
+          [disabled]="!filter.elements[0].formControl.value"
+          (click)="onClickClearFilter($event, filter)"
+        >
           <mat-icon>clear</mat-icon>
         </button>
       </div>
 
       <div *ngSwitchCase="'checkbox'" fxLayout="row" fxLayoutGap="14px">
-        <mat-checkbox
-          *ngFor="let element of filter.elements; index as i"
-          [formControl]="element.formControl"
-        >
+        <mat-checkbox *ngFor="let element of filter.elements; index as i" [formControl]="element.formControl">
           {{ element.placeholder }}
         </mat-checkbox>
       </div>
