@@ -22,12 +22,7 @@ export class FilterMediatorService implements OnDestroy {
     this.destroy$.complete();
   }
 
-  private propagateEvent(event: FilterEvent): void {
-    this.findAndExecuteBehaviours(event);
-    this.filterChanged.emit();
-  }
-
-  public findAndExecuteBehaviours(event: FilterEvent) {
+  private findAndExecuteBehaviours(event: FilterEvent) {
     const behaviours = this.filterBehaviours.filter(
       behaviour =>
         behaviour.emitters.some(emitter => event.filter === emitter) &&
@@ -40,6 +35,12 @@ export class FilterMediatorService implements OnDestroy {
       });
     });
   }
+
+  private propagateEvent(event: FilterEvent): void {
+    this.findAndExecuteBehaviours(event);
+    this.filterChanged.emit();
+  }
+
   public setFilters(filters: FilterModel[], filterBehaviours?: FilterBehaviour[]): void {
     this.filterBehaviours = filterBehaviours;
 

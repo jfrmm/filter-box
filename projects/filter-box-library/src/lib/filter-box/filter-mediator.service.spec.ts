@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-
 import { FilterMediatorService } from './filter-mediator.service';
 
 describe('FilterMediatorService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let filterMediatorService: FilterMediatorService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({ providers: [FilterMediatorService] });
+    filterMediatorService = TestBed.get(FilterMediatorService);
+  });
 
   it('should be created', () => {
-    // const service: FilterMediatorService = TestBed.get(FilterMediatorService);
-    // expect(service).toBeTruthy();
+    filterMediatorService = TestBed.get(FilterMediatorService);
+    expect(filterMediatorService).toBeDefined();
   });
 });
