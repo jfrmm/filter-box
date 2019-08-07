@@ -9,5 +9,4 @@ export interface FilterBehaviour {
   emitters: Filter[];
   events: FilterClearEvent[] | FilterValidValueChangeEvent[] | FilterEnabledEvent[] | FilterDisabledEvent[];
   callbacks: ((callback?: any) => FilterEvent)[];
-  // callbacks: ((callback?: any) => void);
 }
