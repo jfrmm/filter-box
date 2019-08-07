@@ -124,7 +124,7 @@ export class AutocompleteFilter implements FilterModel {
      * If yes, should that disable emit an event to the mediator? (I think
      * it should be disabled, but not emit an event)
      */
-    this.getFilterOptions(params).subscribe(options => options);
+    this.getFilterOptions(params).subscribe(options => this.options = options);
     return new FilterEvent(new FilterEmptyEvent(), this);
     // TODO: Should i throw a custom error if getFilterOptions is not defined?
   }

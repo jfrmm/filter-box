@@ -1,10 +1,11 @@
 import { AutocompleteFilter } from './autocomplete-filter';
+import { of } from 'rxjs';
 
 describe('AutocompleteFilter', () => {
   let autoCompleteFilter: AutocompleteFilter;
 
   beforeEach(() => {
-    autoCompleteFilter = new AutocompleteFilter('test', 'test1', []);
+    autoCompleteFilter = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }]);
   });
 
   it('should create an instance', () => {
@@ -31,6 +32,17 @@ describe('AutocompleteFilter', () => {
     autoCompleteFilter.enableFilter();
 
     expect(autoCompleteFilter.filterElement.formControl.enabled).toBeTruthy();
+  });
+
+  it('should have reactive options', () => {
+    function updateOptions() {
+      return of([{ id: 2, value: 'MOCK2' }]);
+    }
+    autoCompleteFilter.getFilterOptions = updateOptions;
+    autoCompleteFilter.updateFilterOptions(null);
+
+
+    expect(autoCompleteFilter.options).toEqual([{ id: 2, value: 'MOCK2' }]);
   });
 
   // it('should update the filter options', () => {});
