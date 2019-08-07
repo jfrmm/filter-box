@@ -12,10 +12,6 @@ import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
 
 export class AutocompleteAsyncFilter implements FilterModel {
-  private get filterElement(): FilterElement {
-    return this.elements[0];
-  }
-
   private internalEvent: Subject<FilterEvent>;
 
   public elements: FilterElement[];
@@ -23,6 +19,10 @@ export class AutocompleteAsyncFilter implements FilterModel {
   public initialOptions: Observable<FilterOption[]>;
 
   public events: Observable<FilterEvent>;
+
+  get filterElement(): FilterElement {
+    return this.elements[0];
+  }
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -91,13 +91,11 @@ export class AutocompleteAsyncFilter implements FilterModel {
 
   public enableFilter(): FilterEvent {
     this.filterElement.formControl.enable({ onlySelf: true, emitEvent: false });
-    // this.internalEvent.next(new FilterEvent(new FilterEnabledEvent(), this));
     return new FilterEvent(new FilterEnabledEvent(), this);
   }
 
   public disableFilter(): FilterEvent {
     this.filterElement.formControl.disable({ onlySelf: true, emitEvent: false });
-    // this.internalEvent.next(new FilterEvent(new FilterDisabledEvent(), this));
     return new FilterEvent(new FilterDisabledEvent(), this);
   }
 

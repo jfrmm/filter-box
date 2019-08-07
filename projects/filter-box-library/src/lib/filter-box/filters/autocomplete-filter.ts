@@ -13,10 +13,6 @@ import { FilterModel } from '../models/filter.model';
 import { FilterEmptyEvent } from '../events/filter-empty-event';
 
 export class AutocompleteFilter implements FilterModel {
-  private get filterElement(): FilterElement {
-    return this.elements[0];
-  }
-
   private internalEvent: Subject<FilterEvent>;
 
   public elements: FilterElement[];
@@ -24,6 +20,10 @@ export class AutocompleteFilter implements FilterModel {
   public initialOptions: FilterOption[];
 
   public events: Observable<FilterEvent>;
+
+  get filterElement(): FilterElement {
+    return this.elements[0];
+  }
 
   get param(): FilterParam {
     const filterParam: FilterParam = {

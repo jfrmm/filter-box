@@ -48,5 +48,4 @@ describe('FilterBoxComponent', () => {
     // TODO: Check if i should really be accessing the form control, instead of param
     expect(component.filters[0].elements[0].formControl.value).toBe('');
   });
-
 });

@@ -4,22 +4,22 @@ import { FilterParam } from '../models/filter-param.model';
 import { FormControl } from '@angular/forms';
 import { Observable, merge, Subject } from 'rxjs';
 import { FilterEvent } from '../events/filter-event';
-import { map, filter, tap } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { FilterClearEvent } from '../events/filter-clear-event';
 import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
 
 export class DateFilter implements FilterModel {
-  private get filterElement(): FilterElement {
-    return this.elements[0];
-  }
-
   private internalEvent: Subject<FilterEvent>;
 
   public elements: FilterElement[];
 
   public events: Observable<FilterEvent>;
+
+  get filterElement(): FilterElement {
+    return this.elements[0];
+  }
 
   /**
    * TODO: Value being returned is of type date.
@@ -80,13 +80,11 @@ export class DateFilter implements FilterModel {
 
   public enableFilter(): FilterEvent {
     this.filterElement.formControl.enable({ onlySelf: true, emitEvent: false });
-    // this.internalEvent.next(new FilterEvent(new FilterEnabledEvent(), this));
     return new FilterEvent(new FilterEnabledEvent(), this);
   }
 
   public disableFilter(): FilterEvent {
     this.filterElement.formControl.disable({ onlySelf: true, emitEvent: false });
-    // this.internalEvent.next(new FilterEvent(new FilterDisabledEvent(), this));
     return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
