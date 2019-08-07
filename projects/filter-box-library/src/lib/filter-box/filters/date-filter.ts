@@ -1,4 +1,4 @@
-import { Filter } from './filter';
+import { FilterModel } from '../models/filter.model';
 import { FilterElement } from './filter-element';
 import { FilterParam } from '../models/filter-param.model';
 import { FormControl } from '@angular/forms';
@@ -10,7 +10,7 @@ import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
 
-export class DateFilter implements Filter {
+export class DateFilter implements FilterModel {
   private get filterElement(): FilterElement {
     return this.elements[0];
   }

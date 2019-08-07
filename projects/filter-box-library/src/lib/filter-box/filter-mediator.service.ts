@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy, EventEmitter } from '@angular/core';
 import { FilterBehaviour } from './models/filter-behaviour.model';
 import { Subject } from 'rxjs';
-import { Filter } from './filters/filter';
+import { FilterModel } from './models/filter.model';
 import { FilterEvent } from './events/filter-event';
 import { takeUntil } from 'rxjs/operators';
 
@@ -40,7 +40,7 @@ export class FilterMediatorService implements OnDestroy {
       });
     });
   }
-  public setFilters(filters: Filter[], filterBehaviours?: FilterBehaviour[]): void {
+  public setFilters(filters: FilterModel[], filterBehaviours?: FilterBehaviour[]): void {
     this.filterBehaviours = filterBehaviours;
 
     filters.forEach(filter =>

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Filter } from './filters/filter';
+import { FilterModel } from './models/filter.model';
 import { FilterHelperService } from './filter-helper.service';
 import { FilterMediatorService } from './filter-mediator.service';
 import { FilterBehaviour } from './models/filter-behaviour.model';
@@ -18,7 +18,7 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
   public filterBehaviours: FilterBehaviour[];
 
   @Input()
-  public filters: Filter[];
+  public filters: FilterModel[];
 
   @Output()
   public index = new EventEmitter();
@@ -38,12 +38,12 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
   }
 
   public onClickClearAllFilters(): void {
-    this.filters.forEach((filter: Filter) => filter.clearFilter());
+    this.filters.forEach((filter: FilterModel) => filter.clearFilter());
 
     this.index.emit();
   }
 
-  public onClickClearFilter(event: MouseEvent, filter: Filter): void {
+  public onClickClearFilter(event: MouseEvent, filter: FilterModel): void {
     event.stopImmediatePropagation();
 
     filter.clearFilter(true);

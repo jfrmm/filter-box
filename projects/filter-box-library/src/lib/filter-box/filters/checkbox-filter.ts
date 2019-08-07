@@ -1,5 +1,5 @@
 import { FilterOption } from '../models/filter-option.model';
-import { Filter } from './filter';
+import { FilterModel } from '../models/filter.model';
 import { FilterElement } from './filter-element';
 import { FormControl } from '@angular/forms';
 import { FilterParam } from '../models/filter-param.model';
@@ -11,7 +11,7 @@ import { FilterClearEvent } from '../events/filter-clear-event';
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
 
-export class CheckboxFilter implements Filter {
+export class CheckboxFilter implements FilterModel {
   private initialValuesIds: string[] | number[];
 
   private internalEvent: Subject<FilterEvent>;

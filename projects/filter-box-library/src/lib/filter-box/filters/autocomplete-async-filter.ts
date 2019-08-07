@@ -2,7 +2,7 @@ import { FormControl } from '@angular/forms';
 import { filter, map, startWith, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Observable, merge, Subject } from 'rxjs';
 import { FilterElement } from './filter-element';
-import { Filter } from './filter';
+import { FilterModel } from '../models/filter.model';
 import { FilterOption } from '../models/filter-option.model';
 import { FilterParam } from '../models/filter-param.model';
 import { FilterEvent } from '../events/filter-event';
@@ -11,7 +11,7 @@ import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
 
-export class AutocompleteAsyncFilter implements Filter {
+export class AutocompleteAsyncFilter implements FilterModel {
   private get filterElement(): FilterElement {
     return this.elements[0];
   }

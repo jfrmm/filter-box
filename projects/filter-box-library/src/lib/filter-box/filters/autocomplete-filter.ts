@@ -9,10 +9,10 @@ import { Observable, of, merge, Subject } from 'rxjs';
 import { FilterEvent } from '../events/filter-event';
 import { FilterElement } from './filter-element';
 import { FormControl } from '@angular/forms';
-import { Filter } from './filter';
+import { FilterModel } from '../models/filter.model';
 import { FilterEmptyEvent } from '../events/filter-empty-event';
 
-export class AutocompleteFilter implements Filter {
+export class AutocompleteFilter implements FilterModel {
   private get filterElement(): FilterElement {
     return this.elements[0];
   }
