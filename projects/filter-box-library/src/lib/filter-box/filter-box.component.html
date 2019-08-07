@@ -1,6 +1,6 @@
 <mat-card>
   <div fxLayout="row wrap" fxLayoutGap="24px" fxLayoutAlign="start baseline">
-    <button mat-icon-button type="button" (click)="onClickClearAllFilters()">
+    <button *ngIf="filters?.length > 0" mat-icon-button type="button" (click)="onClickClearAllFilters()">
       <mat-icon>clear</mat-icon>
     </button>
 
