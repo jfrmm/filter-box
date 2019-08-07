@@ -1,6 +1,15 @@
-<asp-filter-box *ngIf="filters.length > 0" [filters]="filters" (index)="index(true)"></asp-filter-box>
+<asp-filter-box
+  *ngIf="filters.length > 0 && filterBehaviours"
+  [filters]="filters"
+  [filterBehaviours]="filterBehaviours"
+  (index)="index(true)"
+></asp-filter-box>
+
 <mat-card>
-  <mat-card-header>Pizzas</mat-card-header>
+  <mat-card-header fxLayout="row" fxLayoutGap="15px">
+    <div>Pizzas</div>
+    <label>Index Count: {{ indexCount }}</label>
+  </mat-card-header>
 
   <mat-card-content>
     <table mat-table [dataSource]="dataSource" class="item-table">

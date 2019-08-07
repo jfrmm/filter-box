@@ -1,6 +1,8 @@
+import { GenericDataSource } from 'src/app/shared/generic.datasource';
+import { PizzaService } from '../shared/pizza.service';
 import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
-import { Subject, forkJoin, Subscription } from 'rxjs';
+import { Subject, forkJoin } from 'rxjs';
 import {
   Filter,
   AutocompleteFilter,
@@ -8,9 +10,10 @@ import {
   CheckboxFilter,
   AutocompleteAsyncFilter,
   DateFilter,
+  FilterBehaviour,
+  FilterClearEvent,
+  FilterValidValueChangeEvent,
 } from 'filter-box-library';
-import { GenericDataSource } from 'src/app/shared/generic.datasource';
-import { PizzaService } from '../shared/pizza.service';
 
 @Component({
   selector: 'app-pizza-list',
@@ -20,13 +23,15 @@ import { PizzaService } from '../shared/pizza.service';
 export class PizzaListComponent implements OnInit {
   private destroy$ = new Subject();
 
-  private subscription: Subscription = new Subscription();
+  public indexCount = 0;
 
   public displayedColumns: string[];
 
   public dataSource: GenericDataSource;
 
   public filters: Filter[];
+
+  public filterBehaviours: FilterBehaviour[];
 
   get params(): FilterParam[] {
     return this.filters.map(filter => filter.param).filter(filter => filter.value !== null);
@@ -46,21 +51,64 @@ export class PizzaListComponent implements OnInit {
   private loadFilterBoxFilters(): void {
     forkJoin([this.pizzaService.getPizzaBases(), this.pizzaService.getRatings()]).subscribe(([pizzaBases, ratings]) => {
       this.filters.push(
-        new AutocompleteFilter('base', 'Base', pizzaBases),
+        new AutocompleteFilter('base', 'Base', pizzaBases, null, this.pizzaService.getPizzaBases),
         new AutocompleteAsyncFilter('restaurant', 'Restaurant', this.pizzaService.getRestaurants),
         new DateFilter('from', 'From'),
         new DateFilter('to', 'To'),
         new CheckboxFilter('rating', ratings)
       );
+
+      this.filterBehaviours = [
+        {
+          emitters: [this.filters[0]],
+          events: [new FilterClearEvent(), new FilterValidValueChangeEvent()],
+          callbacks: [() => this.filters[1].clearFilter(), () => this.filters[2].clearFilter()],
+        },
+        {
+          emitters: [this.filters[1]],
+          events: [new FilterValidValueChangeEvent()],
+          callbacks: [
+            () => this.filters[2].disableFilter(),
+            () => this.filters[4].disableFilter(),
+            () => this.filters[4].enableFilter(0),
+            () => this.filters[4].setValue(true, 0),
+          ],
+        },
+        {
+          emitters: [this.filters[1]],
+          events: [new FilterClearEvent()],
+          callbacks: [() => this.filters[2].enableFilter()],
+        },
+        {
+          emitters: [this.filters[2]],
+          events: [new FilterClearEvent()],
+          callbacks: [() => this.filters[3].disableFilter(), () => this.filters[4].enableFilter()],
+        },
+        {
+          emitters: [this.filters[3]],
+          events: [new FilterClearEvent()],
+          callbacks: [
+            () => this.filters[0].setValue({ id: 1, value: 'Tomato' }),
+            () => (this.filters[0] as AutocompleteFilter).updateFilterOptions(this.params),
+          ],
+        },
+      ];
+      /** TODO:
+       * If the goal is to have a group of filters become reactive to eachother
+       * Create a function that returns the null event and then call the filters
+       * updateFilterOptions inside that function, this way, it will happen at the same time,
+       * this is: "not respecting the callback order"
+       */
     });
   }
 
   public index(reset: boolean): void {
     this.pizzaService
-      .getPizzasList(this.params)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(response => {
-        this.dataSource.update(response.elements, reset);
-      });
+    .getPizzasList(this.params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(response => {
+      this.dataSource.update(response.elements, reset);
+    });
+    this.indexCount++;
   }
 }
