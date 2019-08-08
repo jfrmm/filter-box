@@ -43,9 +43,26 @@ describe('FilterBoxComponent', () => {
   it('should clear the filter value', () => {
     const mockFilter = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }], { id: 1, value: 'MOCK' });
     component.filters = [mockFilter];
+    fixture.detectChanges();
     component.onClickClearFilter(new MouseEvent('mock'), mockFilter);
 
     // TODO: Check if i should really be accessing the form control, instead of param
     expect(component.filters[0].elements[0].formControl.value).toBe('');
+  });
+
+  it('should clear all filters and emit', () => {
+    const mockFilter = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }], { id: 1, value: 'MOCK' });
+    component.filters = [mockFilter];
+
+    let value = null;
+    component.index.subscribe(emitedValue => (value = emitedValue));
+
+    fixture.detectChanges();
+
+    component.onClickClearAllFilters();
+    fixture.detectChanges();
+
+    expect(mockFilter.elements[0].formControl.value).toBe('');
+    expect(value).toBeUndefined();
   });
 });

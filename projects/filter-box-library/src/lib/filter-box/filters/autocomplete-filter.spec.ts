@@ -41,7 +41,6 @@ describe('AutocompleteFilter', () => {
     autoCompleteFilter.getFilterOptions = updateOptions;
     autoCompleteFilter.updateFilterOptions(null);
 
-
     expect(autoCompleteFilter.options).toEqual([{ id: 2, value: 'MOCK2' }]);
   });
 
