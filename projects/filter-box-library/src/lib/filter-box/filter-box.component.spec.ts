@@ -50,12 +50,11 @@ describe('FilterBoxComponent', () => {
     expect(component.filters[0].elements[0].formControl.value).toBe('');
   });
 
-  it('should clear all filters and emit', () => {
+  it('should clear all filters and emit only once', () => {
     const mockFilter = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }], { id: 1, value: 'MOCK' });
     component.filters = [mockFilter];
 
-    let value = null;
-    component.index.subscribe(emitedValue => (value = emitedValue));
+    const spy = spyOn(component.index, 'emit');
 
     fixture.detectChanges();
 
@@ -63,6 +62,6 @@ describe('FilterBoxComponent', () => {
     fixture.detectChanges();
 
     expect(mockFilter.elements[0].formControl.value).toBe('');
-    expect(value).toBeUndefined();
+    expect(spy.calls.count()).toBe(1, 'Should be 1');
   });
 });

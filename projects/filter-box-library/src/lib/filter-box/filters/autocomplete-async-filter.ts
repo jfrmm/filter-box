@@ -84,8 +84,8 @@ export class AutocompleteAsyncFilter implements FilterModel {
     );
   }
 
-  public clearFilter(emit?: boolean): FilterEvent {
-    this.filterElement.clear(emit);
+  public clearFilter(): FilterEvent {
+    this.filterElement.clear();
     return new FilterEvent(new FilterClearEvent(), this);
   }
 

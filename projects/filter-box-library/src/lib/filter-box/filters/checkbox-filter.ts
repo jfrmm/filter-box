@@ -90,11 +90,11 @@ export class CheckboxFilter implements FilterModel {
     this.events = merge(this.events, this.internalEvent);
   }
 
-  public clearFilter(emit?: boolean, index?: number): FilterEvent {
+  public clearFilter( index?: number): FilterEvent {
     if (index >= 0) {
-      this.elements[index].clear(emit);
+      this.elements[index].clear();
     } else {
-      this.elements.forEach(element => element.clear(emit));
+      this.elements.forEach(element => element.clear());
     }
     return new FilterEvent(new FilterClearEvent(), this);
   }

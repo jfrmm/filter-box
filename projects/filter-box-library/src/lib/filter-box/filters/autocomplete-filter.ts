@@ -97,8 +97,9 @@ export class AutocompleteFilter implements FilterModel {
     );
   }
 
-  public clearFilter(emit?: boolean): FilterEvent {
-    this.filterElement.clear(emit);
+  public clearFilter(): FilterEvent {
+    this.filterElement.clear();
+    // TODO: Check for bug, if emit true maybe it shoudnt return the value?
     return new FilterEvent(new FilterClearEvent(), this);
   }
 

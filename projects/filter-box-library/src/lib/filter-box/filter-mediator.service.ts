@@ -22,13 +22,7 @@ export class FilterMediatorService implements OnDestroy {
     this.destroy$.complete();
   }
 
-  private findAndExecuteBehaviours(event: FilterEvent) {
-    const behaviours = this.filterBehaviours.filter(
-      behaviour =>
-        behaviour.emitters.some(emitter => event.filter === emitter) &&
-        behaviour.events.some(behaviourEvent => behaviourEvent instanceof event.event.constructor)
-    );
-
+  private executeBehaviours(behaviours: FilterBehaviour[]): void {
     behaviours.forEach(behaviour => {
       behaviour.callbacks.forEach(callback => {
         this.findAndExecuteBehaviours(callback());
@@ -36,12 +30,33 @@ export class FilterMediatorService implements OnDestroy {
     });
   }
 
+  private findAndExecuteBehaviours(event: FilterEvent): void {
+    const behaviours: FilterBehaviour[] = this.findBehaviours(event);
+
+    this.executeBehaviours(behaviours);
+  }
+
+  private findBehaviours(event: FilterEvent): FilterBehaviour[] {
+    return this.filterBehaviours.filter(
+      behaviour =>
+        behaviour.emitters.some(emitter => event.filter === emitter) &&
+        behaviour.events.some(behaviourEvent => behaviourEvent instanceof event.event.constructor)
+    );
+  }
+
   private propagateEvent(event: FilterEvent): void {
-    this.findAndExecuteBehaviours(event);
+    if (this.filterBehaviours && this.filterBehaviours.length) {
+      this.findAndExecuteBehaviours(event);
+    }
     this.filterChanged.emit();
   }
 
+  /**
+   * Will complete the previous behaviours
+   */
   public setFilters(filters: FilterModel[], filterBehaviours?: FilterBehaviour[]): void {
+    this.destroy$.next();
+
     this.filterBehaviours = filterBehaviours;
 
     filters.forEach(filter =>

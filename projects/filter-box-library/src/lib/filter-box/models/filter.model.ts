@@ -17,7 +17,7 @@ export interface FilterModel {
 
   type: string;
 
-  clearFilter(emit?: boolean, index?: number): FilterEvent;
+  clearFilter(index?: number): FilterEvent;
 
   enableFilter(index?: number): FilterEvent;
 
