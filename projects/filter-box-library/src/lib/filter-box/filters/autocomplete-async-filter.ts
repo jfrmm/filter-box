@@ -2,7 +2,7 @@ import { FormControl } from '@angular/forms';
 import { filter, map, startWith, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Observable, merge, Subject } from 'rxjs';
 import { FilterElement } from './filter-element';
-import { Filter } from './filter';
+import { FilterModel } from '../models/filter.model';
 import { FilterOption } from '../models/filter-option.model';
 import { FilterParam } from '../models/filter-param.model';
 import { FilterEvent } from '../events/filter-event';
@@ -11,11 +11,7 @@ import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
 
-export class AutocompleteAsyncFilter implements Filter {
-  private get filterElement(): FilterElement {
-    return this.elements[0];
-  }
-
+export class AutocompleteAsyncFilter implements FilterModel {
   private internalEvent: Subject<FilterEvent>;
 
   public elements: FilterElement[];
@@ -23,6 +19,10 @@ export class AutocompleteAsyncFilter implements Filter {
   public initialOptions: Observable<FilterOption[]>;
 
   public events: Observable<FilterEvent>;
+
+  get filterElement(): FilterElement {
+    return this.elements[0];
+  }
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -84,20 +84,18 @@ export class AutocompleteAsyncFilter implements Filter {
     );
   }
 
-  public clearFilter(emit?: boolean): FilterEvent {
-    this.filterElement.clear(emit);
+  public clearFilter(): FilterEvent {
+    this.filterElement.clear();
     return new FilterEvent(new FilterClearEvent(), this);
   }
 
   public enableFilter(): FilterEvent {
     this.filterElement.formControl.enable({ onlySelf: true, emitEvent: false });
-    // this.internalEvent.next(new FilterEvent(new FilterEnabledEvent(), this));
     return new FilterEvent(new FilterEnabledEvent(), this);
   }
 
   public disableFilter(): FilterEvent {
     this.filterElement.formControl.disable({ onlySelf: true, emitEvent: false });
-    // this.internalEvent.next(new FilterEvent(new FilterDisabledEvent(), this));
     return new FilterEvent(new FilterDisabledEvent(), this);
   }
 

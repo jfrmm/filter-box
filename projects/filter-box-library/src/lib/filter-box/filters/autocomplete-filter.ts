@@ -9,14 +9,10 @@ import { Observable, of, merge, Subject } from 'rxjs';
 import { FilterEvent } from '../events/filter-event';
 import { FilterElement } from './filter-element';
 import { FormControl } from '@angular/forms';
-import { Filter } from './filter';
+import { FilterModel } from '../models/filter.model';
 import { FilterEmptyEvent } from '../events/filter-empty-event';
 
-export class AutocompleteFilter implements Filter {
-  private get filterElement(): FilterElement {
-    return this.elements[0];
-  }
-
+export class AutocompleteFilter implements FilterModel {
   private internalEvent: Subject<FilterEvent>;
 
   public elements: FilterElement[];
@@ -24,6 +20,10 @@ export class AutocompleteFilter implements Filter {
   public initialOptions: FilterOption[];
 
   public events: Observable<FilterEvent>;
+
+  get filterElement(): FilterElement {
+    return this.elements[0];
+  }
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -97,8 +97,9 @@ export class AutocompleteFilter implements Filter {
     );
   }
 
-  public clearFilter(emit?: boolean): FilterEvent {
-    this.filterElement.clear(emit);
+  public clearFilter(): FilterEvent {
+    this.filterElement.clear();
+    // TODO: Check for bug, if emit true maybe it shoudnt return the value?
     return new FilterEvent(new FilterClearEvent(), this);
   }
 
@@ -124,7 +125,7 @@ export class AutocompleteFilter implements Filter {
      * If yes, should that disable emit an event to the mediator? (I think
      * it should be disabled, but not emit an event)
      */
-    this.getFilterOptions(params).subscribe(options => options);
+    this.getFilterOptions(params).subscribe(options => this.options = options);
     return new FilterEvent(new FilterEmptyEvent(), this);
     // TODO: Should i throw a custom error if getFilterOptions is not defined?
   }

@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, forkJoin } from 'rxjs';
 import {
-  Filter,
+  FilterModel,
   AutocompleteFilter,
   FilterParam,
   CheckboxFilter,
@@ -29,7 +29,7 @@ export class PizzaListComponent implements OnInit {
 
   public dataSource: GenericDataSource;
 
-  public filters: Filter[];
+  public filters: FilterModel[];
 
   public filterBehaviours: FilterBehaviour[];
 

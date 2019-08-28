@@ -1,10 +1,10 @@
-import { FilterOption } from '../models/filter-option.model';
-import { FilterParam } from '../models/filter-param.model';
-import { FilterElement } from './filter-element';
+import { FilterOption } from './filter-option.model';
+import { FilterParam } from './filter-param.model';
+import { FilterElement } from '../filters/filter-element';
 import { Observable } from 'rxjs';
 import { FilterEvent } from '../events/filter-event';
 
-export interface Filter {
+export interface FilterModel {
   elements: FilterElement[];
 
   initialOptions?: FilterOption[] | Observable<FilterOption[]>;
@@ -17,7 +17,7 @@ export interface Filter {
 
   type: string;
 
-  clearFilter(emit?: boolean, index?: number): FilterEvent;
+  clearFilter(index?: number): FilterEvent;
 
   enableFilter(index?: number): FilterEvent;
 
