@@ -7,6 +7,13 @@
   - [Configure environment](#configure-environment)
     - [Docker](#docker)
   - [Install](#install)
+    - [Build the package](#build-the-package)
+- [Unit Testing](#unit-testing)
+- [Developing and running this demo app](#developing-and-running-this-demo-app)
+  - [Library access points](#library-access-points)
+- [Contributing](#contributing)
+- [Troubleshooting](#troubleshooting)
+  - [Package generation not working](#package-generation-not-working)
   
 ## Getting started
 
@@ -67,6 +74,10 @@ ng serve
 ### Library access points
 
 The public-api.ts file defines what is available for the consumers. Use a NgModule to expose services and components. A consumer of the library should be able to access public functionality through a single import path.
+
+## Contributing
+
+Please follow our contributing guide in [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Troubleshooting
 
