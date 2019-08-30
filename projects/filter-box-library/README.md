@@ -1,24 +1,113 @@
 # FilterBoxLibrary
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.1.
+This package provides a simple way to add filters to an Angular application, abstracting from all the logic.
+Additionally, it provides an easy way to define complex event based behaviours, triggered by changes in the filters value or state.
 
-## Code scaffolding
+> **Filter Box** is an Angular package developed by ALTER SOLUTIONS PORTUGAL. It has been developed using Angular 8.0.
 
-Run `ng generate component component-name --project filter-box-library` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project filter-box-library`.
-> Note: Don't forget to add `--project filter-box-library` or else it will be added to the default project in your `angular.json` file. 
+## Table of Contents
 
-## Build
+- [Getting started](#getting-started)
+- [Usage](#usage)
+  - [Basic filters](#basic-filters)
+  - [Defining filter behaviours](#defining-filter-behaviours)
 
-Run `ng build filter-box-library` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Getting started
 
-## Publishing
+Run `npm install @asp-devteam/filter-box` to install the package in your project.
 
-After building your library with `ng build filter-box-library`, go to the dist folder `cd dist/filter-box-library` and run `npm publish`.
+## Usage
 
-## Running unit tests
+Next import the `FilterBoxModule` into your application.
 
-Run `ng test filter-box-library` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```typescript
+import { FilterBoxModule } from 'filter-box-library';
 
-## Further help
+@NgModule({
+  declarations: [AppComponent],
+  imports: [FilterBoxModule],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+If you intend to use the FilterBox in multiple places accross your app, its recommended that you create a separate NgModule that imports and then exports all of your shared modules.
+
+```typescript
+import { FilterBoxModule } from 'filter-box-library';
+
+@NgModule({
+  declarations: [],
+  imports: [FilterBoxModule],
+  exports: [FilterBoxModule],
+})
+export class SharedModule {}
+```
+
+### Basic filters
+
+This package provides four commonly used filters:
+
+<ul>
+    <li>Autocomplete Filter</li>
+    <li>Autocomplete Async Filter</li>
+    <li>Checkbox Filter</li>
+    <li>Date Filter</li>
+</ul>
+
+To set up a Filter Box, start by instanciating the filters you want to use.
+
+```typescript
+ this.filters.push(
+        new AutocompleteFilter('base', 'Base', pizzaBases),
+        new CheckboxFilter('rating', ratings)
+```
+
+Next, insert the _Filter Box Component_ selector in your tempalte.
+
+```typescript
+<asp-filter-box [filters]="filters"></asp-filter-box>
+```
+
+To listen for changes in your filters values, just create a function to listen to the event.
+
+```typescript
+  public index(): void {
+    // Do something
+  }
+```
+
+And add it to your template.
+
+```typescript
+<asp-filter-box [filters]="filters" (index)="index()"></asp-filter-box>
+```
+
+### Defining filter behaviours
+
+If you want to define a filter dependent behaviour, you can do so by creating a _FilterBehaviour_ array like this:
+
+```typescript
+this.filterBehaviours = [
+        {
+          emitters: [this.filters[0]],
+          events: [new FilterValidValueChangeEvent()],
+          callbacks: [() => this.filters[1].disableFilter()],
+        }
+];
+```
+
+And adding the behaviours array to the template:
+
+```typescript
+<asp-filter-box
+  [filters]="filters"
+  [filterBehaviours]="filterBehaviours"
+  (index)="index(true)"
+></asp-filter-box>
+```
+
+A callback must always return a _Filter Event_. If your callback is a custom defined function, just return _FilterEmptyEvent_.
+
+[A more complete guide is available here](./docs/advanced-filter-behaviours.md)
