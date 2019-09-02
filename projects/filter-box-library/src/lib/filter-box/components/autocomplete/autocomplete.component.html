@@ -2,15 +2,15 @@
   <input
     type="text"
     matInput
-    [formControl]="filter.elements[0].formControl"
-    [placeholder]="filter.elements[0].placeholder"
+    [formControl]="filter.elements.formControl"
+    [placeholder]="filter.elements.placeholder"
     [matAutocomplete]="auto"
   />
   <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="filterHelper.displayFilter">
-    <mat-option *ngFor="let filterOption of filter.elements[0].options | async" [value]="filterOption">
+    <mat-option *ngFor="let filterOption of filter.elements.options | async" [value]="filterOption">
       {{ filterOption.value }}
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
 
-<asp-clear-filter-button [disabled]="!filter.elements[0].formControl.value" [filter]="filter"></asp-clear-filter-button>
+<asp-clear-filter-button [disabled]="!filter.elements.formControl.value" [filter]="filter"></asp-clear-filter-button>

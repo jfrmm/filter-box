@@ -14,15 +14,11 @@ import { FilterEnabledEvent } from '../events/filter-enabled-event';
 export class AutocompleteAsyncFilter implements FilterModel {
   private internalEvent: Subject<FilterEvent>;
 
-  public elements: FilterElement[];
+  public elements: FilterElement;
 
   public initialOptions: Observable<FilterOption[]>;
 
   public events: Observable<FilterEvent>;
-
-  get filterElement(): FilterElement {
-    return this.elements[0];
-  }
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -47,7 +43,7 @@ export class AutocompleteAsyncFilter implements FilterModel {
 
     this.setEvents(formControl);
 
-    this.elements = [new FilterElement(placeholder, formControl, this.filterOptions(formControl))];
+    this.elements = new FilterElement(placeholder, formControl, this.filterOptions(formControl));
   }
 
   private filterOptions(formControl: FormControl): Observable<FilterOption[]> {
@@ -64,7 +60,7 @@ export class AutocompleteAsyncFilter implements FilterModel {
   }
 
   private mapControlsValues(): string {
-    return this.filterElement.formControl.value ? this.filterElement.formControl.value.id : null;
+    return this.elements.formControl.value ? this.elements.formControl.value.id : null;
   }
 
   /**
@@ -85,22 +81,22 @@ export class AutocompleteAsyncFilter implements FilterModel {
   }
 
   public clearFilter(): FilterEvent {
-    this.filterElement.clear();
+    this.elements.clear();
     return new FilterEvent(new FilterClearEvent(), this);
   }
 
   public enableFilter(): FilterEvent {
-    this.filterElement.formControl.enable({ onlySelf: true, emitEvent: false });
+    this.elements.formControl.enable({ onlySelf: true, emitEvent: false });
     return new FilterEvent(new FilterEnabledEvent(), this);
   }
 
   public disableFilter(): FilterEvent {
-    this.filterElement.formControl.disable({ onlySelf: true, emitEvent: false });
+    this.elements.formControl.disable({ onlySelf: true, emitEvent: false });
     return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
   public setValue(value: any): FilterEvent {
-    this.filterElement.formControl.setValue(value, { onlySelf: true, emitEvent: false });
+    this.elements.formControl.setValue(value, { onlySelf: true, emitEvent: false });
     return new FilterEvent(new FilterValidValueChangeEvent(), this);
   }
 }

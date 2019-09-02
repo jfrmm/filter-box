@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { FilterEvent } from '../events/filter-event';
 
 export interface FilterModel {
-  elements: FilterElement[];
+  elements: FilterElement[] | FilterElement;
 
   initialOptions?: FilterOption[] | Observable<FilterOption[]>;
 

@@ -6,7 +6,7 @@
 
     <div *ngFor="let filter of filters" [ngSwitch]="filter.type">
       <div *ngSwitchCase="'autocomplete-async'">
-        <asp-autocomplete [filter]="filter"></asp-autocomplete>
+        <asp-autocomplete-async [filter]="filter"></asp-autocomplete-async>
       </div>
 
       <div *ngSwitchCase="'autocomplete'">

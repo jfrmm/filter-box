@@ -15,15 +15,11 @@ import { FilterEmptyEvent } from '../events/filter-empty-event';
 export class AutocompleteFilter implements FilterModel {
   private internalEvent: Subject<FilterEvent>;
 
-  public elements: FilterElement[];
+  public elements: FilterElement;
 
   public initialOptions: FilterOption[];
 
   public events: Observable<FilterEvent>;
-
-  get filterElement(): FilterElement {
-    return this.elements[0];
-  }
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -54,7 +50,7 @@ export class AutocompleteFilter implements FilterModel {
 
     this.setEvents(formControl);
 
-    this.elements = [new FilterElement(placeholder, formControl, this.filterOptions(formControl))];
+    this.elements = new FilterElement(placeholder, formControl, this.filterOptions(formControl));
   }
 
   private filterOptions(formControl: FormControl): Observable<FilterOption[]> {
@@ -77,7 +73,7 @@ export class AutocompleteFilter implements FilterModel {
   }
 
   private mapControlsValues(): string {
-    return this.filterElement.formControl.value ? this.filterElement.formControl.value.id : null;
+    return this.elements.formControl.value ? this.elements.formControl.value.id : null;
   }
 
   /**
@@ -98,25 +94,25 @@ export class AutocompleteFilter implements FilterModel {
   }
 
   public clearFilter(): FilterEvent {
-    this.filterElement.clear();
+    this.elements.clear();
     // TODO: Check for bug, if emit true maybe it shoudnt return the value?
     return new FilterEvent(new FilterClearEvent(), this);
   }
 
   public enableFilter(): FilterEvent {
-    this.filterElement.formControl.enable({ onlySelf: true, emitEvent: false });
+    this.elements.formControl.enable({ onlySelf: true, emitEvent: false });
     // this.internalEvent.next(new FilterEvent(new FilterEnabledEvent(), this));
     return new FilterEvent(new FilterEnabledEvent(), this);
   }
 
   public disableFilter(): FilterEvent {
-    this.filterElement.formControl.disable({ onlySelf: true, emitEvent: false });
+    this.elements.formControl.disable({ onlySelf: true, emitEvent: false });
     // this.internalEvent.next(new FilterEvent(new FilterDisabledEvent(), this));
     return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
-   public setValue(value: any): FilterEvent {
-    this.filterElement.formControl.setValue(value, { onlySelf: true, emitEvent: false });
+  public setValue(value: any): FilterEvent {
+    this.elements.formControl.setValue(value, { onlySelf: true, emitEvent: false });
     return new FilterEvent(new FilterValidValueChangeEvent(), this);
   }
 
@@ -125,7 +121,7 @@ export class AutocompleteFilter implements FilterModel {
      * If yes, should that disable emit an event to the mediator? (I think
      * it should be disabled, but not emit an event)
      */
-    this.getFilterOptions(params).subscribe(options => this.options = options);
+    this.getFilterOptions(params).subscribe(options => (this.options = options));
     return new FilterEvent(new FilterEmptyEvent(), this);
     // TODO: Should i throw a custom error if getFilterOptions is not defined?
   }
