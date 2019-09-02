@@ -17,7 +17,10 @@ export interface FilterModel {
 
   type: string;
 
-  clearFilter(index?: number): FilterEvent;
+  /**
+   * Emit defaults to false, if true it returns a FilterEmptyEvent
+   */
+  clearFilter(emit?: boolean, index?: number): FilterEvent;
 
   enableFilter(index?: number): FilterEvent;
 

@@ -9,6 +9,7 @@ import { FilterClearEvent } from '../events/filter-clear-event';
 import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
+import { FilterEmptyEvent } from '../events/filter-empty-event';
 
 export class DateFilter implements FilterModel {
   private internalEvent: Subject<FilterEvent>;
@@ -69,8 +70,13 @@ export class DateFilter implements FilterModel {
     );
   }
 
-  public clearFilter(): FilterEvent {
-    this.elements.clear();
+  public clearFilter(emit: boolean = false): FilterEvent {
+    this.elements.clear(emit);
+
+    if (emit) {
+      return new FilterEvent(new FilterEmptyEvent(), this);
+    }
+
     return new FilterEvent(new FilterClearEvent(), this);
   }
 

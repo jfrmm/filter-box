@@ -23,7 +23,7 @@ export class ClearFilterButtonComponent implements OnInit {
   public onClickClearFilter(event: MouseEvent, filter: FilterModel): void {
     event.stopImmediatePropagation();
 
-    filter.clearFilter();
+    filter.clearFilter(true);
   }
 
 }
