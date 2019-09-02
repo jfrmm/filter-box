@@ -32,6 +32,8 @@ git submodule init
 git submodule update
 ```
 
+> Please note that this submodule is located in a private repository, so you cannot use it.
+
 ### Install
 
 Start by downloading and installing dependencies.
