@@ -42,10 +42,4 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
 
     this.index.emit();
   }
-
-  public onClickClearFilter(event: MouseEvent, filter: FilterModel): void {
-    event.stopImmediatePropagation();
-
-    filter.clearFilter();
-  }
 }
