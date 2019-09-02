@@ -115,7 +115,7 @@ export class AutocompleteFilter implements FilterModel {
     return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
-  public setValue(value: any): FilterEvent {
+   public setValue(value: any): FilterEvent {
     this.filterElement.formControl.setValue(value, { onlySelf: true, emitEvent: false });
     return new FilterEvent(new FilterValidValueChangeEvent(), this);
   }

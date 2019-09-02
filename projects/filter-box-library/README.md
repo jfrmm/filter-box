@@ -1,4 +1,4 @@
-# FilterBoxLibrary
+# Filter Box Library
 
 This package provides a simple way to add filters to an Angular application, abstracting from all the logic.
 Additionally, it provides an easy way to define complex event based behaviours, triggered by changes in the filters value or state.
@@ -27,7 +27,7 @@ import { FilterBoxModule } from 'filter-box-library';
   declarations: [AppComponent],
   imports: [FilterBoxModule],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
 ```
@@ -40,7 +40,7 @@ import { FilterBoxModule } from 'filter-box-library';
 @NgModule({
   declarations: [],
   imports: [FilterBoxModule],
-  exports: [FilterBoxModule],
+  exports: [FilterBoxModule]
 })
 export class SharedModule {}
 ```
@@ -64,7 +64,7 @@ To set up a Filter Box, start by instanciating the filters you want to use.
         new CheckboxFilter('rating', ratings)
 ```
 
-Next, insert the _Filter Box Component_ selector in your tempalte.
+Next, insert the `FilterBoxComponent` selector in your tempalte.
 
 ```typescript
 <asp-filter-box [filters]="filters"></asp-filter-box>
@@ -86,15 +86,15 @@ And add it to your template.
 
 ### Defining filter behaviours
 
-If you want to define a filter dependent behaviour, you can do so by creating a _FilterBehaviour_ array like this:
+If you want to define a filter dependent behaviour, you can do so by creating a `FilterBehaviour` array like this:
 
 ```typescript
 this.filterBehaviours = [
-        {
-          emitters: [this.filters[0]],
-          events: [new FilterValidValueChangeEvent()],
-          callbacks: [() => this.filters[1].disableFilter()],
-        }
+  {
+    emitters: [this.filters[0]],
+    events: [new FilterValidValueChangeEvent()],
+    callbacks: [() => this.filters[1].disableFilter()]
+  }
 ];
 ```
 
@@ -108,6 +108,6 @@ And adding the behaviours array to the template:
 ></asp-filter-box>
 ```
 
-A callback must always return a _Filter Event_. If your callback is a custom defined function, just return _FilterEmptyEvent_.
+A callback must always return a `Filter Event`. If your callback is a custom defined function, just return a `FilterEmptyEvent`.
 
 [A more complete guide is available here](./docs/advanced-filter-behaviours.md)
