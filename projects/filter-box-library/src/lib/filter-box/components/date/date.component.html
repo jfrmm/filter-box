@@ -1,0 +1,12 @@
+<mat-form-field>
+  <input
+    matInput
+    [matDatepicker]="picker"
+    [formControl]="filter.elements[0].formControl"
+    [placeholder]="filter.elements[0].placeholder"
+  />
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<asp-clear-filter-button [disabled]="!filter.elements[0].formControl.value" [filter]="filter"></asp-clear-filter-button>

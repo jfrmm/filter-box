@@ -6,77 +6,19 @@
 
     <div *ngFor="let filter of filters" [ngSwitch]="filter.type">
       <div *ngSwitchCase="'autocomplete-async'">
-        <mat-form-field>
-          <input
-            type="text"
-            matInput
-            [formControl]="filter.elements[0].formControl"
-            [placeholder]="filter.elements[0].placeholder"
-            [matAutocomplete]="auto"
-          />
-          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="filterHelper.displayFilter">
-            <mat-option *ngFor="let filterOption of filter.elements[0].options | async" [value]="filterOption">
-              {{ filterOption.value }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-        <button
-          mat-icon-button
-          [disabled]="!filter.elements[0].formControl.value"
-          (click)="onClickClearFilter($event, filter)"
-        >
-          <mat-icon>clear</mat-icon>
-        </button>
+        <asp-autocomplete [filter]="filter"></asp-autocomplete>
       </div>
 
       <div *ngSwitchCase="'autocomplete'">
-        <mat-form-field>
-          <input
-            type="text"
-            matInput
-            [formControl]="filter.elements[0].formControl"
-            [placeholder]="filter.elements[0].placeholder"
-            [matAutocomplete]="auto"
-          />
-          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="filterHelper.displayFilter">
-            <mat-option *ngFor="let filterOption of filter.elements[0].options | async" [value]="filterOption">
-              {{ filterOption.value }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-        <button
-          mat-icon-button
-          [disabled]="!filter.elements[0].formControl.value"
-          (click)="onClickClearFilter($event, filter)"
-        >
-          <mat-icon>clear</mat-icon>
-        </button>
+        <asp-autocomplete [filter]="filter"></asp-autocomplete>
       </div>
 
       <div *ngSwitchCase="'date'">
-        <mat-form-field>
-          <input
-            matInput
-            [matDatepicker]="picker"
-            [formControl]="filter.elements[0].formControl"
-            [placeholder]="filter.elements[0].placeholder"
-          />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        <button
-          mat-icon-button
-          [disabled]="!filter.elements[0].formControl.value"
-          (click)="onClickClearFilter($event, filter)"
-        >
-          <mat-icon>clear</mat-icon>
-        </button>
+        <asp-date [filter]="filter"></asp-date>
       </div>
 
-      <div *ngSwitchCase="'checkbox'" fxLayout="row" fxLayoutGap="14px">
-        <mat-checkbox *ngFor="let element of filter.elements; index as i" [formControl]="element.formControl">
-          {{ element.placeholder }}
-        </mat-checkbox>
+      <div *ngSwitchCase="'checkbox'">
+        <asp-checkbox [filter]="filter"></asp-checkbox>
       </div>
     </div>
   </div>
