@@ -61,7 +61,7 @@ export class AutocompleteAsyncFilter implements FilterModel {
   }
 
   private mapControlsValues(): string {
-    return this.elements.formControl.value ? this.elements.formControl.value.id : null;
+    return this.elements.formControl.value ? this.elements.formControl.value.id.toString() : null;
   }
 
   /**

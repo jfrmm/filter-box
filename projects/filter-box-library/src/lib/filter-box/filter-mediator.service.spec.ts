@@ -37,8 +37,8 @@ describe('FilterMediatorService', () => {
   it('should emit user events', async(() => {
     spyOn(filterMediatorService.filterChanged, 'emit');
 
-    mockFilter.elements[0].formControl.setValue({});
-    mockFilter.elements[0].formControl.setValue('');
+    mockFilter.elements.formControl.setValue({});
+    mockFilter.elements.formControl.setValue('');
     mockFilter.clearFilter();
 
     expect(filterMediatorService.filterChanged.emit).toHaveBeenCalledTimes(2);
@@ -65,10 +65,10 @@ describe('FilterMediatorService', () => {
     spy.calls.reset();
     expect(spy.calls.count()).toBe(0, 'Should be 0');
 
-    mockFilter.elements[0].formControl.setValue('');
+    mockFilter.elements.formControl.setValue('');
     expect(spy.calls.count()).toBe(1, 'Should be 1');
 
-    mockFilter.elements[0].formControl.setValue({});
+    mockFilter.elements.formControl.setValue({});
     expect(spy.calls.count()).toBe(2, 'Should be 2');
   }));
 });

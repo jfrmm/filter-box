@@ -16,14 +16,12 @@ export class ClearFilterButtonComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-    // TODO: Throw error if filter is undefined?
-  }
+  ngOnInit() {}
 
-  public onClickClearFilter(event: MouseEvent, filter: FilterModel): void {
+  public onClickClearFilter(event: MouseEvent): void {
     event.stopImmediatePropagation();
 
-    filter.clearFilter(true);
+    this.filter.clearFilter(true);
   }
 
 }

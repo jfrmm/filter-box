@@ -14,22 +14,22 @@ describe('AutocompleteAsyncFilter', () => {
   it('should set the filter value', () => {
     autocompleteAsyncFilter.setValue('MOCK');
 
-    expect(autocompleteAsyncFilter.filterElement.formControl.value).toBe('MOCK');
+    expect(autocompleteAsyncFilter.elements.formControl.value).toBe('MOCK');
   });
 
   it('should clear the filter value', () => {
     autocompleteAsyncFilter.clearFilter();
 
-    expect(autocompleteAsyncFilter.filterElement.formControl.value).toBe('');
+    expect(autocompleteAsyncFilter.elements.formControl.value).toBe('');
   });
 
   it('should disable & enable the filter', () => {
     autocompleteAsyncFilter.disableFilter();
 
-    expect(autocompleteAsyncFilter.filterElement.formControl.disabled).toBeTruthy();
+    expect(autocompleteAsyncFilter.elements.formControl.disabled).toBeTruthy();
 
     autocompleteAsyncFilter.enableFilter();
 
-    expect(autocompleteAsyncFilter.filterElement.formControl.enabled).toBeTruthy();
+    expect(autocompleteAsyncFilter.elements.formControl.enabled).toBeTruthy();
   });
 });

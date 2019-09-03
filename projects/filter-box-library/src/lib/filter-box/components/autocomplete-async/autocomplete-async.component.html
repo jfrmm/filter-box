@@ -1,16 +1,18 @@
-<mat-form-field>
+<div *ngIf="filter">
+  <mat-form-field>
     <input
       type="text"
       matInput
-      [formControl]="filter.elements.formControl"
-      [placeholder]="filter.elements.placeholder"
+      [formControl]="filter?.elements.formControl"
+      [placeholder]="filter?.elements.placeholder"
       [matAutocomplete]="auto"
     />
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="filterHelper.displayFilter">
-      <mat-option *ngFor="let filterOption of filter.elements.options | async" [value]="filterOption">
+      <mat-option *ngFor="let filterOption of filter?.elements.options | async" [value]="filterOption">
         {{ filterOption.value }}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
 
   <asp-clear-filter-button [disabled]="!filter.elements.formControl.value" [filter]="filter"></asp-clear-filter-button>
+</div>

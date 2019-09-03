@@ -1,12 +1,14 @@
-<mat-form-field>
-  <input
-    matInput
-    [matDatepicker]="picker"
-    [formControl]="filter.elements.formControl"
-    [placeholder]="filter.elements.placeholder"
-  />
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
+<div *ngIf="filter">
+  <mat-form-field>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      [formControl]="filter?.elements.formControl"
+      [placeholder]="filter?.elements.placeholder"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
 
-<asp-clear-filter-button [disabled]="!filter.elements.formControl.value" [filter]="filter"></asp-clear-filter-button>
+  <asp-clear-filter-button [disabled]="!filter.elements.formControl.value" [filter]="filter"></asp-clear-filter-button>
+</div>
