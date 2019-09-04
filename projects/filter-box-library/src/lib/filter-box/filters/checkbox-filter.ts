@@ -19,8 +19,6 @@ export class CheckboxFilter implements FilterModel {
 
   private internalEvent: Subject<FilterEvent>;
 
-  public component: Type<any> = CheckboxComponent;
-
   public elements: FilterElement[];
 
   public initialOptions: FilterOption[];
@@ -39,7 +37,12 @@ export class CheckboxFilter implements FilterModel {
     return 'checkbox';
   }
 
-  constructor(public paramName: string, options: FilterOption[], initialValuesIds: string[] | number[] = []) {
+  constructor(
+    public paramName: string,
+    options: FilterOption[],
+    initialValuesIds: string[] | number[] = [],
+    public component: Type<any> = CheckboxComponent
+  ) {
     this.internalEvent = new Subject();
 
     this.paramName = paramName;

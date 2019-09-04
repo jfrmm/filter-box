@@ -17,8 +17,6 @@ import { AutocompleteComponent } from '../components/autocomplete/autocomplete.c
 export class AutocompleteFilter implements FilterModel {
   private internalEvent: Subject<FilterEvent>;
 
-  public component: Type<any> = AutocompleteComponent;
-
   public elements: FilterElement;
 
   public initialOptions: FilterOption[];
@@ -42,7 +40,8 @@ export class AutocompleteFilter implements FilterModel {
     public placeholder: string,
     public options: FilterOption[],
     initialValue: FilterOption = null,
-    public getFilterOptions?: (params?: FilterParam[]) => Observable<FilterOption[]>
+    public getFilterOptions?: (params?: FilterParam[]) => Observable<FilterOption[]>,
+    public component: Type<any> = AutocompleteComponent
   ) {
     this.internalEvent = new Subject();
 

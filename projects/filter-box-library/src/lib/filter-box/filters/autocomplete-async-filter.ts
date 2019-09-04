@@ -17,8 +17,6 @@ import { Type } from '@angular/core';
 export class AutocompleteAsyncFilter implements FilterModel {
   private internalEvent: Subject<FilterEvent>;
 
-  public component: Type<any> = AutocompleteAsyncComponent;
-
   public elements: FilterElement;
 
   public initialOptions: Observable<FilterOption[]>;
@@ -40,7 +38,8 @@ export class AutocompleteAsyncFilter implements FilterModel {
   constructor(
     public paramName: string,
     public placeholder: string,
-    private getAsyncOptions: (filterTerm?: string) => Observable<FilterOption[]>
+    private getAsyncOptions: (filterTerm?: string) => Observable<FilterOption[]>,
+    public component: Type<any> = AutocompleteAsyncComponent
   ) {
     this.internalEvent = new Subject();
 

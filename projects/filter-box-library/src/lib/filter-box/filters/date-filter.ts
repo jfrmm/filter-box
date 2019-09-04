@@ -16,8 +16,6 @@ import { DateComponent } from '../components/date/date.component';
 export class DateFilter implements FilterModel {
   private internalEvent: Subject<FilterEvent>;
 
-  public component: Type<any> = DateComponent;
-
   public elements: FilterElement;
 
   public events: Observable<FilterEvent>;
@@ -42,7 +40,12 @@ export class DateFilter implements FilterModel {
    *  TODO: Should we pass the date output format as an argument,
    * also, should we pass an optional parameter containing the datepicker options?
    */
-  constructor(public paramName: string, public placeholder: string, public initialValue?: string) {
+  constructor(
+    public paramName: string,
+    public placeholder: string,
+    public initialValue?: string,
+    public component: Type<any> = DateComponent
+  ) {
     this.internalEvent = new Subject();
 
     const initialDate: string = initialValue ? new Date(initialValue).toISOString() : null;

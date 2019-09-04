@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AutocompleteAsyncFilter } from '../../filters/autocomplete-async-filter';
 import { FilterHelperService } from '../../filter-helper.service';
 
 @Component({
@@ -9,7 +8,7 @@ import { FilterHelperService } from '../../filter-helper.service';
 })
 export class AutocompleteAsyncComponent implements OnInit {
   @Input()
-  public filter: AutocompleteAsyncFilter;
+  public filter;
 
   constructor(public filterHelper: FilterHelperService) {}
 
