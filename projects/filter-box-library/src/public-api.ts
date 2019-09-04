@@ -10,6 +10,8 @@ export * from './lib/filter-box/filters/autocomplete-filter';
 export * from './lib/filter-box/filters/autocomplete-async-filter';
 export * from './lib/filter-box/filters/date-filter';
 
+export * from './lib/filter-box/filters/filter-element';
+
 export * from './lib/filter-box/events/filter-valid-value-change-event';
 export * from './lib/filter-box/events/filter-event';
 export * from './lib/filter-box/events/filter-clear-event';

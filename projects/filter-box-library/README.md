@@ -11,6 +11,7 @@ Additionally, it provides an easy way to define complex event based behaviours, 
 - [Usage](#usage)
   - [Basic filters](#basic-filters)
   - [Defining filter behaviours](#defining-filter-behaviours)
+  - [Custom filters](#custom-filters)
 
 ## Getting started
 
@@ -111,3 +112,7 @@ And adding the behaviours array to the template:
 A callback must always return a `Filter Event`. If your callback is a custom defined function, just return a `FilterEmptyEvent`.
 
 [A more complete guide is available here](./docs/advanced-filter-behaviours.md)
+
+### Custom filters
+
+[Available here](./docs/custom-filters.md)
