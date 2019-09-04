@@ -9,6 +9,7 @@ import { ClearFilterButtonComponent } from './components/clear-filter-button/cle
 import { DateComponent } from './components/date/date.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { AutocompleteAsyncComponent } from './components/autocomplete-async/autocomplete-async.component';
+import { FilterAnchorDirective } from './filter-anchor.directive';
 
 @NgModule({
   declarations: [
@@ -17,9 +18,11 @@ import { AutocompleteAsyncComponent } from './components/autocomplete-async/auto
     ClearFilterButtonComponent,
     AutocompleteComponent,
     DateComponent,
-    AutocompleteAsyncComponent
+    AutocompleteAsyncComponent,
+    FilterAnchorDirective,
   ],
   imports: [CommonModule, MaterialModule, ReactiveFormsModule, FlexLayoutModule],
   exports: [FilterBoxComponent],
+  entryComponents: [CheckboxComponent, AutocompleteComponent, DateComponent, AutocompleteAsyncComponent],
 })
 export class FilterBoxModule {}

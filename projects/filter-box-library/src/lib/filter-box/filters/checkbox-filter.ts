@@ -11,11 +11,15 @@ import { FilterClearEvent } from '../events/filter-clear-event';
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
 import { FilterEmptyEvent } from '../events/filter-empty-event';
+import { Type } from '@angular/core';
+import { CheckboxComponent } from '../components/checkbox/checkbox.component';
 
 export class CheckboxFilter implements FilterModel {
   private initialValuesIds: string[] | number[];
 
   private internalEvent: Subject<FilterEvent>;
+
+  public component: Type<any> = CheckboxComponent;
 
   public elements: FilterElement[];
 

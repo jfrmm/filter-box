@@ -11,9 +11,13 @@ import { FilterElement } from './filter-element';
 import { FormControl } from '@angular/forms';
 import { FilterModel } from '../models/filter.model';
 import { FilterEmptyEvent } from '../events/filter-empty-event';
+import { Type } from '@angular/core';
+import { AutocompleteComponent } from '../components/autocomplete/autocomplete.component';
 
 export class AutocompleteFilter implements FilterModel {
   private internalEvent: Subject<FilterEvent>;
+
+  public component: Type<any> = AutocompleteComponent;
 
   public elements: FilterElement;
 

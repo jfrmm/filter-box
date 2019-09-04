@@ -4,16 +4,6 @@
       <mat-icon>clear</mat-icon>
     </button>
 
-    <ng-container *ngFor="let filter of filters" [ngSwitch]="filter.type">
-      <asp-autocomplete-async *ngSwitchCase="'autocomplete-async'" [filter]="filter"></asp-autocomplete-async>
-
-      <asp-autocomplete *ngSwitchCase="'autocomplete'" [filter]="filter"></asp-autocomplete>
-
-      <asp-date *ngSwitchCase="'date'" [filter]="filter"></asp-date>
-
-      <asp-checkbox *ngSwitchCase="'checkbox'" [filter]="filter"></asp-checkbox>
-    </ng-container>
-
-    <ng-content></ng-content>
+    <ng-template aspFilterAnchor></ng-template>
   </div>
 </mat-card>

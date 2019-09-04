@@ -10,9 +10,13 @@ import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
 import { FilterEmptyEvent } from '../events/filter-empty-event';
+import { Type } from '@angular/core';
+import { DateComponent } from '../components/date/date.component';
 
 export class DateFilter implements FilterModel {
   private internalEvent: Subject<FilterEvent>;
+
+  public component: Type<any> = DateComponent;
 
   public elements: FilterElement;
 

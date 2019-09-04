@@ -3,15 +3,18 @@ import { FilterParam } from './filter-param.model';
 import { FilterElement } from '../filters/filter-element';
 import { Observable } from 'rxjs';
 import { FilterEvent } from '../events/filter-event';
+import { Type } from '@angular/core';
 
 export interface FilterModel {
+  component: Type<any>;
+
   elements: FilterElement[] | FilterElement;
+
+  events: Observable<FilterEvent>;
 
   initialOptions?: FilterOption[] | Observable<FilterOption[]>;
 
   param: FilterParam;
-
-  events: Observable<FilterEvent>;
 
   paramName: string;
 

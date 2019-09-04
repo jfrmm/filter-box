@@ -11,9 +11,13 @@ import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
 import { FilterEmptyEvent } from '../events/filter-empty-event';
+import { AutocompleteAsyncComponent } from '../components/autocomplete-async/autocomplete-async.component';
+import { Type } from '@angular/core';
 
 export class AutocompleteAsyncFilter implements FilterModel {
   private internalEvent: Subject<FilterEvent>;
+
+  public component: Type<any> = AutocompleteAsyncComponent;
 
   public elements: FilterElement;
 
