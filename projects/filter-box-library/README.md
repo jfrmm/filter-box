@@ -67,7 +67,7 @@ To set up a Filter Box, start by instanciating the filters you want to use.
 
 Next, insert the `FilterBoxComponent` selector in your tempalte.
 
-```typescript
+```html
 <asp-filter-box [filters]="filters"></asp-filter-box>
 ```
 
@@ -81,7 +81,7 @@ To listen for changes in your filters values, just create a function to listen t
 
 And add it to your template.
 
-```typescript
+```html
 <asp-filter-box [filters]="filters" (index)="index()"></asp-filter-box>
 ```
 
@@ -101,7 +101,7 @@ this.filterBehaviours = [
 
 And adding the behaviours array to the template:
 
-```typescript
+```html
 <asp-filter-box
   [filters]="filters"
   [filterBehaviours]="filterBehaviours"
