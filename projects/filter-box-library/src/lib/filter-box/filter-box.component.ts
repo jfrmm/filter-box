@@ -16,6 +16,8 @@ import { FilterBehaviour } from './models/filter-behaviour.model';
 import { FilterAnchorDirective } from './filter-anchor.directive';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { AutocompleteFilter } from './filters/autocomplete-filter';
+import { FilterComponentModel } from './models/filter-component.model';
+
 
 @Component({
   selector: 'asp-filter-box',
@@ -64,7 +66,7 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
       const viewContainerRef = this.filterAnchorDirective.viewContainerRef;
 
       const componentRef = viewContainerRef.createComponent(componentFactory);
-      (componentRef.instance as AutocompleteComponent).filter = filter as AutocompleteFilter;
+      (componentRef.instance as FilterComponentModel).filter = filter;
     });
   }
 

@@ -14,6 +14,7 @@ import {
   FilterClearEvent,
   FilterValidValueChangeEvent,
 } from 'filter-box-library';
+import { RandomColorAutocompleteFilterComponent } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
 
 @Component({
   selector: 'app-pizza-list',
@@ -55,7 +56,15 @@ export class PizzaListComponent implements OnInit {
         new AutocompleteAsyncFilter('restaurant', 'Restaurant', this.pizzaService.getRestaurants),
         new DateFilter('from', 'From'),
         new DateFilter('to', 'To'),
-        new CheckboxFilter('rating', ratings)
+        new CheckboxFilter('rating', ratings),
+        new AutocompleteFilter(
+          'custom',
+          'Custom',
+          pizzaBases,
+          null,
+          this.pizzaService.getPizzaBases,
+          RandomColorAutocompleteFilterComponent
+        )
       );
 
       this.filterBehaviours = [
@@ -104,11 +113,11 @@ export class PizzaListComponent implements OnInit {
 
   public index(reset: boolean): void {
     this.pizzaService
-    .getPizzasList(this.params)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(response => {
-      this.dataSource.update(response.elements, reset);
-    });
+      .getPizzasList(this.params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(response => {
+        this.dataSource.update(response.elements, reset);
+      });
     this.indexCount++;
   }
 }

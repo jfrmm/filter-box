@@ -22,7 +22,14 @@ import { FilterAnchorDirective } from './filter-anchor.directive';
     FilterAnchorDirective,
   ],
   imports: [CommonModule, MaterialModule, ReactiveFormsModule, FlexLayoutModule],
-  exports: [FilterBoxComponent],
+  exports: [
+    FilterBoxComponent,
+    CheckboxComponent,
+    ClearFilterButtonComponent,
+    AutocompleteComponent,
+    DateComponent,
+    AutocompleteAsyncComponent,
+  ],
   entryComponents: [CheckboxComponent, AutocompleteComponent, DateComponent, AutocompleteAsyncComponent],
 })
 export class FilterBoxModule {}
