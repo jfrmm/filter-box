@@ -14,7 +14,7 @@ import { Type } from '@angular/core';
 import { DateComponent } from '../components/date/date.component';
 
 export class DateFilter implements FilterModel {
-  private internalEvent: Subject<FilterEvent>;
+  protected internalEvent: Subject<FilterEvent>;
 
   public elements: FilterElement;
 
@@ -59,11 +59,11 @@ export class DateFilter implements FilterModel {
     this.setEvents(formControl);
   }
 
-  private mapControlsValues(): string {
+  protected mapControlsValues(): string {
     return this.elements.formControl.value ? (this.elements.formControl.value as Date).toISOString() : null;
   }
 
-  private setEvents(formControl: FormControl): void {
+  public setEvents(formControl: FormControl): void {
     this.events = merge(
       formControl.valueChanges.pipe(
         filter(value => (value === '' || value) && formControl.valid),

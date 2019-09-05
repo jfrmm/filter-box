@@ -4,6 +4,7 @@ import { FilterElement } from '../filters/filter-element';
 import { Observable } from 'rxjs';
 import { FilterEvent } from '../events/filter-event';
 import { Type } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 export interface FilterModel {
   component: Type<any>;
@@ -19,6 +20,8 @@ export interface FilterModel {
   paramName: string;
 
   type: string;
+
+  setEvents(formControl?: FormControl): void;
 
   /**
    * Emit defaults to false, if true it returns a FilterEmptyEvent

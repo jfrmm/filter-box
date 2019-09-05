@@ -15,6 +15,7 @@ import {
   FilterValidValueChangeEvent,
 } from 'filter-box-library';
 import { RandomColorAutocompleteFilterComponent } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
+import { SelectFilter } from 'src/app/custom-filters/select-filter/select-filter';
 
 @Component({
   selector: 'app-pizza-list',
@@ -58,13 +59,14 @@ export class PizzaListComponent implements OnInit {
         new DateFilter('to', 'To'),
         new CheckboxFilter('rating', ratings),
         new AutocompleteFilter(
-          'custom',
+          'base',
           'Custom',
           pizzaBases,
           null,
           this.pizzaService.getPizzaBases,
           RandomColorAutocompleteFilterComponent
-        )
+        ),
+        new SelectFilter('base', 'Select', pizzaBases)
       );
 
       this.filterBehaviours = [

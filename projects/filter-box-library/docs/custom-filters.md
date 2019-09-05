@@ -1,22 +1,16 @@
 # Custom filters
 
-## Table of Contents
+Be aware that to create a custom filter, you are expected to have some knowledge on both filters and behaviours.
 
-- [Presentation vs Functionality](#presentation-vs-functionality)
+## Table of Contents
 - [Custom Presentation](#custom-presentation)
 - [Custom Functionality](#custom-functionality)
   - [Extend From Filter](#extend-from-filter)
   - [Create A Filter From Scratch](#create-a-filter-from-scratch)
 
-Be aware that to create a custom filter, you are expected to have some insight on the inner workings of both filters and behaviours.
-
-## Presentation vs Functionality
-
-.. defining a custom filter from scratch can be a huge undertaking. (dont forget the behaviour system...)
-
 ## Custom Presentation
 
-To change only a filter presentation, you can create a custom `Component`:
+To change a filter presentation, you can create a custom `component`:
 
 ```typescript
 @HostBinding('style.background-color') color = 'red';
@@ -38,13 +32,13 @@ To change only a filter presentation, you can create a custom `Component`:
   }
 ```
 
-This component will change the filter background color every 100ms. We want to use the default autocomplete template, so we can just insert it. All the default filter templates accept a `input binding` filter property.
+This `component` will change the filter background color every 100ms. We want to use the default autocomplete template, so we can just insert it. All the default filter templates accept a `input binding` filter property.
 
 ```html
 <asp-autocomplete [filter]="filter"></asp-autocomplete>
 ```
 
-Then, add the custom `Component` to the filter constructor:
+Then, add the custom `component` to the filter constructor:
 
 ```typescript
 new AutocompleteFilter(
@@ -63,10 +57,57 @@ To create a filter with a custom functionality there are two options: To extend 
 
 ### Extend From Existing Filter
 
-### Create A Filter From Scratch
+When the new filter is just a slighty tweaked version of an existing one, you can create a new class that extends the base filter, and override only the methods you want.
 
-To keep the same filterbox behaviour when clearing the filter, dont forget to include the provided `clear-filter-button-component`:
+```typescript
+export class SelectFilter extends AutocompleteFilter {
+ get type(): string {
+    return 'select';
+  }
+
+  protected filterOptions(): Observable<FilterOption[]> {
+    return of(this.initialOptions);
+  }
+```
+
+When the filter is instanciated `new SelectFilter('select', 'Select', pizzaBases)`, it will look just like the `AutocompleteFilter` base filter, the exception being that when writing in the input no options are filtered.
+
+To make it look like a real `SelectOption`, create a new `component` and add your custom template:
+
+```html
+<div *ngIf="filter">
+  <mat-form-field>
+    <mat-select [formControl]="filter?.elements.formControl" [placeholder]="filter?.elements.placeholder">
+      <mat-option *ngFor="let filterOption of filter?.elements.options | async" [value]="filterOption">
+        {{ filterOption.value }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <asp-clear-filter-button [disabled]="!filter.elements.formControl.value" [filter]="filter"></asp-clear-filter-button>
+</div>
+```
+
+Add the `component` to the `Module` `entryComponents` and to the custom filter component property:
+
+```typescript
+entryComponents: [RandomColorAutocompleteFilterComponent, SelectFilterComponent]
+
+...
+
+export class SelectFilter extends AutocompleteFilter {
+  public component: Type<any> = SelectFilterComponent;
+
+```
+
+>To keep a consistent filterbox behaviour when clearing the filter, dont forget to include the provided `clear-filter-button-component` in your custom templates:
 
 ```html
 <asp-clear-filter-button [disabled]="!filter.elements.formControl.value" [filter]="filter"></asp-clear-filter-button>
 ```
+
+
+### Create A Filter From Scratch
+
+When creating a new filter from scratch dont forget to keep in mind the filter behaviour system.
+

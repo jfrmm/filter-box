@@ -102,16 +102,12 @@ this.filterBehaviours = [
 And adding the behaviours array to the template:
 
 ```html
-<asp-filter-box
-  [filters]="filters"
-  [filterBehaviours]="filterBehaviours"
-  (index)="index(true)"
-></asp-filter-box>
+<asp-filter-box [filters]="filters" [filterBehaviours]="filterBehaviours" (index)="index(true)"></asp-filter-box>
 ```
 
 A callback must always return a `Filter Event`. If your callback is a custom defined function, just return a `FilterEmptyEvent`.
 
-[A more complete guide is available here](./docs/advanced-filter-behaviours.md)
+For more information on behaviours,see the [advanced filter behaviours guide](./docs/advanced-filter-behaviours.md).
 
 ### Custom filters
 

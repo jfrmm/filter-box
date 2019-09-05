@@ -1,7 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule, MatTableModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import {
+  MatCardModule,
+  MatTableModule,
+  MatAutocompleteModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatOptionModule,
+  MatSelectModule
+} from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FilterBoxModule } from 'filter-box-library';
 
@@ -17,6 +25,8 @@ import { FilterBoxModule } from 'filter-box-library';
     FlexLayoutModule,
     FilterBoxModule,
     MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
   ],
   exports: [
     CommonModule,
@@ -28,6 +38,8 @@ import { FilterBoxModule } from 'filter-box-library';
     FlexLayoutModule,
     FilterBoxModule,
     MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
   ],
   entryComponents: [],
 })

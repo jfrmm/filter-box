@@ -15,7 +15,7 @@ import { Type } from '@angular/core';
 import { AutocompleteComponent } from '../components/autocomplete/autocomplete.component';
 
 export class AutocompleteFilter implements FilterModel {
-  private internalEvent: Subject<FilterEvent>;
+  protected internalEvent: Subject<FilterEvent>;
 
   public elements: FilterElement;
 
@@ -56,7 +56,7 @@ export class AutocompleteFilter implements FilterModel {
     this.elements = new FilterElement(placeholder, formControl, this.filterOptions(formControl));
   }
 
-  private filterOptions(formControl: FormControl): Observable<FilterOption[]> {
+  protected filterOptions(formControl: FormControl): Observable<FilterOption[]> {
     return formControl.valueChanges.pipe(
       filter(option => typeof option === 'string' || option === null),
       map(option => (option ? option : '')),
@@ -75,14 +75,14 @@ export class AutocompleteFilter implements FilterModel {
     );
   }
 
-  private mapControlsValues(): string {
+  protected mapControlsValues(): string {
     return this.elements.formControl.value ? this.elements.formControl.value.id.toString() : null;
   }
 
   /**
    * Params will emit a value when the param changes
    */
-  private setEvents(formControl: FormControl): void {
+  public setEvents(formControl: FormControl): void {
     this.events = merge(
       formControl.valueChanges.pipe(
         filter(value => typeof value === 'object' || value === ''),
