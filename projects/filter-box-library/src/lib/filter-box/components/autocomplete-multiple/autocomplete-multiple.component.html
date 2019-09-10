@@ -1,0 +1,28 @@
+<div *ngIf="filter">
+  <mat-form-field>
+    <mat-select [multiple]="true" [formControl]="filter?.elements.formControl">
+      <div fxLayout="row" class="search-option">
+        <mat-checkbox
+          class="mat-option-pseudo-checkbox"
+          (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+        >
+        </mat-checkbox>
+
+        <mat-form-field class="custom-wrapper">
+          <input matInput type="text" [formControl]="searchFormControl" (keydown)="$event.stopPropagation()" />
+        </mat-form-field>
+      </div>
+      <mat-option
+        (click)="toggleOption($event, filterOption)"
+        *ngFor="let filterOption of filter?.elements.options | async"
+        [value]="filterOption"
+      >
+        {{ filterOption.value }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <asp-clear-filter-button [disabled]="!filter.elements.formControl.value"></asp-clear-filter-button>
+</div>

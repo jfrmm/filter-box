@@ -30,5 +30,6 @@ export * from './lib/filter-box/components/autocomplete/autocomplete.component';
 export * from './lib/filter-box/components/autocomplete-async/autocomplete-async.component';
 export * from './lib/filter-box/components/checkbox/checkbox.component';
 export * from './lib/filter-box/components/date/date.component';
+export * from './lib/filter-box/components/autocomplete-multiple/autocomplete-multiple.component';
 
 export * from './lib/filter-box/filter-helper.service';
