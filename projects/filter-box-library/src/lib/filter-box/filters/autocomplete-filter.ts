@@ -66,11 +66,7 @@ export class AutocompleteFilter implements FilterModel {
       startWith(''),
       distinctUntilChanged(),
       switchMap((filterTerm: string) =>
-        of(
-          this.initialOptions.filter((option: FilterOption) =>
-            option.value.toLowerCase().includes(filterTerm.toLowerCase())
-          )
-        )
+        of(this.options.filter((option: FilterOption) => option.value.toLowerCase().includes(filterTerm.toLowerCase())))
       )
     );
   }
@@ -108,28 +104,30 @@ export class AutocompleteFilter implements FilterModel {
 
   public enableFilter(): FilterEvent {
     this.elements.formControl.enable({ onlySelf: true, emitEvent: false });
-    // this.internalEvent.next(new FilterEvent(new FilterEnabledEvent(), this));
+
     return new FilterEvent(new FilterEnabledEvent(), this);
   }
 
   public disableFilter(): FilterEvent {
     this.elements.formControl.disable({ onlySelf: true, emitEvent: false });
-    // this.internalEvent.next(new FilterEvent(new FilterDisabledEvent(), this));
+
     return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
   public setValue(value: any): FilterEvent {
     this.elements.formControl.setValue(value, { onlySelf: true, emitEvent: false });
+
     return new FilterEvent(new FilterValidValueChangeEvent(), this);
   }
 
   public updateFilterOptions(params: FilterParam[]): FilterEvent {
-    /** Should a filter be disabled while waiting for the new options?
-     * If yes, should that disable emit an event to the mediator? (I think
-     * it should be disabled, but not emit an event)
-     */
-    this.getFilterOptions(params).subscribe(options => (this.options = options));
+    this.elements.formControl.disable({ emitEvent: false });
+    this.getFilterOptions(params).subscribe(options => {
+      this.options = options;
+      this.elements.formControl.enable({ emitEvent: false });
+      this.elements.options = this.filterOptions(this.elements.formControl);
+    });
+
     return new FilterEvent(new FilterEmptyEvent(), this);
-    // TODO: Should i throw a custom error if getFilterOptions is not defined?
   }
 }
