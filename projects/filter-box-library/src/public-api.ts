@@ -8,6 +8,7 @@ export * from './lib/filter-box/filters/checkbox-filter';
 export * from './lib/filter-box/filters/autocomplete-filter';
 export * from './lib/filter-box/filters/autocomplete-async-filter';
 export * from './lib/filter-box/filters/date-filter';
+export * from './lib/filter-box/filters/autocomplete-multiple-filter';
 
 export * from './lib/filter-box/filters/filter-element';
 

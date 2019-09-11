@@ -24,5 +24,5 @@
     </mat-select>
   </mat-form-field>
 
-  <asp-clear-filter-button [disabled]="!filter.elements.formControl.value"></asp-clear-filter-button>
+  <asp-clear-filter-button [filter]="filter" [disabled]="!filter.elements.formControl.value?.length"></asp-clear-filter-button>
 </div>

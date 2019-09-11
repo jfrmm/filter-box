@@ -18,12 +18,17 @@ export class AutocompleteMultipleComponent implements OnInit, FilterComponentMod
 
   public searchFormControl: FormControl;
 
+  // Necessary to easily set options as checked when autocompleting
+  // public selectFormControl: FormControl;
+
   public selection: SelectionModel<FilterOption>;
 
   constructor(public filterHelper: FilterHelperService) {}
 
   ngOnInit() {
     this.searchFormControl = new FormControl();
+
+    // this.selectFormControl = new FormControl(this.filter.elements.formControl.value);
 
     const allowMultiselect = true;
 
@@ -32,6 +37,14 @@ export class AutocompleteMultipleComponent implements OnInit, FilterComponentMod
     this.selection = new SelectionModel<FilterOption>(allowMultiselect, initialSelection);
 
     this.filter.elements.options = this.filterSearch();
+
+    // this.filter.elements.formControl.valueChanges.subscribe(value => {
+    //   console.log(value);
+    //   if (!value) {
+    //     this.selectFormControl.setValue('');
+    //     this.selection.clear();
+    //   }
+    // });
   }
 
   private filterSearch(): Observable<FilterOption[]> {
@@ -62,11 +75,15 @@ export class AutocompleteMultipleComponent implements OnInit, FilterComponentMod
     }
 
     this.filter.elements.formControl.setValue(this.selection.selected);
+    // this.selectFormControl.setValue(this.selection.selected);
   }
 
   public toggleOption(event: MouseEvent, filterOption: FilterOption): void {
     event.stopPropagation();
+
     this.selection.toggle(filterOption);
+
     this.filter.elements.formControl.setValue(this.selection.selected);
+    // this.selectFormControl.setValue(this.selection.selected);
   }
 }

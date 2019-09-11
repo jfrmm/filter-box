@@ -13,6 +13,7 @@ import {
   FilterBehaviour,
   FilterClearEvent,
   FilterValidValueChangeEvent,
+  AutocompleteMultipleFilter
 } from 'filter-box-library';
 import { RandomColorAutocompleteFilterComponent } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
 import { SelectFilter } from 'src/app/custom-filters/select-filter/select-filter';
@@ -68,7 +69,7 @@ export class PizzaListComponent implements OnInit {
         //   RandomColorAutocompleteFilterComponent
         // ),
         new SelectFilter('base', 'Select', pizzaBases),
-        new AutocompleteFilter('multiple', 'Multiple', pizzaBases, null, null, AutocompleteMultipleComponent)
+        new AutocompleteMultipleFilter('multiple', 'Multiple', pizzaBases, null, null, AutocompleteMultipleComponent)
       );
 
       // this.filterBehaviours = [
