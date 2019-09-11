@@ -1,6 +1,11 @@
 <div *ngIf="filter">
   <mat-form-field>
-    <mat-select [value]="filter?.elements.formControl.value" [multiple]="true" (openedChange)="clearSearch($event)">
+    <mat-select
+      [value]="filter?.elements.formControl.value"
+      [placeholder]="filter?.elements.placeholder"
+      [multiple]="true"
+      (openedChange)="clearSearch($event)"
+    >
       <div fxLayout="row" class="search-option">
         <mat-checkbox
           class="mat-option-pseudo-checkbox"
