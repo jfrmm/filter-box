@@ -1,17 +1,17 @@
 <div *ngIf="filter">
   <mat-form-field>
-    <mat-select [multiple]="true" [formControl]="filter?.elements.formControl" (openedChange)="clearSearch($event)">
+    <mat-select [value]="filter?.elements.formControl.value" [multiple]="true" (openedChange)="clearSearch($event)">
       <div fxLayout="row" class="search-option">
         <mat-checkbox
           class="mat-option-pseudo-checkbox"
           (change)="$event ? masterToggle() : null"
-          [checked]="selection.hasValue() && isAllSelected()"
-          [indeterminate]="selection.hasValue() && !isAllSelected()"
+          [checked]="filter?.selection.hasValue() && isAllSelected()"
+          [indeterminate]="filter?.selection.hasValue() && !isAllSelected()"
         >
         </mat-checkbox>
 
         <mat-form-field class="custom-wrapper">
-          <input matInput type="text" [formControl]="searchFormControl" (keydown)="$event.stopPropagation()" />
+          <input matInput type="text" [formControl]="filter?.searchFormControl" (keydown)="$event.stopPropagation()" />
         </mat-form-field>
       </div>
       <mat-option

@@ -130,6 +130,7 @@ export class PizzaListComponent implements OnInit {
   }
 
   public index(reset: boolean): void {
+    console.log(this.params);
     this.pizzaService
       .getPizzasList(this.params)
       .pipe(takeUntil(this.destroy$))

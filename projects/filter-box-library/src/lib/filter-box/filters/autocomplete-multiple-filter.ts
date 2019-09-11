@@ -13,6 +13,7 @@ import { FilterEmptyEvent } from '../events/filter-empty-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterModel } from '../models/filter.model';
+import { SelectionModel } from '@angular/cdk/collections';
 
 export class AutocompleteMultipleFilter implements FilterModel {
   protected internalEvent: Subject<FilterEvent>;
@@ -22,6 +23,10 @@ export class AutocompleteMultipleFilter implements FilterModel {
   public initialOptions: FilterOption[];
 
   public events: Observable<FilterEvent>;
+
+  public searchFormControl: FormControl;
+
+  public selection: SelectionModel<FilterOption>;
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -39,21 +44,41 @@ export class AutocompleteMultipleFilter implements FilterModel {
     public paramName: string,
     public placeholder: string,
     public options: FilterOption[],
-    initialValue: FilterOption = null,
+    initialValues: FilterOption[] = null,
     public getFilterOptions?: (params?: FilterParam[]) => Observable<FilterOption[]>,
     public component: Type<any> = AutocompleteMultipleComponent
   ) {
     this.internalEvent = new Subject();
 
+    this.searchFormControl = new FormControl();
+
+    this.selection = new SelectionModel<FilterOption>(true, initialValues);
+
     this.initialOptions = options;
 
     this.options = options;
 
-    const formControl = new FormControl(initialValue);
+    const formControl = new FormControl(initialValues);
 
     this.setEvents(formControl);
 
     this.elements = new FilterElement(placeholder, formControl, this.filterOptions(formControl));
+
+    this.elements.options = this.filterSearch();
+  }
+
+  private filterSearch(): Observable<FilterOption[]> {
+    return this.searchFormControl.valueChanges.pipe(
+      startWith(''),
+      distinctUntilChanged(),
+      switchMap((filterTerm: string) =>
+        of(
+          this.options.filter((filterOption: FilterOption) =>
+            filterOption.value.toLowerCase().includes(filterTerm.toLowerCase())
+          )
+        )
+      )
+    );
   }
 
   protected filterOptions(formControl: FormControl): Observable<FilterOption[]> {
@@ -96,6 +121,7 @@ export class AutocompleteMultipleFilter implements FilterModel {
 
   public clearFilter(emit: boolean = false): FilterEvent {
     this.elements.clear(emit);
+    this.selection.clear();
 
     if (emit) {
       return new FilterEvent(new FilterEmptyEvent(), this);
