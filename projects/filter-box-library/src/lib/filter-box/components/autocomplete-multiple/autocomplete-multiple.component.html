@@ -1,6 +1,6 @@
 <div *ngIf="filter">
   <mat-form-field>
-    <mat-select [multiple]="true" [formControl]="filter?.elements.formControl">
+    <mat-select [multiple]="true" [formControl]="filter?.elements.formControl" (openedChange)="clearSearch($event)">
       <div fxLayout="row" class="search-option">
         <mat-checkbox
           class="mat-option-pseudo-checkbox"
@@ -24,5 +24,8 @@
     </mat-select>
   </mat-form-field>
 
-  <asp-clear-filter-button [filter]="filter" [disabled]="!filter.elements.formControl.value?.length"></asp-clear-filter-button>
+  <asp-clear-filter-button
+    [filter]="filter"
+    [disabled]="!filter.elements.formControl.value?.length"
+  ></asp-clear-filter-button>
 </div>

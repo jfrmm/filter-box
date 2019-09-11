@@ -61,6 +61,12 @@ export class AutocompleteMultipleComponent implements OnInit, FilterComponentMod
     );
   }
 
+  public clearSearch(event: boolean): void {
+    if (!event) {
+      this.searchFormControl.setValue('');
+    }
+  }
+
   public isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
     const numRows = this.filter.initialOptions.length;
