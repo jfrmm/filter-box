@@ -147,11 +147,13 @@ export class AutocompleteMultipleFilter implements FilterModel {
 
   public updateFilterOptions(params: FilterParam[]): FilterEvent {
     this.elements.formControl.disable({ emitEvent: false });
+
     this.getFilterOptions(params).subscribe(options => {
       this.options = options;
       this.elements.formControl.enable({ emitEvent: false });
       this.elements.options = this.filterOptions(this.elements.formControl);
     });
+
     return new FilterEvent(new FilterEmptyEvent(), this);
   }
 }
