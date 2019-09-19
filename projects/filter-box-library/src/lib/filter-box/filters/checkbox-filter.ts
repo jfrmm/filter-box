@@ -10,11 +10,14 @@ import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change
 import { FilterClearEvent } from '../events/filter-clear-event';
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
+import { FilterEmptyEvent } from '../events/filter-empty-event';
+import { Type } from '@angular/core';
+import { CheckboxComponent } from '../components/checkbox/checkbox.component';
 
 export class CheckboxFilter implements FilterModel {
-  private initialValuesIds: string[] | number[];
+  protected initialValuesIds: string[] | number[];
 
-  private internalEvent: Subject<FilterEvent>;
+  protected internalEvent: Subject<FilterEvent>;
 
   public elements: FilterElement[];
 
@@ -34,7 +37,12 @@ export class CheckboxFilter implements FilterModel {
     return 'checkbox';
   }
 
-  constructor(public paramName: string, options: FilterOption[], initialValuesIds: string[] | number[] = []) {
+  constructor(
+    public paramName: string,
+    options: FilterOption[],
+    initialValuesIds: string[] | number[] = [],
+    public component: Type<any> = CheckboxComponent
+  ) {
     this.internalEvent = new Subject();
 
     this.paramName = paramName;
@@ -48,21 +56,21 @@ export class CheckboxFilter implements FilterModel {
     this.setEvents();
   }
 
-  private buildFilterElements(): FilterElement[] {
+  protected buildFilterElements(): FilterElement[] {
     return this.initialOptions.map(
       option => new FilterElement(option.value, new FormControl(this.getOptionDefaultValue(option)))
     );
   }
 
-  private getOptionDefaultValue(option: FilterOption): boolean {
+  protected getOptionDefaultValue(option: FilterOption): boolean {
     return this.initialValuesIds.some((id: number | string) => option.id === id);
   }
 
-  private getOptionId(index: number): string {
+  protected getOptionId(index: number): string {
     return this.initialOptions[index].id.toString();
   }
 
-  private mapControlsValues(): string {
+  protected mapControlsValues(): string {
     const values = this.elements
       .map((element: FilterElement, index) => (element.formControl.value ? this.getOptionId(index) : null))
       .filter(value => value)
@@ -71,7 +79,7 @@ export class CheckboxFilter implements FilterModel {
     return values ? values : null;
   }
 
-  private setEvents(): void {
+  public setEvents(): void {
     this.events = new Observable();
     this.elements.forEach(
       element =>
@@ -90,12 +98,17 @@ export class CheckboxFilter implements FilterModel {
     this.events = merge(this.events, this.internalEvent);
   }
 
-  public clearFilter( index?: number): FilterEvent {
+  public clearFilter(emit: boolean = false, index?: number): FilterEvent {
     if (index >= 0) {
-      this.elements[index].clear();
+      this.elements[index].clear(emit);
     } else {
-      this.elements.forEach(element => element.clear());
+      this.elements.forEach(element => element.clear(emit));
     }
+
+    if (emit) {
+      return new FilterEvent(new FilterEmptyEvent(), this);
+    }
+
     return new FilterEvent(new FilterClearEvent(), this);
   }
 

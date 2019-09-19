@@ -40,19 +40,10 @@ describe('FilterBoxComponent', () => {
     expect(clearAllElement.textContent).toContain('clear');
   });
 
-  it('should clear the filter value', () => {
-    const mockFilter = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }], { id: 1, value: 'MOCK' });
-    component.filters = [mockFilter];
-    fixture.detectChanges();
-    component.onClickClearFilter(new MouseEvent('mock'), mockFilter);
-
-    // TODO: Check if i should really be accessing the form control, instead of param
-    expect(component.filters[0].elements[0].formControl.value).toBe('');
-  });
-
   it('should clear all filters and emit only once', () => {
-    const mockFilter = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }], { id: 1, value: 'MOCK' });
-    component.filters = [mockFilter];
+    const mockFilter1 = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }], { id: 1, value: 'MOCK' });
+    const mockFilter2 = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }], { id: 1, value: 'MOCK' });
+    component.filters = [mockFilter1, mockFilter2];
 
     const spy = spyOn(component.index, 'emit');
 
@@ -61,7 +52,8 @@ describe('FilterBoxComponent', () => {
     component.onClickClearAllFilters();
     fixture.detectChanges();
 
-    expect(mockFilter.elements[0].formControl.value).toBe('');
+    expect(mockFilter1.elements.formControl.value).toBe('');
+    expect(mockFilter2.elements.formControl.value).toBe('');
     expect(spy.calls.count()).toBe(1, 'Should be 1');
   });
 });

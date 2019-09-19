@@ -17,8 +17,15 @@ export class PizzaService {
     return timer(1000).pipe(map(() => ({ elements: filteredData })));
   }
 
-  public getPizzaBases(): Observable<FilterOption[]> {
-    return timer(500).pipe(map(() => PIZZABASES));
+  public getPizzaBases(params?: FilterParam[]): Observable<FilterOption[]> {
+    return timer(500).pipe(
+      map(() => {
+        if (params && params[0].value !== null) {
+          return [PIZZABASES[1]];
+        }
+        return PIZZABASES;
+      })
+    );
   }
 
   public getRestaurants(filterTerm?: string): Observable<FilterOption[]> {

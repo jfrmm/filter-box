@@ -15,28 +15,23 @@ describe('AutocompleteFilter', () => {
   it('should set the filter value', () => {
     autoCompleteFilter.setValue('MOCK');
 
-    expect(autoCompleteFilter.filterElement.formControl.value).toBe('MOCK');
+    expect(autoCompleteFilter.elements.formControl.value).toBe('MOCK');
   });
 
   it('should clear the filter value', () => {
-    // TODO: TEST THE CLEAR FILTER VALUE
-    // autoCompleteFilter.clearFilter(true);
-    // le
+    autoCompleteFilter.clearFilter();
 
-    // autoCompleteFilter.events.subscribe(emit => )
-
-    // expect(autoCompleteFilter.filterElement.formControl.value).toBe('');
-    // expect()
+    expect(autoCompleteFilter.elements.formControl.value).toBe('');
   });
 
   it('should disable & enable the filter', () => {
     autoCompleteFilter.disableFilter();
 
-    expect(autoCompleteFilter.filterElement.formControl.disabled).toBeTruthy();
+    expect(autoCompleteFilter.elements.formControl.disabled).toBeTruthy();
 
     autoCompleteFilter.enableFilter();
 
-    expect(autoCompleteFilter.filterElement.formControl.enabled).toBeTruthy();
+    expect(autoCompleteFilter.elements.formControl.enabled).toBeTruthy();
   });
 
   it('should have reactive options', () => {

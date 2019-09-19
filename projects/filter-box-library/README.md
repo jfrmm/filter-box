@@ -11,6 +11,7 @@ Additionally, it provides an easy way to define complex event based behaviours, 
 - [Usage](#usage)
   - [Basic filters](#basic-filters)
   - [Defining filter behaviours](#defining-filter-behaviours)
+  - [Custom filters](#custom-filters)
 
 ## Getting started
 
@@ -66,7 +67,7 @@ To set up a Filter Box, start by instanciating the filters you want to use.
 
 Next, insert the `FilterBoxComponent` selector in your tempalte.
 
-```typescript
+```html
 <asp-filter-box [filters]="filters"></asp-filter-box>
 ```
 
@@ -80,7 +81,7 @@ To listen for changes in your filters values, just create a function to listen t
 
 And add it to your template.
 
-```typescript
+```html
 <asp-filter-box [filters]="filters" (index)="index()"></asp-filter-box>
 ```
 
@@ -100,14 +101,14 @@ this.filterBehaviours = [
 
 And adding the behaviours array to the template:
 
-```typescript
-<asp-filter-box
-  [filters]="filters"
-  [filterBehaviours]="filterBehaviours"
-  (index)="index(true)"
-></asp-filter-box>
+```html
+<asp-filter-box [filters]="filters" [filterBehaviours]="filterBehaviours" (index)="index(true)"></asp-filter-box>
 ```
 
 A callback must always return a `Filter Event`. If your callback is a custom defined function, just return a `FilterEmptyEvent`.
 
-[A more complete guide is available here](./docs/advanced-filter-behaviours.md)
+For more information on behaviours,see the [advanced filter behaviours guide](./docs/advanced-filter-behaviours.md).
+
+### Custom filters
+
+[Available here](./docs/custom-filters.md)

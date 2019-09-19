@@ -13,7 +13,11 @@ import {
   FilterBehaviour,
   FilterClearEvent,
   FilterValidValueChangeEvent,
+  AutocompleteMultipleFilter,
 } from 'filter-box-library';
+import { RandomColorAutocompleteFilterComponent } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
+import { SelectFilter } from 'src/app/custom-filters/select-filter/select-filter';
+import { AutocompleteMultipleComponent } from 'filter-box-library';
 
 @Component({
   selector: 'app-pizza-list',
@@ -55,44 +59,67 @@ export class PizzaListComponent implements OnInit {
         new AutocompleteAsyncFilter('restaurant', 'Restaurant', this.pizzaService.getRestaurants),
         new DateFilter('from', 'From'),
         new DateFilter('to', 'To'),
-        new CheckboxFilter('rating', ratings)
+        new CheckboxFilter('rating', ratings),
+        new AutocompleteFilter(
+          'base',
+          'Custom',
+          pizzaBases,
+          null,
+          this.pizzaService.getPizzaBases,
+          RandomColorAutocompleteFilterComponent
+        ),
+        new SelectFilter('base', 'Select', pizzaBases),
+        new AutocompleteMultipleFilter('base', 'Multiple', pizzaBases, null, null, AutocompleteMultipleComponent)
       );
 
       this.filterBehaviours = [
         {
-          emitters: [this.filters[0]],
+          emitters: [this.filters[1]],
           events: [new FilterClearEvent(), new FilterValidValueChangeEvent()],
-          callbacks: [() => this.filters[1].clearFilter(), () => this.filters[2].clearFilter()],
-        },
-        {
-          emitters: [this.filters[1]],
-          events: [new FilterValidValueChangeEvent()],
           callbacks: [
-            () => this.filters[2].disableFilter(),
-            () => this.filters[4].disableFilter(),
-            () => this.filters[4].enableFilter(0),
-            () => this.filters[4].setValue(true, 0),
-          ],
-        },
-        {
-          emitters: [this.filters[1]],
-          events: [new FilterClearEvent()],
-          callbacks: [() => this.filters[2].enableFilter()],
-        },
-        {
-          emitters: [this.filters[2]],
-          events: [new FilterClearEvent()],
-          callbacks: [() => this.filters[3].disableFilter(), () => this.filters[4].enableFilter()],
-        },
-        {
-          emitters: [this.filters[3]],
-          events: [new FilterClearEvent()],
-          callbacks: [
-            () => this.filters[0].setValue({ id: 1, value: 'Tomato' }),
-            () => (this.filters[0] as AutocompleteFilter).updateFilterOptions(this.params),
+            () =>
+              (this.filters[0] as AutocompleteFilter).updateFilterOptions(
+                this.filters[1].param ? [this.filters[1].param] : null
+              ),
           ],
         },
       ];
+
+      // this.filterBehaviours = [
+      //   {
+      //     emitters: [this.filters[0]],
+      //     events: [new FilterClearEvent(), new FilterValidValueChangeEvent()],
+      //     callbacks: [() => this.filters[1].clearFilter(), () => this.filters[2].clearFilter()],
+      //   },
+      //   {
+      //     emitters: [this.filters[1]],
+      //     events: [new FilterValidValueChangeEvent()],
+      //     callbacks: [
+      //       () => this.filters[2].disableFilter(),
+      //       () => this.filters[4].disableFilter(),
+      //       () => this.filters[4].enableFilter(0),
+      //       () => this.filters[4].setValue(true, 0),
+      //     ],
+      //   },
+      //   {
+      //     emitters: [this.filters[1]],
+      //     events: [new FilterClearEvent()],
+      //     callbacks: [() => this.filters[2].enableFilter()],
+      //   },
+      //   {
+      //     emitters: [this.filters[2]],
+      //     events: [new FilterClearEvent()],
+      //     callbacks: [() => this.filters[3].disableFilter(), () => this.filters[4].enableFilter()],
+      //   },
+      //   {
+      //     emitters: [this.filters[3]],
+      //     events: [new FilterClearEvent()],
+      //     callbacks: [
+      //       () => this.filters[0].setValue({ id: 1, value: 'Tomato' }),
+      //       () => (this.filters[0] as AutocompleteFilter).updateFilterOptions(this.params),
+      //     ],
+      //   },
+      // ];
       /** TODO:
        * If the goal is to have a group of filters become reactive to eachother
        * Create a function that returns the null event and then call the filters
@@ -103,12 +130,13 @@ export class PizzaListComponent implements OnInit {
   }
 
   public index(reset: boolean): void {
+    console.log(this.params);
     this.pizzaService
-    .getPizzasList(this.params)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(response => {
-      this.dataSource.update(response.elements, reset);
-    });
+      .getPizzasList(this.params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(response => {
+        this.dataSource.update(response.elements, reset);
+      });
     this.indexCount++;
   }
 }

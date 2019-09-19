@@ -11,19 +11,17 @@ import { FilterElement } from './filter-element';
 import { FormControl } from '@angular/forms';
 import { FilterModel } from '../models/filter.model';
 import { FilterEmptyEvent } from '../events/filter-empty-event';
+import { Type } from '@angular/core';
+import { AutocompleteComponent } from '../components/autocomplete/autocomplete.component';
 
 export class AutocompleteFilter implements FilterModel {
-  private internalEvent: Subject<FilterEvent>;
+  protected internalEvent: Subject<FilterEvent>;
 
-  public elements: FilterElement[];
+  public elements: FilterElement;
 
   public initialOptions: FilterOption[];
 
   public events: Observable<FilterEvent>;
-
-  get filterElement(): FilterElement {
-    return this.elements[0];
-  }
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -42,7 +40,8 @@ export class AutocompleteFilter implements FilterModel {
     public placeholder: string,
     public options: FilterOption[],
     initialValue: FilterOption = null,
-    public getFilterOptions?: (params?: FilterParam[]) => Observable<FilterOption[]>
+    public getFilterOptions?: (params?: FilterParam[]) => Observable<FilterOption[]>,
+    public component: Type<any> = AutocompleteComponent
   ) {
     this.internalEvent = new Subject();
 
@@ -54,10 +53,10 @@ export class AutocompleteFilter implements FilterModel {
 
     this.setEvents(formControl);
 
-    this.elements = [new FilterElement(placeholder, formControl, this.filterOptions(formControl))];
+    this.elements = new FilterElement(placeholder, formControl, this.filterOptions(formControl));
   }
 
-  private filterOptions(formControl: FormControl): Observable<FilterOption[]> {
+  protected filterOptions(formControl: FormControl): Observable<FilterOption[]> {
     return formControl.valueChanges.pipe(
       filter(option => typeof option === 'string' || option === null),
       map(option => (option ? option : '')),
@@ -67,23 +66,19 @@ export class AutocompleteFilter implements FilterModel {
       startWith(''),
       distinctUntilChanged(),
       switchMap((filterTerm: string) =>
-        of(
-          this.initialOptions.filter((option: FilterOption) =>
-            option.value.toLowerCase().includes(filterTerm.toLowerCase())
-          )
-        )
+        of(this.options.filter((option: FilterOption) => option.value.toLowerCase().includes(filterTerm.toLowerCase())))
       )
     );
   }
 
-  private mapControlsValues(): string {
-    return this.filterElement.formControl.value ? this.filterElement.formControl.value.id : null;
+  protected mapControlsValues(): string {
+    return this.elements.formControl.value ? this.elements.formControl.value.id.toString() : null;
   }
 
   /**
    * Params will emit a value when the param changes
    */
-  private setEvents(formControl: FormControl): void {
+  public setEvents(formControl: FormControl): void {
     this.events = merge(
       formControl.valueChanges.pipe(
         filter(value => typeof value === 'object' || value === ''),
@@ -97,36 +92,42 @@ export class AutocompleteFilter implements FilterModel {
     );
   }
 
-  public clearFilter(): FilterEvent {
-    this.filterElement.clear();
-    // TODO: Check for bug, if emit true maybe it shoudnt return the value?
+  public clearFilter(emit: boolean = false): FilterEvent {
+    this.elements.clear(emit);
+
+    if (emit) {
+      return new FilterEvent(new FilterEmptyEvent(), this);
+    }
+
     return new FilterEvent(new FilterClearEvent(), this);
   }
 
   public enableFilter(): FilterEvent {
-    this.filterElement.formControl.enable({ onlySelf: true, emitEvent: false });
-    // this.internalEvent.next(new FilterEvent(new FilterEnabledEvent(), this));
+    this.elements.formControl.enable({ onlySelf: true, emitEvent: false });
+
     return new FilterEvent(new FilterEnabledEvent(), this);
   }
 
   public disableFilter(): FilterEvent {
-    this.filterElement.formControl.disable({ onlySelf: true, emitEvent: false });
-    // this.internalEvent.next(new FilterEvent(new FilterDisabledEvent(), this));
+    this.elements.formControl.disable({ onlySelf: true, emitEvent: false });
+
     return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
-   public setValue(value: any): FilterEvent {
-    this.filterElement.formControl.setValue(value, { onlySelf: true, emitEvent: false });
+  public setValue(value: any): FilterEvent {
+    this.elements.formControl.setValue(value, { onlySelf: true, emitEvent: false });
+
     return new FilterEvent(new FilterValidValueChangeEvent(), this);
   }
 
   public updateFilterOptions(params: FilterParam[]): FilterEvent {
-    /** Should a filter be disabled while waiting for the new options?
-     * If yes, should that disable emit an event to the mediator? (I think
-     * it should be disabled, but not emit an event)
-     */
-    this.getFilterOptions(params).subscribe(options => this.options = options);
+    this.elements.formControl.disable({ emitEvent: false });
+    this.getFilterOptions(params).subscribe(options => {
+      this.options = options;
+      this.elements.formControl.enable({ emitEvent: false });
+      this.elements.options = this.filterOptions(this.elements.formControl);
+    });
+
     return new FilterEvent(new FilterEmptyEvent(), this);
-    // TODO: Should i throw a custom error if getFilterOptions is not defined?
   }
 }

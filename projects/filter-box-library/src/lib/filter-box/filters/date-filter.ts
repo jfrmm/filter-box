@@ -9,17 +9,16 @@ import { FilterClearEvent } from '../events/filter-clear-event';
 import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
 import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
+import { FilterEmptyEvent } from '../events/filter-empty-event';
+import { Type } from '@angular/core';
+import { DateComponent } from '../components/date/date.component';
 
 export class DateFilter implements FilterModel {
-  private internalEvent: Subject<FilterEvent>;
+  protected internalEvent: Subject<FilterEvent>;
 
-  public elements: FilterElement[];
+  public elements: FilterElement;
 
   public events: Observable<FilterEvent>;
-
-  get filterElement(): FilterElement {
-    return this.elements[0];
-  }
 
   /**
    * TODO: Value being returned is of type date.
@@ -41,7 +40,12 @@ export class DateFilter implements FilterModel {
    *  TODO: Should we pass the date output format as an argument,
    * also, should we pass an optional parameter containing the datepicker options?
    */
-  constructor(public paramName: string, public placeholder: string, public initialValue?: string) {
+  constructor(
+    public paramName: string,
+    public placeholder: string,
+    public initialValue?: string,
+    public component: Type<any> = DateComponent
+  ) {
     this.internalEvent = new Subject();
 
     const initialDate: string = initialValue ? new Date(initialValue).toISOString() : null;
@@ -50,16 +54,16 @@ export class DateFilter implements FilterModel {
 
     this.events = new Observable();
 
-    this.elements = [new FilterElement(placeholder, formControl)];
+    this.elements = new FilterElement(placeholder, formControl);
 
     this.setEvents(formControl);
   }
 
-  private mapControlsValues(): string {
-    return this.filterElement.formControl.value ? (this.filterElement.formControl.value as Date).toISOString() : null;
+  protected mapControlsValues(): string {
+    return this.elements.formControl.value ? (this.elements.formControl.value as Date).toISOString() : null;
   }
 
-  private setEvents(formControl: FormControl): void {
+  public setEvents(formControl: FormControl): void {
     this.events = merge(
       formControl.valueChanges.pipe(
         filter(value => (value === '' || value) && formControl.valid),
@@ -73,23 +77,28 @@ export class DateFilter implements FilterModel {
     );
   }
 
-  public clearFilter(): FilterEvent {
-    this.filterElement.clear();
+  public clearFilter(emit: boolean = false): FilterEvent {
+    this.elements.clear(emit);
+
+    if (emit) {
+      return new FilterEvent(new FilterEmptyEvent(), this);
+    }
+
     return new FilterEvent(new FilterClearEvent(), this);
   }
 
   public enableFilter(): FilterEvent {
-    this.filterElement.formControl.enable({ onlySelf: true, emitEvent: false });
+    this.elements.formControl.enable({ onlySelf: true, emitEvent: false });
     return new FilterEvent(new FilterEnabledEvent(), this);
   }
 
   public disableFilter(): FilterEvent {
-    this.filterElement.formControl.disable({ onlySelf: true, emitEvent: false });
+    this.elements.formControl.disable({ onlySelf: true, emitEvent: false });
     return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
   public setValue(value: any): FilterEvent {
-    this.filterElement.formControl.setValue(value, { onlySelf: true, emitEvent: false });
+    this.elements.formControl.setValue(value, { onlySelf: true, emitEvent: false });
     return new FilterEvent(new FilterValidValueChangeEvent(), this);
   }
 }
