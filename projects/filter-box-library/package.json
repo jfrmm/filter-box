@@ -3,10 +3,10 @@
   "version": "0.1.1",
   "peerDependencies": {
     "@angular/common": "^8.0.1",
-    "@angular/cdk": "~8.0.1",
+    "@angular/cdk": "^8.0.1",
     "@angular/core": "^8.0.1",
     "@angular/material": "^8.0.1",
-    "@angular/flex-layout": "8.0.0-beta.26"
+    "@angular/flex-layout": "^8.0.0-beta.26"
   },
   "repository": "git@gitlab.com:asp-devteam/filter-box.git"
 }
