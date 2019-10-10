@@ -1,17 +1,19 @@
 <div *ngIf="filter">
   <mat-form-field>
-    <input
-      type="text"
-      matInput
-      [formControl]="filter?.elements.formControl"
+    <mat-select
+      [formControl]="filter.elements.formControl"
       [placeholder]="filter?.elements.placeholder"
-      [matAutocomplete]="auto"
-    />
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="filterHelper.displayFilter">
+      (openedChange)="clearSearch($event)"
+    >
+      <div fxLayout="row" class="search-option">
+        <mat-form-field class="custom-wrapper">
+          <input matInput type="text" [formControl]="filter?.searchFormControl" (keydown)="$event.stopPropagation()" />
+        </mat-form-field>
+      </div>
       <mat-option *ngFor="let filterOption of filter?.elements.options | async" [value]="filterOption">
         {{ filterOption.value }}
       </mat-option>
-    </mat-autocomplete>
+    </mat-select>
   </mat-form-field>
 
   <asp-clear-filter-button [disabled]="!filter.elements.formControl.value" [filter]="filter"></asp-clear-filter-button>

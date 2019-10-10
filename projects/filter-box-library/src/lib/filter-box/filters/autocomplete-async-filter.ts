@@ -1,28 +1,20 @@
+import { Type } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { filter, map, startWith, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Observable, merge, Subject } from 'rxjs';
-import { FilterElement } from './filter-element';
-import { FilterModel } from '../models/filter.model';
+import { merge, Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, map, startWith, switchMap } from 'rxjs/operators';
+import { AutocompleteAsyncComponent } from '../components/autocomplete-async/autocomplete-async.component';
+import { FilterClearEvent } from '../events/filter-clear-event';
+import { FilterDisabledEvent } from '../events/filter-disabled-event';
+import { FilterEmptyEvent } from '../events/filter-empty-event';
+import { FilterEnabledEvent } from '../events/filter-enabled-event';
+import { FilterEvent } from '../events/filter-event';
+import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
 import { FilterOption } from '../models/filter-option.model';
 import { FilterParam } from '../models/filter-param.model';
-import { FilterEvent } from '../events/filter-event';
-import { FilterClearEvent } from '../events/filter-clear-event';
-import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
-import { FilterDisabledEvent } from '../events/filter-disabled-event';
-import { FilterEnabledEvent } from '../events/filter-enabled-event';
-import { FilterEmptyEvent } from '../events/filter-empty-event';
-import { AutocompleteAsyncComponent } from '../components/autocomplete-async/autocomplete-async.component';
-import { Type } from '@angular/core';
+import { FilterModel } from '../models/filter.model';
+import { FilterElement } from './filter-element';
 
 export class AutocompleteAsyncFilter implements FilterModel {
-  protected internalEvent: Subject<FilterEvent>;
-
-  public elements: FilterElement;
-
-  public initialOptions: Observable<FilterOption[]>;
-
-  public events: Observable<FilterEvent>;
-
   get param(): FilterParam {
     const filterParam: FilterParam = {
       name: this.paramName,
@@ -34,6 +26,15 @@ export class AutocompleteAsyncFilter implements FilterModel {
   get type(): string {
     return 'autocomplete-async';
   }
+  protected internalEvent: Subject<FilterEvent>;
+
+  public elements: FilterElement;
+
+  public events: Observable<FilterEvent>;
+
+  public initialOptions: Observable<FilterOption[]>;
+
+  public searchFormControl: FormControl;
 
   constructor(
     public paramName: string,
@@ -43,11 +44,23 @@ export class AutocompleteAsyncFilter implements FilterModel {
   ) {
     this.internalEvent = new Subject();
 
+    this.searchFormControl = new FormControl();
+
     const formControl = new FormControl('');
 
     this.setEvents(formControl);
 
     this.elements = new FilterElement(placeholder, formControl, this.filterOptions(formControl));
+
+    this.elements.options = this.filterSearch();
+  }
+
+  private filterSearch(): Observable<FilterOption[]> {
+    return this.searchFormControl.valueChanges.pipe(
+      startWith(''),
+      distinctUntilChanged(),
+      switchMap((filterTerm: string) => this.getAsyncOptions(filterTerm))
+    );
   }
 
   protected filterOptions(formControl: FormControl): Observable<FilterOption[]> {
@@ -67,6 +80,26 @@ export class AutocompleteAsyncFilter implements FilterModel {
     return this.elements.formControl.value ? this.elements.formControl.value.id.toString() : null;
   }
 
+  public clearFilter(emit: boolean = false): FilterEvent {
+    this.elements.clear(emit);
+
+    if (emit) {
+      return new FilterEvent(new FilterEmptyEvent(), this);
+    }
+
+    return new FilterEvent(new FilterClearEvent(), this);
+  }
+
+  public disableFilter(): FilterEvent {
+    this.elements.formControl.disable({ onlySelf: true, emitEvent: false });
+    return new FilterEvent(new FilterDisabledEvent(), this);
+  }
+
+  public enableFilter(): FilterEvent {
+    this.elements.formControl.enable({ onlySelf: true, emitEvent: false });
+    return new FilterEvent(new FilterEnabledEvent(), this);
+  }
+
   /**
    * Params will emit a value when the param changes
    */
@@ -82,26 +115,6 @@ export class AutocompleteAsyncFilter implements FilterModel {
       ),
       this.internalEvent
     );
-  }
-
-  public clearFilter(emit: boolean = false): FilterEvent {
-    this.elements.clear(emit);
-
-    if (emit) {
-      return new FilterEvent(new FilterEmptyEvent(), this);
-    }
-
-    return new FilterEvent(new FilterClearEvent(), this);
-  }
-
-  public enableFilter(): FilterEvent {
-    this.elements.formControl.enable({ onlySelf: true, emitEvent: false });
-    return new FilterEvent(new FilterEnabledEvent(), this);
-  }
-
-  public disableFilter(): FilterEvent {
-    this.elements.formControl.disable({ onlySelf: true, emitEvent: false });
-    return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
   public setValue(value: any): FilterEvent {

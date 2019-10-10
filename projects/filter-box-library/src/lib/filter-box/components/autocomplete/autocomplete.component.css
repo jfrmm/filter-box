@@ -1,0 +1,16 @@
+::ng-deep .custom-wrapper div.mat-form-field-wrapper {
+  padding-bottom: 0.75em;
+}
+
+.search-option {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+  padding: 0 16px;
+  outline: 0;
+}

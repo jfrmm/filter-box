@@ -1,13 +1,13 @@
-import { Injectable, OnDestroy, EventEmitter } from '@angular/core';
-import { FilterBehaviour } from './models/filter-behaviour.model';
+import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
-import { FilterModel } from './models/filter.model';
-import { FilterEvent } from './events/filter-event';
 import { takeUntil } from 'rxjs/operators';
+import { FilterEvent } from './events/filter-event';
+import { FilterBehaviour } from './models/filter-behaviour.model';
+import { FilterModel } from './models/filter.model';
 
 @Injectable()
 export class FilterMediatorService implements OnDestroy {
-  private destroy$: Subject<void>;
+  private readonly destroy$: Subject<void>;
 
   private filterBehaviours: FilterBehaviour[];
 
@@ -15,11 +15,6 @@ export class FilterMediatorService implements OnDestroy {
 
   constructor() {
     this.destroy$ = new Subject();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   private executeBehaviours(behaviours: FilterBehaviour[]): void {
@@ -49,6 +44,11 @@ export class FilterMediatorService implements OnDestroy {
       this.findAndExecuteBehaviours(event);
     }
     this.filterChanged.emit();
+  }
+
+  public ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /**

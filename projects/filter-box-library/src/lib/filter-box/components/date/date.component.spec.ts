@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DateComponent } from './date.component';
 import { FilterBoxModule } from '../../filter-box.module';
+import { DateComponent } from './date.component';
 
 describe('DateComponent', () => {
   let component: DateComponent;

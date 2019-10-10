@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FilterBoxComponent } from './filter-box.component';
 import { FilterBoxModule } from './filter-box.module';
 import { AutocompleteFilter } from './filters/autocomplete-filter';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('FilterBoxComponent', () => {
   let component: FilterBoxComponent;

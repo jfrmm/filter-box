@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FilterHelperService } from '../../filter-helper.service';
 import { FilterComponentModel } from '../../models/filter-component.model';
 import { FilterOption } from '../../models/filter-option.model';
@@ -13,8 +13,6 @@ export class AutocompleteMultipleComponent implements OnInit, FilterComponentMod
   public filter;
 
   constructor(public filterHelper: FilterHelperService) {}
-
-  ngOnInit() {}
 
   public clearSearch(event: boolean): void {
     if (!event) {
@@ -37,6 +35,8 @@ export class AutocompleteMultipleComponent implements OnInit, FilterComponentMod
 
     this.filter.elements.formControl.setValue(this.filter.selection.selected);
   }
+
+  public ngOnInit() {}
 
   public toggleOption(event: MouseEvent, filterOption: FilterOption): void {
     event.stopPropagation();

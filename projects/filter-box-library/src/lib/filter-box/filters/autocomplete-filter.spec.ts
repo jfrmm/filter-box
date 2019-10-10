@@ -1,5 +1,5 @@
-import { AutocompleteFilter } from './autocomplete-filter';
 import { of } from 'rxjs';
+import { AutocompleteFilter } from './autocomplete-filter';
 
 describe('AutocompleteFilter', () => {
   let autoCompleteFilter: AutocompleteFilter;

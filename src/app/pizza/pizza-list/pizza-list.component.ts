@@ -65,18 +65,18 @@ export class PizzaListComponent implements OnInit {
         new AutocompleteMultipleFilter('base', 'Multiple', pizzaBases, null, null, AutocompleteMultipleComponent)
       );
 
-      this.filterBehaviours = [
-        {
-          emitters: [this.filters[1]],
-          events: [new FilterClearEvent(), new FilterValidValueChangeEvent()],
-          callbacks: [
-            () =>
-              (this.filters[0] as AutocompleteFilter).updateFilterOptions(
-                this.filters[1].param ? [this.filters[1].param] : null
-              ),
-          ],
-        },
-      ];
+      // this.filterBehaviours = [
+      //   {
+      //     emitters: [this.filters[1]],
+      //     events: [new FilterClearEvent(), new FilterValidValueChangeEvent()],
+      //     callbacks: [
+      //       () =>
+      //         (this.filters[0] as AutocompleteFilter).updateFilterOptions(
+      //           this.filters[1].param ? [this.filters[1].param] : null
+      //         ),
+      //     ],
+      //   },
+      // ];
 
       // this.filterBehaviours = [
       //   {

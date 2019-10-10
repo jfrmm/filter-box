@@ -1,8 +1,8 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export class GenericDataSource extends DataSource<any> {
-  private dataStream$ = new BehaviorSubject<any[]>([]);
+  private readonly dataStream$ = new BehaviorSubject<any[]>([]);
 
   get data(): any[] {
     return this.dataStream$.value;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FilterHelperService } from '../../filter-helper.service';
 import { FilterComponentModel } from '../../models/filter-component.model';
 
@@ -13,5 +13,11 @@ export class AutocompleteComponent implements OnInit, FilterComponentModel {
 
   constructor(public filterHelper: FilterHelperService) {}
 
-  ngOnInit() {}
+  public clearSearch(event: boolean): void {
+    if (!event) {
+      this.filter.searchFormControl.setValue('');
+    }
+  }
+
+  public ngOnInit() {}
 }

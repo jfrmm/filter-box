@@ -1,32 +1,21 @@
-import { Subject, Observable, of, merge } from 'rxjs';
-import { FilterEvent } from '../events/filter-event';
-import { FilterElement } from './filter-element';
-import { FilterOption } from '../models/filter-option.model';
-import { FilterParam } from '../models/filter-param.model';
-import { AutocompleteMultipleComponent } from '../components/autocomplete-multiple/autocomplete-multiple.component';
+import { SelectionModel } from '@angular/cdk/collections';
 import { Type } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { filter, map, startWith, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
+import { merge, Observable, of, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, map, startWith, switchMap } from 'rxjs/operators';
+import { AutocompleteMultipleComponent } from '../components/autocomplete-multiple/autocomplete-multiple.component';
 import { FilterClearEvent } from '../events/filter-clear-event';
+import { FilterDisabledEvent } from '../events/filter-disabled-event';
 import { FilterEmptyEvent } from '../events/filter-empty-event';
 import { FilterEnabledEvent } from '../events/filter-enabled-event';
-import { FilterDisabledEvent } from '../events/filter-disabled-event';
+import { FilterEvent } from '../events/filter-event';
+import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
+import { FilterOption } from '../models/filter-option.model';
+import { FilterParam } from '../models/filter-param.model';
 import { FilterModel } from '../models/filter.model';
-import { SelectionModel } from '@angular/cdk/collections';
+import { FilterElement } from './filter-element';
 
 export class AutocompleteMultipleFilter implements FilterModel {
-  protected internalEvent: Subject<FilterEvent>;
-
-  public elements: FilterElement;
-
-  public initialOptions: FilterOption[];
-
-  public events: Observable<FilterEvent>;
-
-  public searchFormControl: FormControl;
-
-  public selection: SelectionModel<FilterOption>;
 
   get param(): FilterParam {
     const filterParam: FilterParam = {
@@ -39,6 +28,17 @@ export class AutocompleteMultipleFilter implements FilterModel {
   get type(): string {
     return 'autocomplete-multiple';
   }
+  protected internalEvent: Subject<FilterEvent>;
+
+  public elements: FilterElement;
+
+  public events: Observable<FilterEvent>;
+
+  public initialOptions: FilterOption[];
+
+  public searchFormControl: FormControl;
+
+  public selection: SelectionModel<FilterOption>;
 
   constructor(
     public paramName: string,
@@ -102,6 +102,27 @@ export class AutocompleteMultipleFilter implements FilterModel {
     return formValue ? formValue.map((option: FilterOption) => option.id.toString()).join(',') : null;
   }
 
+  public clearFilter(emit: boolean = false): FilterEvent {
+    this.elements.clear(emit);
+    this.selection.clear();
+
+    if (emit) {
+      return new FilterEvent(new FilterEmptyEvent(), this);
+    }
+
+    return new FilterEvent(new FilterClearEvent(), this);
+  }
+
+  public disableFilter(): FilterEvent {
+    this.elements.formControl.disable({ onlySelf: true, emitEvent: false });
+    return new FilterEvent(new FilterDisabledEvent(), this);
+  }
+
+  public enableFilter(): FilterEvent {
+    this.elements.formControl.enable({ onlySelf: true, emitEvent: false });
+    return new FilterEvent(new FilterEnabledEvent(), this);
+  }
+
   /**
    * Params will emit a value when the param changes
    */
@@ -117,27 +138,6 @@ export class AutocompleteMultipleFilter implements FilterModel {
       ),
       this.internalEvent
     );
-  }
-
-  public clearFilter(emit: boolean = false): FilterEvent {
-    this.elements.clear(emit);
-    this.selection.clear();
-
-    if (emit) {
-      return new FilterEvent(new FilterEmptyEvent(), this);
-    }
-
-    return new FilterEvent(new FilterClearEvent(), this);
-  }
-
-  public enableFilter(): FilterEvent {
-    this.elements.formControl.enable({ onlySelf: true, emitEvent: false });
-    return new FilterEvent(new FilterEnabledEvent(), this);
-  }
-
-  public disableFilter(): FilterEvent {
-    this.elements.formControl.disable({ onlySelf: true, emitEvent: false });
-    return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
   public setValue(value: any): FilterEvent {
