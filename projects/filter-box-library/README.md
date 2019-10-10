@@ -94,6 +94,8 @@ And add it to your template.
 <asp-filter-box [filters]="filters" (index)="index()"></asp-filter-box>
 ```
 
+> Make sure that the Filter Box template is only shown after the filters data has been loaded and the behaviours set
+
 ### Defining filter behaviours
 
 If you want to define a filter dependent behaviour, you can do so by creating a `FilterBehaviour` array like this:
