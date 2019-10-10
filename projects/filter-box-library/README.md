@@ -83,9 +83,15 @@ Next, insert the `FilterBoxComponent` selector in your tempalte.
 To listen for changes in your filters values, just create a function to listen to the event.
 
 ```typescript
-  public index(): void {
-    // Do something
-  }
+import { FilterParam } from '@asp-devteam/filter-box';
+
+public index(params: FilterParam[] = null): void {
+  this.someService
+    .getList(params)
+    .subscribe(response => {
+      // Do something
+    });
+}
 ```
 
 And add it to your template.
