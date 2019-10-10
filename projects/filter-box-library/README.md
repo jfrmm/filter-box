@@ -132,9 +132,21 @@ And adding the behaviours array to the template:
 <asp-filter-box [filters]="filters" [filterBehaviours]="filterBehaviours" (index)="index(true)"></asp-filter-box>
 ```
 
-A callback must always return a `FilterEvent`. If your callback is a custom defined function, just return a `FilterEmptyEvent`.
+> A callback must always return a `FilterEvent`. If your callback is a custom defined function, just return a `FilterEmptyEvent`.
 
-For more information on behaviours,see the [advanced filter behaviours guide](./docs/advanced-filter-behaviours.md).
+The available events are
+
+```typescript
+import {
+  FilterClearEvent,
+  FilterDisabledEvent,
+  FilterEmptyEvent,
+  FilterEnabledEvent,
+  FilterValidValueChangeEvent
+} from '@asp-devteam/filter-box';
+```
+
+For more information on behaviours, see the [advanced filter behaviours guide](./docs/advanced-filter-behaviours.md).
 
 ### Custom filters
 
