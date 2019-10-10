@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FilterModel } from '../../models/filter.model';
 
 @Component({
@@ -13,10 +13,9 @@ export class ClearFilterButtonComponent implements OnInit {
   @Input()
   public filter: FilterModel;
 
-
   constructor() { }
 
-  ngOnInit() {}
+  public ngOnInit() {}
 
   public onClickClearFilter(event: MouseEvent): void {
     event.stopImmediatePropagation();

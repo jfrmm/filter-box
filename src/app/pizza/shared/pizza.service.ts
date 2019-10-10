@@ -1,44 +1,15 @@
 import { Injectable } from '@angular/core';
+import { FilterOption, FilterParam } from 'filter-box-library';
 import { Observable, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PIZZABASES, PIZZASLIST, RATINGS, RESTAURANTS } from './mock';
 import { PizzaModel } from './pizza.model';
-import { PIZZASLIST, PIZZABASES, RESTAURANTS, RATINGS } from './mock';
-import { FilterParam, FilterOption } from 'filter-box-library';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PizzaService {
   constructor() {}
-
-  public getPizzasList(params: FilterParam[]): Observable<{ elements: PizzaModel[] }> {
-    const filteredData = this.mockServerFilter(PIZZASLIST, params);
-
-    return timer(1000).pipe(map(() => ({ elements: filteredData })));
-  }
-
-  public getPizzaBases(params?: FilterParam[]): Observable<FilterOption[]> {
-    return timer(500).pipe(
-      map(() => {
-        if (params && params[0].value !== null) {
-          return [PIZZABASES[1]];
-        }
-        return PIZZABASES;
-      })
-    );
-  }
-
-  public getRestaurants(filterTerm?: string): Observable<FilterOption[]> {
-    filterTerm = filterTerm ? filterTerm.toLowerCase() : '';
-
-    return timer(1000).pipe(
-      map(() => RESTAURANTS.filter((restaurant: FilterOption) => restaurant.value.toLowerCase().includes(filterTerm)))
-    );
-  }
-
-  public getRatings(): Observable<FilterOption[]> {
-    return timer(200).pipe(map(() => RATINGS));
-  }
 
   /**
    * Simulate the server expected filter process
@@ -67,5 +38,34 @@ export class PizzaService {
     });
 
     return filteredData;
+  }
+
+  public getPizzaBases(params?: FilterParam[]): Observable<FilterOption[]> {
+    return timer(500).pipe(
+      map(() => {
+        if (params && params[0].value !== null) {
+          return [PIZZABASES[1]];
+        }
+        return PIZZABASES;
+      })
+    );
+  }
+
+  public getPizzasList(params: FilterParam[]): Observable<{ elements: PizzaModel[] }> {
+    const filteredData = this.mockServerFilter(PIZZASLIST, params);
+
+    return timer(1000).pipe(map(() => ({ elements: filteredData })));
+  }
+
+  public getRatings(): Observable<FilterOption[]> {
+    return timer(200).pipe(map(() => RATINGS));
+  }
+
+  public getRestaurants(filterTerm?: string): Observable<FilterOption[]> {
+    filterTerm = filterTerm ? filterTerm.toLowerCase() : '';
+
+    return timer(1000).pipe(
+      map(() => RESTAURANTS.filter((restaurant: FilterOption) => restaurant.value.toLowerCase().includes(filterTerm)))
+    );
   }
 }

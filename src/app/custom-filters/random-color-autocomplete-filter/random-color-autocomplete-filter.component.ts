@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { FilterComponentModel } from 'filter-box-library';
 import { FilterHelperService } from 'filter-box-library';
 
@@ -8,31 +8,31 @@ import { FilterHelperService } from 'filter-box-library';
   styleUrls: ['./random-color-autocomplete-filter.component.css'],
 })
 export class RandomColorAutocompleteFilterComponent implements OnInit, OnDestroy, FilterComponentModel {
-  @HostBinding('style.background-color') color = 'red';
 
   set setColor(color: string) {
     this.color = color;
   }
 
-  private colors: string[] = ['red', 'blue', 'yellow', 'green'];
+  private readonly colors: string[] = ['red', 'blue', 'yellow', 'green'];
 
   private interval;
+  @HostBinding('style.background-color') public color = 'red';
 
   public filter;
 
   constructor(public filterHelper: FilterHelperService) {}
 
-  ngOnInit() {
-    this.getRandomColor();
-  }
-
-  ngOnDestroy() {
-    clearInterval(this.interval);
-  }
-
   private getRandomColor(): void {
     this.interval = setInterval(() => {
       this.setColor = this.colors[Math.floor(Math.random() * this.colors.length)];
     }, 100);
+  }
+
+  public ngOnDestroy() {
+    clearInterval(this.interval);
+  }
+
+  public ngOnInit() {
+    this.getRandomColor();
   }
 }

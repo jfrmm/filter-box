@@ -1,5 +1,5 @@
-import { PizzaModel } from './pizza.model';
 import { FilterOption } from 'filter-box-library';
+import { PizzaModel } from './pizza.model';
 
 export const PIZZABASES: FilterOption[] = [
   { id: 1, value: 'Tomato' },

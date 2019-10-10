@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FilterHelperService } from '../../filter-helper.service';
 import { FilterComponentModel } from '../../models/filter-component.model';
 
@@ -13,5 +13,5 @@ export class CheckboxComponent implements OnInit, FilterComponentModel {
 
   constructor(public filterHelper: FilterHelperService) {}
 
-  ngOnInit() {}
+  public ngOnInit() {}
 }

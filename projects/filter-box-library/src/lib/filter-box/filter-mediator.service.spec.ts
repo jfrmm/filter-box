@@ -1,8 +1,8 @@
-import { TestBed, async, tick, fakeAsync } from '@angular/core/testing';
+import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { FilterClearEvent } from './events/filter-clear-event';
 import { FilterMediatorService } from './filter-mediator.service';
 import { AutocompleteFilter } from './filters/autocomplete-filter';
 import { FilterModel } from './models/filter.model';
-import { FilterClearEvent } from './events/filter-clear-event';
 
 describe('FilterMediatorService', () => {
   let filterMediatorService: FilterMediatorService;
@@ -15,7 +15,6 @@ describe('FilterMediatorService', () => {
     mockFilter = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }], { id: 1, value: 'MOCK' });
 
     filterMediatorService.setFilters([mockFilter]);
-
 
   });
 

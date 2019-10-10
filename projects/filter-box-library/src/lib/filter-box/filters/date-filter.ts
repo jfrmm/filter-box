@@ -1,24 +1,19 @@
+import { Type } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { merge, Observable, Subject } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { DateComponent } from '../components/date/date.component';
+import { FilterClearEvent } from '../events/filter-clear-event';
+import { FilterDisabledEvent } from '../events/filter-disabled-event';
+import { FilterEmptyEvent } from '../events/filter-empty-event';
+import { FilterEnabledEvent } from '../events/filter-enabled-event';
+import { FilterEvent } from '../events/filter-event';
+import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
+import { FilterParam } from '../models/filter-param.model';
 import { FilterModel } from '../models/filter.model';
 import { FilterElement } from './filter-element';
-import { FilterParam } from '../models/filter-param.model';
-import { FormControl } from '@angular/forms';
-import { Observable, merge, Subject } from 'rxjs';
-import { FilterEvent } from '../events/filter-event';
-import { map, filter } from 'rxjs/operators';
-import { FilterClearEvent } from '../events/filter-clear-event';
-import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
-import { FilterDisabledEvent } from '../events/filter-disabled-event';
-import { FilterEnabledEvent } from '../events/filter-enabled-event';
-import { FilterEmptyEvent } from '../events/filter-empty-event';
-import { Type } from '@angular/core';
-import { DateComponent } from '../components/date/date.component';
 
 export class DateFilter implements FilterModel {
-  protected internalEvent: Subject<FilterEvent>;
-
-  public elements: FilterElement;
-
-  public events: Observable<FilterEvent>;
 
   /**
    * TODO: Value being returned is of type date.
@@ -35,6 +30,11 @@ export class DateFilter implements FilterModel {
   get type(): string {
     return 'date';
   }
+  protected internalEvent: Subject<FilterEvent>;
+
+  public elements: FilterElement;
+
+  public events: Observable<FilterEvent>;
 
   /**
    *  TODO: Should we pass the date output format as an argument,
@@ -63,6 +63,26 @@ export class DateFilter implements FilterModel {
     return this.elements.formControl.value ? (this.elements.formControl.value as Date).toISOString() : null;
   }
 
+  public clearFilter(emit: boolean = false): FilterEvent {
+    this.elements.clear(emit);
+
+    if (emit) {
+      return new FilterEvent(new FilterEmptyEvent(), this);
+    }
+
+    return new FilterEvent(new FilterClearEvent(), this);
+  }
+
+  public disableFilter(): FilterEvent {
+    this.elements.formControl.disable({ onlySelf: true, emitEvent: false });
+    return new FilterEvent(new FilterDisabledEvent(), this);
+  }
+
+  public enableFilter(): FilterEvent {
+    this.elements.formControl.enable({ onlySelf: true, emitEvent: false });
+    return new FilterEvent(new FilterEnabledEvent(), this);
+  }
+
   public setEvents(formControl: FormControl): void {
     this.events = merge(
       formControl.valueChanges.pipe(
@@ -75,26 +95,6 @@ export class DateFilter implements FilterModel {
       ),
       this.internalEvent
     );
-  }
-
-  public clearFilter(emit: boolean = false): FilterEvent {
-    this.elements.clear(emit);
-
-    if (emit) {
-      return new FilterEvent(new FilterEmptyEvent(), this);
-    }
-
-    return new FilterEvent(new FilterClearEvent(), this);
-  }
-
-  public enableFilter(): FilterEvent {
-    this.elements.formControl.enable({ onlySelf: true, emitEvent: false });
-    return new FilterEvent(new FilterEnabledEvent(), this);
-  }
-
-  public disableFilter(): FilterEvent {
-    this.elements.formControl.disable({ onlySelf: true, emitEvent: false });
-    return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
   public setValue(value: any): FilterEvent {

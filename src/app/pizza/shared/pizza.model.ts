@@ -1,11 +1,11 @@
 import { FilterOption } from 'filter-box-library';
 
 export interface PizzaModel {
+  base: FilterOption;
   id?: number;
   name: string;
-  base: FilterOption;
-  restaurant?: FilterOption;
   price?: number;
   rating: FilterOption;
   ratingDate: string;
+  restaurant?: FilterOption;
 }

@@ -11,5 +11,5 @@ export class SelectFilterComponent implements OnInit, FilterComponentModel {
 
   constructor(public filterHelper: FilterHelperService) {}
 
-  ngOnInit() {}
+  public ngOnInit() {}
 }

@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CheckboxComponent } from './checkbox.component';
 import { FilterBoxModule } from '../../filter-box.module';
+import { CheckboxComponent } from './checkbox.component';
 
 describe('CheckboxComponent', () => {
   let component: CheckboxComponent;

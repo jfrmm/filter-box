@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AutocompleteComponent } from './autocomplete.component';
 import { FilterBoxModule } from '../../filter-box.module';
+import { AutocompleteComponent } from './autocomplete.component';
 
 describe('AutocompleteComponent', () => {
   let component: AutocompleteComponent;

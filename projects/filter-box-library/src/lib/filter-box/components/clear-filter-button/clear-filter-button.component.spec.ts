@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClearFilterButtonComponent } from './clear-filter-button.component';
 import { FilterBoxModule } from '../../filter-box.module';
 import { AutocompleteFilter } from '../../filters/autocomplete-filter';
+import { ClearFilterButtonComponent } from './clear-filter-button.component';
 
 describe('ClearFilterButtonComponent', () => {
   let component: ClearFilterButtonComponent;
