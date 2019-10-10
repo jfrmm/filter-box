@@ -35,6 +35,8 @@ export class AutocompleteFilter implements FilterModel {
 
   public initialOptions: FilterOption[];
 
+   public searchFormControl: FormControl;
+
   constructor(
     public paramName: string,
     public placeholder: string,
@@ -45,6 +47,8 @@ export class AutocompleteFilter implements FilterModel {
   ) {
     this.internalEvent = new Subject();
 
+    this.searchFormControl = new FormControl();
+
     this.initialOptions = options;
 
     this.options = options;
@@ -54,6 +58,22 @@ export class AutocompleteFilter implements FilterModel {
     this.setEvents(formControl);
 
     this.elements = new FilterElement(placeholder, formControl, this.filterOptions(formControl));
+
+    this.elements.options = this.filterSearch();
+  }
+
+  private filterSearch(): Observable<FilterOption[]> {
+    return this.searchFormControl.valueChanges.pipe(
+      startWith(''),
+      distinctUntilChanged(),
+      switchMap((filterTerm: string) =>
+        of(
+          this.options.filter((filterOption: FilterOption) =>
+            filterOption.value.toLowerCase().includes(filterTerm.toLowerCase())
+          )
+        )
+      )
+    );
   }
 
   protected filterOptions(formControl: FormControl): Observable<FilterOption[]> {

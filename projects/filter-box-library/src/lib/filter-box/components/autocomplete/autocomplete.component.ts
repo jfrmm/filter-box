@@ -13,5 +13,18 @@ export class AutocompleteComponent implements OnInit, FilterComponentModel {
 
   constructor(public filterHelper: FilterHelperService) {}
 
+  public clearSearch(event: boolean): void {
+    if (!event) {
+      this.filter.searchFormControl.setValue('');
+    }
+  }
+
   public ngOnInit() {}
+
+  // public selectOption(event: MouseEvent, filterOption: FilterOption): void {
+  //   event.stopPropagation();
+
+  //   this.filter.elements.formControl.setValue(this.filterOption);
+  // }
+
 }
