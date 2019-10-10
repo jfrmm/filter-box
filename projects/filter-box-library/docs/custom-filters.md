@@ -3,6 +3,7 @@
 Be aware that to create a custom filter, you are expected to have some knowledge on both filters and behaviours.
 
 ## Table of Contents
+
 - [Custom Presentation](#custom-presentation)
 - [Custom Functionality](#custom-functionality)
   - [Extend From Filter](#extend-from-filter)
@@ -100,14 +101,16 @@ export class SelectFilter extends AutocompleteFilter {
 
 ```
 
->To keep a consistent filterbox behaviour when clearing the filter, dont forget to include the provided `clear-filter-button-component` in your custom templates:
+> To keep a consistent filterbox behaviour when clearing the filter, dont forget to include the provided `clear-filter-button-component` in your custom templates:
 
 ```html
 <asp-clear-filter-button [disabled]="!filter.elements.formControl.value" [filter]="filter"></asp-clear-filter-button>
 ```
 
-
 ### Create A Filter From Scratch
 
 When creating a new filter from scratch dont forget to keep in mind the filter behaviour system.
 
+---
+
+Copyright 2019 Alter Solutions Portugal

@@ -60,9 +60,18 @@ This package provides four commonly used filters:
 To set up a Filter Box, start by instanciating the filters you want to use.
 
 ```typescript
- this.filters.push(
-        new AutocompleteFilter('base', 'Base', pizzaBases),
-        new CheckboxFilter('rating', ratings)
+import {
+  AutocompleteFilter,
+  CheckboxFilter,
+  FilterModel
+} from '@asp-devteam/filter-box';
+
+filters: FilterModel[] = [];
+
+this.filters.push(
+  new AutocompleteFilter('base', 'Base', pizzaBases),
+  new CheckboxFilter('rating', ratings)
+);
 ```
 
 Next, insert the `FilterBoxComponent` selector in your tempalte.
@@ -90,6 +99,10 @@ And add it to your template.
 If you want to define a filter dependent behaviour, you can do so by creating a `FilterBehaviour` array like this:
 
 ```typescript
+import { FilterBehaviour, FilterValidValueChangeEvent } from '@asp-devteam/filter-box';
+
+filterBehaviours: FilterBehaviour[];
+
 this.filterBehaviours = [
   {
     emitters: [this.filters[0]],
@@ -105,10 +118,14 @@ And adding the behaviours array to the template:
 <asp-filter-box [filters]="filters" [filterBehaviours]="filterBehaviours" (index)="index(true)"></asp-filter-box>
 ```
 
-A callback must always return a `Filter Event`. If your callback is a custom defined function, just return a `FilterEmptyEvent`.
+A callback must always return a `FilterEvent`. If your callback is a custom defined function, just return a `FilterEmptyEvent`.
 
 For more information on behaviours,see the [advanced filter behaviours guide](./docs/advanced-filter-behaviours.md).
 
 ### Custom filters
 
 [Available here](./docs/custom-filters.md)
+
+---
+
+Copyright 2019 Alter Solutions Portugal
