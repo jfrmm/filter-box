@@ -13,5 +13,11 @@ export class AutocompleteAsyncComponent implements OnInit, FilterComponentModel 
 
   constructor(public filterHelper: FilterHelperService) {}
 
+  public clearSearch(event: boolean): void {
+    if (!event) {
+      this.filter.searchFormControl.setValue('');
+    }
+  }
+
   public ngOnInit() {}
 }

@@ -20,11 +20,4 @@ export class AutocompleteComponent implements OnInit, FilterComponentModel {
   }
 
   public ngOnInit() {}
-
-  // public selectOption(event: MouseEvent, filterOption: FilterOption): void {
-  //   event.stopPropagation();
-
-  //   this.filter.elements.formControl.setValue(this.filterOption);
-  // }
-
 }

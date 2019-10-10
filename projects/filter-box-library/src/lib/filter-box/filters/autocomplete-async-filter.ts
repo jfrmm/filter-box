@@ -15,7 +15,6 @@ import { FilterModel } from '../models/filter.model';
 import { FilterElement } from './filter-element';
 
 export class AutocompleteAsyncFilter implements FilterModel {
-
   get param(): FilterParam {
     const filterParam: FilterParam = {
       name: this.paramName,
@@ -35,6 +34,8 @@ export class AutocompleteAsyncFilter implements FilterModel {
 
   public initialOptions: Observable<FilterOption[]>;
 
+  public searchFormControl: FormControl;
+
   constructor(
     public paramName: string,
     public placeholder: string,
@@ -43,11 +44,23 @@ export class AutocompleteAsyncFilter implements FilterModel {
   ) {
     this.internalEvent = new Subject();
 
+    this.searchFormControl = new FormControl();
+
     const formControl = new FormControl('');
 
     this.setEvents(formControl);
 
     this.elements = new FilterElement(placeholder, formControl, this.filterOptions(formControl));
+
+    this.elements.options = this.filterSearch();
+  }
+
+  private filterSearch(): Observable<FilterOption[]> {
+    return this.searchFormControl.valueChanges.pipe(
+      startWith(''),
+      distinctUntilChanged(),
+      switchMap((filterTerm: string) => this.getAsyncOptions(filterTerm))
+    );
   }
 
   protected filterOptions(formControl: FormControl): Observable<FilterOption[]> {

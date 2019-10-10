@@ -15,7 +15,6 @@ import { FilterModel } from '../models/filter.model';
 import { FilterElement } from './filter-element';
 
 export class AutocompleteFilter implements FilterModel {
-
   get param(): FilterParam {
     const filterParam: FilterParam = {
       name: this.paramName,
@@ -35,7 +34,7 @@ export class AutocompleteFilter implements FilterModel {
 
   public initialOptions: FilterOption[];
 
-   public searchFormControl: FormControl;
+  public searchFormControl: FormControl;
 
   constructor(
     public paramName: string,
