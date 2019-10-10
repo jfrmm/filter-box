@@ -1,6 +1,6 @@
 import { FormControl } from '@angular/forms';
-import { FilterOption } from '../models/filter-option.model';
 import { Observable } from 'rxjs';
+import { FilterOption } from '../models/filter-option.model';
 
 export class FilterElement {
   constructor(

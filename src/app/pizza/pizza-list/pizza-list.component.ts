@@ -1,23 +1,25 @@
-import { GenericDataSource } from 'src/app/shared/generic.datasource';
-import { PizzaService } from '../shared/pizza.service';
 import { Component, OnInit } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
-import { Subject, forkJoin } from 'rxjs';
 import {
-  FilterModel,
-  AutocompleteFilter,
-  FilterParam,
-  CheckboxFilter,
   AutocompleteAsyncFilter,
+  AutocompleteFilter,
+  AutocompleteMultipleFilter,
+  CheckboxFilter,
   DateFilter,
   FilterBehaviour,
   FilterClearEvent,
+  FilterModel,
+  FilterParam,
   FilterValidValueChangeEvent,
-  AutocompleteMultipleFilter,
 } from 'filter-box-library';
-import { RandomColorAutocompleteFilterComponent } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
-import { SelectFilter } from 'src/app/custom-filters/select-filter/select-filter';
 import { AutocompleteMultipleComponent } from 'filter-box-library';
+import { forkJoin, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import {
+   RandomColorAutocompleteFilterComponent
+   } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
+import { SelectFilter } from 'src/app/custom-filters/select-filter/select-filter';
+import { GenericDataSource } from 'src/app/shared/generic.datasource';
+import { PizzaService } from '../shared/pizza.service';
 
 @Component({
   selector: 'app-pizza-list',
@@ -25,32 +27,23 @@ import { AutocompleteMultipleComponent } from 'filter-box-library';
   styleUrls: ['./pizza-list.component.css'],
 })
 export class PizzaListComponent implements OnInit {
-  private destroy$ = new Subject();
-
-  public indexCount = 0;
-
-  public displayedColumns: string[];
-
-  public dataSource: GenericDataSource;
-
-  public filters: FilterModel[];
-
-  public filterBehaviours: FilterBehaviour[];
 
   get params(): FilterParam[] {
     return this.filters.map(filter => filter.param).filter(filter => filter.value !== null);
   }
+  private readonly destroy$ = new Subject();
 
-  constructor(private pizzaService: PizzaService) {}
+  public dataSource: GenericDataSource;
 
-  ngOnInit() {
-    this.filters = [];
-    this.dataSource = new GenericDataSource();
-    this.displayedColumns = ['id', 'name', 'base', 'restaurant', 'price', 'rating', 'ratingDate'];
+  public displayedColumns: string[];
 
-    this.loadFilterBoxFilters();
-    this.index(true);
-  }
+  public filterBehaviours: FilterBehaviour[];
+
+  public filters: FilterModel[];
+
+  public indexCount = 0;
+
+  constructor(private readonly pizzaService: PizzaService) {}
 
   private loadFilterBoxFilters(): void {
     forkJoin([this.pizzaService.getPizzaBases(), this.pizzaService.getRatings()]).subscribe(([pizzaBases, ratings]) => {
@@ -138,5 +131,14 @@ export class PizzaListComponent implements OnInit {
         this.dataSource.update(response.elements, reset);
       });
     this.indexCount++;
+  }
+
+  public ngOnInit() {
+    this.filters = [];
+    this.dataSource = new GenericDataSource();
+    this.displayedColumns = ['id', 'name', 'base', 'restaurant', 'price', 'rating', 'ratingDate'];
+
+    this.loadFilterBoxFilters();
+    this.index(true);
   }
 }

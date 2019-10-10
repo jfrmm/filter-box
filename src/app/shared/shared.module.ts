@@ -1,17 +1,17 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
-  MatCardModule,
-  MatTableModule,
   MatAutocompleteModule,
+  MatCardModule,
+  MatCheckboxModule,
   MatFormFieldModule,
   MatInputModule,
   MatOptionModule,
   MatSelectModule,
-  MatCheckboxModule
+  MatTableModule
 } from '@angular/material';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FilterBoxModule } from 'filter-box-library';
 
 @NgModule({
