@@ -8,7 +8,8 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatOptionModule,
-  MatSelectModule
+  MatSelectModule,
+  MatCheckboxModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FilterBoxModule } from 'filter-box-library';
@@ -27,6 +28,7 @@ import { FilterBoxModule } from 'filter-box-library';
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,
+    MatCheckboxModule
   ],
   exports: [
     CommonModule,
@@ -40,6 +42,7 @@ import { FilterBoxModule } from 'filter-box-library';
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,
+    MatCheckboxModule
   ],
   entryComponents: [],
 })
