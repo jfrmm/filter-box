@@ -74,20 +74,24 @@ this.filters.push(
 );
 ```
 
-Next, insert the `FilterBoxComponent` selector in your tempalte.
+Next, insert the `FilterBoxComponent` selector in your template.
 
 ```html
 <asp-filter-box [filters]="filters"></asp-filter-box>
 ```
 
-To listen for changes in your filters values, just create a function to listen to the event.
+Create a getter for the filter parameters (which will be used as query parameters in an HTTP request), and listen for changes in your filters values.
 
 ```typescript
 import { FilterParam } from '@asp-devteam/filter-box';
 
-public index(params: FilterParam[] = null): void {
+get queryParams(): FilterParam[] {
+  return this.filters.map(filter => filter.param).filter(filter => filter.value !== null);
+}
+
+public index(): void {
   this.someService
-    .getList(params)
+    .getList(this.queryParams)
     .subscribe(response => {
       // Do something
     });
