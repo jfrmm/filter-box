@@ -1,23 +1,20 @@
 import {
   Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  OnDestroy,
   ComponentFactoryResolver,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FilterModel } from './models/filter.model';
+import { FilterAnchorDirective } from './filter-anchor.directive';
 import { FilterHelperService } from './filter-helper.service';
 import { FilterMediatorService } from './filter-mediator.service';
 import { FilterBehaviour } from './models/filter-behaviour.model';
-import { FilterAnchorDirective } from './filter-anchor.directive';
-import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
-import { AutocompleteFilter } from './filters/autocomplete-filter';
 import { FilterComponentModel } from './models/filter-component.model';
-
+import { FilterModel } from './models/filter.model';
 
 @Component({
   selector: 'asp-filter-box',
@@ -28,6 +25,8 @@ import { FilterComponentModel } from './models/filter-component.model';
 export class FilterBoxComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription;
 
+   @ViewChild(FilterAnchorDirective, { static: true })  public filterAnchorDirective: FilterAnchorDirective;
+
   @Input()
   public filterBehaviours: FilterBehaviour[];
 
@@ -37,27 +36,11 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
   @Output()
   public index = new EventEmitter();
 
-  @ViewChild(FilterAnchorDirective, { static: true }) filterAnchorDirective: FilterAnchorDirective;
-
   constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private filterMediatorService: FilterMediatorService,
+    private readonly componentFactoryResolver: ComponentFactoryResolver,
+    private readonly filterMediatorService: FilterMediatorService,
     public filterHelper: FilterHelperService
   ) {}
-
-  ngOnInit() {
-    this.subscriptions = new Subscription();
-
-    this.filterMediatorService.setFilters(this.filters, this.filterBehaviours);
-
-    this.subscriptions.add(this.filterMediatorService.filterChanged.subscribe(() => this.index.emit()));
-
-    this.loadFiltersComponents();
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
 
   private loadFiltersComponents(): void {
     this.filters.forEach(filter => {
@@ -68,6 +51,20 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
       const componentRef = viewContainerRef.createComponent(componentFactory);
       (componentRef.instance as FilterComponentModel).filter = filter;
     });
+  }
+
+  public ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
+  public ngOnInit() {
+    this.subscriptions = new Subscription();
+
+    this.filterMediatorService.setFilters(this.filters, this.filterBehaviours);
+
+    this.subscriptions.add(this.filterMediatorService.filterChanged.subscribe(() => this.index.emit()));
+
+    this.loadFiltersComponents();
   }
 
   public onClickClearAllFilters(): void {
