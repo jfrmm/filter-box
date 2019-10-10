@@ -22,7 +22,7 @@ Run `npm install @asp-devteam/filter-box` to install the package in your project
 Next import the `FilterBoxModule` into your application.
 
 ```typescript
-import { FilterBoxModule } from 'filter-box-library';
+import { FilterBoxModule } from '@asp-devteam/filter-box';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,7 +36,7 @@ export class AppModule {}
 If you intend to use the FilterBox in multiple places accross your app, its recommended that you create a separate NgModule that imports and then exports all of your shared modules.
 
 ```typescript
-import { FilterBoxModule } from 'filter-box-library';
+import { FilterBoxModule } from '@asp-devteam/filter-box';
 
 @NgModule({
   declarations: [],
