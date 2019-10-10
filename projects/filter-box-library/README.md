@@ -108,7 +108,9 @@ And add it to your template.
 
 ### Defining filter behaviours
 
-If you want to define a filter dependent behaviour, you can do so by creating a `FilterBehaviour` array like this:
+Out of the box, the filters will emit for the default events `FilterValidValueChangeEvent` and `FilterClearEvent`, so, if you just want to get the filter parameters to apply directly to your main list, you don't need to define specific filter behaviours.
+
+On the other hand, if you need to capture different events, or capture events on one filter to affect another, you can do so by creating a `FilterBehaviour` array like this:
 
 ```typescript
 import { FilterBehaviour, FilterValidValueChangeEvent } from '@asp-devteam/filter-box';
