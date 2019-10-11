@@ -15,7 +15,7 @@ describe('AutocompleteMultiple', () => {
   });
 
   it(`should select initial value in the selection`, () => {
-    expect(autocompleteMultipleFilter.selection.selected).toBe(mockData);
+    expect(autocompleteMultipleFilter.selection.selected).toEqual(mockData);
   });
 
   it(`sould return the correct type`, () => {
@@ -23,6 +23,6 @@ describe('AutocompleteMultiple', () => {
   });
 
   it(`should map the value correctly`, () => {
-    expect(autocompleteMultipleFilter.param.value).toBe(mockData.map(value => value.id.toString()).join(','));
+    expect(autocompleteMultipleFilter.param.value).toEqual(mockData.map(value => value.id.toString()).join(','));
   });
 });

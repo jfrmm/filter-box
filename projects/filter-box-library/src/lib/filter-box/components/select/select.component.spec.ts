@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { FilterBoxModule } from '../../filter-box.module';
 import { SelectComponent } from './select.component';
 
 describe('SelectComponent', () => {
@@ -8,9 +9,8 @@ describe('SelectComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectComponent ]
-    })
-    .compileComponents();
+      imports: [FilterBoxModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -16,7 +16,7 @@ class MockClass extends Filter {
   }
 }
 
-fdescribe('Filter', () => {
+describe('Filter', () => {
   const mockElement: FilterOption = { id: 1, value: 'test' };
   const mockParam: FilterParam = { name: 'test', value: 'test' };
   let mockClass: MockClass;
@@ -30,12 +30,12 @@ fdescribe('Filter', () => {
   });
 
   it(`should return params correctly mapped`, () => {
-    expect(mockClass.param).toBeNull();
+    expect(mockClass.param.value).toBeNull();
 
-    mockClass.formControl.setValue(mockParam);
+    mockClass.formControl.setValue(mockElement);
 
-    expect(mockClass.param.value).toBe(mockParam.value);
-    expect(mockClass.param.name).toBe(mockParam.name);
+    expect(mockClass.param.value).toBe(mockElement.id.toString());
+    expect(mockClass.param.name).toBe(mockClass.paramName);
   });
 
   it(`should set the value`, () => {
@@ -48,11 +48,11 @@ fdescribe('Filter', () => {
     mockClass.formControl.setValue(mockElement);
 
     let event = mockClass.clearFilter();
-    expect(event.event instanceof FilterEmptyEvent).toBeTruthy();
+    expect(event instanceof FilterClearEvent).toBeTruthy();
 
     mockClass.formControl.setValue(mockElement);
     event = mockClass.clearFilter(true);
-    expect(event.event instanceof FilterClearEvent).toBeTruthy();
+    expect(event instanceof FilterEmptyEvent).toBeTruthy();
   });
 
   it(`should disable the filter`, () => {

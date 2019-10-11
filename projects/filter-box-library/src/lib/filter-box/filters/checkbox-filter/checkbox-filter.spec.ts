@@ -20,7 +20,7 @@ describe('CheckboxFilter', () => {
   });
 
   it(`should map the id`, () => {
-    expect(checkboxFilter.param.name).toBe('testID');
-    expect(checkboxFilter.param.value).toBe('test');
+    expect(checkboxFilter.param.name).toBe('test');
+    expect(checkboxFilter.param.value).toBe('testID');
   });
 });

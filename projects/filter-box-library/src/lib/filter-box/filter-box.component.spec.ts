@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { asyncScheduler, of } from 'rxjs';
 import { FilterBoxComponent } from './filter-box.component';
 import { FilterBoxModule } from './filter-box.module';
 import { AutocompleteFilter } from './filters/autocomplete-filter/autocomplete-filter';
-import { asyncScheduler, of } from 'rxjs';
 
 describe('FilterBoxComponent', () => {
   let component: FilterBoxComponent;
@@ -54,8 +54,8 @@ describe('FilterBoxComponent', () => {
     component.onClickClearAllFilters();
     fixture.detectChanges();
 
-    expect(mockFilter1.elements.formControl.value).toBe('');
-    expect(mockFilter2.elements.formControl.value).toBe('');
+    expect(mockFilter1.formControl.value).toBe('');
+    expect(mockFilter2.formControl.value).toBe('');
     expect(spy.calls.count()).toBe(1, 'Should be 1');
   });
 });
