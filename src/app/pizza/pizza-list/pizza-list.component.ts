@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material';
 import {
   AutocompleteAsyncFilter,
@@ -26,10 +26,13 @@ import { PizzaService } from '../shared/pizza.service';
   styleUrls: ['./pizza-list.component.css'],
 })
 export class PizzaListComponent implements OnInit {
-  get params(): FilterParam[] {
+  get filterParams(): FilterParam[] {
     return this.filters.map(filter => filter.param).filter(filter => filter.value !== null);
   }
+
   private readonly destroy$ = new Subject();
+
+  private readonly queryParams: FilterParam[] = [];
 
   public dataSource: GenericDataSource;
 
@@ -117,7 +120,7 @@ export class PizzaListComponent implements OnInit {
       //     events: [new FilterClearEvent()],
       //     callbacks: [
       //       () => this.filters[0].setValue({ id: 1, value: 'Tomato' }),
-      //       () => (this.filters[0] as AutocompleteFilter).updateFilterOptions(this.params),
+      //       () => (this.filters[0] as AutocompleteFilter).updateFilterOptions(this.filterParams),
       //     ],
       //   },
       // ];
@@ -135,9 +138,10 @@ export class PizzaListComponent implements OnInit {
   }
 
   public index(reset: boolean): void {
-    console.log(this.params);
+    const pizzaParams: FilterParam[] = [...this.queryParams, ...this.filterParams];
+
     this.pizzaService
-      .getPizzasList(this.params)
+      .getPizzasList(pizzaParams)
       .pipe(takeUntil(this.destroy$))
       .subscribe(response => {
         this.dataSource.update(response.elements, reset);
@@ -151,6 +155,22 @@ export class PizzaListComponent implements OnInit {
     this.displayedColumns = ['id', 'name', 'base', 'restaurant', 'price', 'rating', 'ratingDate'];
 
     this.loadFilterBoxFilters();
+    this.index(true);
+  }
+
+  public search(value: string) {
+    const i = this.queryParams.findIndex((p: FilterParam) => p.name === 'name');
+
+    if (value && i === -1) {
+      this.queryParams.push({ name: 'name', value });
+    } else if (i > -1) {
+      if (value) {
+        this.queryParams[i].value = value;
+      } else {
+        this.queryParams.splice(i, 1);
+      }
+    }
+
     this.index(true);
   }
 }

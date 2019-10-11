@@ -7,7 +7,13 @@
   <!-- This container is has flex row functionality -->
   <ng-container app-filter-box-first-row>
     <mat-form-field fxFlex="300px">
-      <input matInput placeholder="Search" />
+      <button mat-icon-button matPrefix (click)="search(searchBox.value)">
+        <mat-icon>search</mat-icon>
+      </button>
+      <input #searchBox matInput placeholder="Search" />
+      <button mat-icon-button matSuffix (click)="searchBox.value = null; search(null)">
+        <mat-icon>clear</mat-icon>
+      </button>
     </mat-form-field>
 
     <mat-form-field fxFlex="150px">

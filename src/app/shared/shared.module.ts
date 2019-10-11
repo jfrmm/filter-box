@@ -4,10 +4,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
+  MatButtonModule,
   MatCardModule,
   MatCheckboxModule,
   MatChipsModule,
   MatFormFieldModule,
+  MatIconModule,
   MatInputModule,
   MatOptionModule,
   MatSelectModule,
@@ -31,6 +33,8 @@ import { FilterBoxModule } from 'filter-box-library';
     MatOptionModule,
     MatCheckboxModule,
     MatChipsModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   exports: [
     CommonModule,
@@ -46,6 +50,8 @@ import { FilterBoxModule } from 'filter-box-library';
     MatOptionModule,
     MatCheckboxModule,
     MatChipsModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   entryComponents: [],
 })
