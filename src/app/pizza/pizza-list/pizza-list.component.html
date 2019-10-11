@@ -3,7 +3,33 @@
   [filters]="filters"
   [filterBehaviours]="filterBehaviours"
   (index)="index(true)"
-></asp-filter-box>
+>
+  <!-- This container is has flex row functionality -->
+  <ng-container app-filter-box-first-row>
+    <mat-form-field fxFlex="300px">
+      <input matInput placeholder="Search" />
+    </mat-form-field>
+
+    <mat-form-field fxFlex="150px">
+      <mat-label>Foodie type</mat-label>
+      <mat-select (selectionChange)="foodieTypeChanged($event)">
+        <mat-option *ngFor="let foodieType of foodieTypes" [value]="foodieType">
+          {{ foodieType.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+
+  <!-- This container is has flex row functionality -->
+  <ng-container app-filter-box-last-row>
+    <mat-chip-list fxFlex="auto">
+      <mat-chip disabled>Italian connoisseur</mat-chip>
+      <mat-chip disabled>Meat lover</mat-chip>
+      <mat-chip disabled>USA style</mat-chip>
+      <mat-chip disabled>Vegan</mat-chip>
+    </mat-chip-list>
+  </ng-container>
+</asp-filter-box>
 
 <mat-card>
   <mat-card-header fxLayout="row" fxLayoutGap="15px">

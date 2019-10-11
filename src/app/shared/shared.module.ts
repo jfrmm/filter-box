@@ -6,11 +6,12 @@ import {
   MatAutocompleteModule,
   MatCardModule,
   MatCheckboxModule,
+  MatChipsModule,
   MatFormFieldModule,
   MatInputModule,
   MatOptionModule,
   MatSelectModule,
-  MatTableModule
+  MatTableModule,
 } from '@angular/material';
 import { FilterBoxModule } from 'filter-box-library';
 
@@ -28,7 +29,8 @@ import { FilterBoxModule } from 'filter-box-library';
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatChipsModule,
   ],
   exports: [
     CommonModule,
@@ -42,7 +44,8 @@ import { FilterBoxModule } from 'filter-box-library';
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatChipsModule,
   ],
   entryComponents: [],
 })

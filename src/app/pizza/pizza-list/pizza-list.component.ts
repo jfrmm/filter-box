@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSelectChange } from '@angular/material';
 import {
   AutocompleteAsyncFilter,
   AutocompleteFilter,
@@ -6,19 +7,17 @@ import {
   CheckboxFilter,
   DateFilter,
   FilterBehaviour,
-  FilterClearEvent,
   FilterModel,
   FilterParam,
-  FilterValidValueChangeEvent,
 } from 'filter-box-library';
 import { AutocompleteMultipleComponent } from 'filter-box-library';
+import { FilterOption } from 'projects/filter-box-library/src/public-api';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import {
-   RandomColorAutocompleteFilterComponent
-   } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
+import { RandomColorAutocompleteFilterComponent } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
 import { SelectFilter } from 'src/app/custom-filters/select-filter/select-filter';
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
+import { FoodieTypeService } from '../shared/foodie-type.service';
 import { PizzaService } from '../shared/pizza.service';
 
 @Component({
@@ -27,7 +26,6 @@ import { PizzaService } from '../shared/pizza.service';
   styleUrls: ['./pizza-list.component.css'],
 })
 export class PizzaListComponent implements OnInit {
-
   get params(): FilterParam[] {
     return this.filters.map(filter => filter.param).filter(filter => filter.value !== null);
   }
@@ -41,12 +39,20 @@ export class PizzaListComponent implements OnInit {
 
   public filters: FilterModel[];
 
+  public foodieTypes: FilterOption[];
+
   public indexCount = 0;
 
-  constructor(private readonly pizzaService: PizzaService) {}
+  public selectedFoodieType: FilterOption;
+
+  constructor(private readonly pizzaService: PizzaService, private readonly foodieTypeService: FoodieTypeService) {}
 
   private loadFilterBoxFilters(): void {
-    forkJoin([this.pizzaService.getPizzaBases(), this.pizzaService.getRatings()]).subscribe(([pizzaBases, ratings]) => {
+    forkJoin([
+      this.pizzaService.getPizzaBases(),
+      this.pizzaService.getRatings(),
+      this.foodieTypeService.getFoodieTypes(),
+    ]).subscribe(([pizzaBases, ratings, foodieTypes]) => {
       this.filters.push(
         new AutocompleteFilter('base', 'Base', pizzaBases, null, this.pizzaService.getPizzaBases),
         new AutocompleteAsyncFilter('restaurant', 'Restaurant', this.pizzaService.getRestaurants),
@@ -64,6 +70,8 @@ export class PizzaListComponent implements OnInit {
         new SelectFilter('base', 'Select', pizzaBases),
         new AutocompleteMultipleFilter('base', 'Multiple', pizzaBases, null, null, AutocompleteMultipleComponent)
       );
+
+      this.foodieTypes = foodieTypes;
 
       // this.filterBehaviours = [
       //   {
@@ -114,12 +122,16 @@ export class PizzaListComponent implements OnInit {
       //   },
       // ];
       /** TODO:
-       * If the goal is to have a group of filters become reactive to eachother
-       * Create a function that returns the null event and then call the filters
+       * If the goal is to have a group of filters become reactive to each other,
+       * create a function that returns the null event and then call the filters
        * updateFilterOptions inside that function, this way, it will happen at the same time,
        * this is: "not respecting the callback order"
        */
     });
+  }
+
+  public foodieTypeChanged(event: MatSelectChange) {
+    this.selectedFoodieType = event.value;
   }
 
   public index(reset: boolean): void {
