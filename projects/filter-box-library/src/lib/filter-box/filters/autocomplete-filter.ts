@@ -16,11 +16,10 @@ import { FilterElement } from './filter-element';
 
 export class AutocompleteFilter implements FilterModel {
   get param(): FilterParam {
-    const filterParam: FilterParam = {
+    return {
       name: this.paramName,
       value: this.mapControlsValues(),
     };
-    return filterParam;
   }
 
   get type(): string {

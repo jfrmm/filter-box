@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SharedModule } from 'src/app/shared/shared.module';
 import { RandomColorAutocompleteFilterComponent } from './random-color-autocomplete-filter.component';
 
 describe('RandomColorAutocompleteFilterComponent', () => {
@@ -8,9 +9,9 @@ describe('RandomColorAutocompleteFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RandomColorAutocompleteFilterComponent ]
-    })
-    .compileComponents();
+      declarations: [RandomColorAutocompleteFilterComponent],
+      imports: [SharedModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

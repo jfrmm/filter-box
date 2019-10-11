@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SharedModule } from 'src/app/shared/shared.module';
 import { SelectFilterComponent } from './select-filter.component';
 
 describe('SelectFilterComponent', () => {
@@ -8,7 +9,8 @@ describe('SelectFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectFilterComponent ]
+      declarations: [ SelectFilterComponent ],
+      imports: [SharedModule]
     })
     .compileComponents();
   }));
