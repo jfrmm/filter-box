@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutGap="14px">
-  <mat-checkbox *ngFor="let element of filter?.elements; index as i" [formControl]="element.formControl">
-    {{ element.placeholder }}
+  <mat-checkbox [formControl]="filter.formControl">
+    {{ filter.placeholder }}
   </mat-checkbox>
 </div>
