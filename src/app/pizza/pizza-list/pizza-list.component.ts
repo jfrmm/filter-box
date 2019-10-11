@@ -10,12 +10,13 @@ import {
   FilterModel,
   FilterParam,
   FilterValidValueChangeEvent,
+  SelectFilter
 } from 'filter-box-library';
 import { AutocompleteMultipleComponent } from 'filter-box-library';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { RandomColorAutocompleteFilterComponent } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
-import { SelectFilter } from 'src/app/custom-filters/select-filter/select-filter';
+
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
 import { PizzaService } from '../shared/pizza.service';
 
@@ -48,6 +49,7 @@ export class PizzaListComponent implements OnInit {
         new AutocompleteAsyncFilter('restaurant', 'Restaurant', this.pizzaService.getRestaurants),
         new DateFilter('from', 'From'),
         new DateFilter('to', 'To'),
+        new SelectFilter('select', 'select', this.pizzaService.getPizzaBases),
         // new CheckboxFilter('rating', ratings),
         new AutocompleteMultipleFilter('multiple', 'mmultiple', this.pizzaService.getPizzaBases, null)
         // new AutocompleteFilter(

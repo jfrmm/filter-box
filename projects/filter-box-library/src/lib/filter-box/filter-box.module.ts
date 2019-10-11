@@ -8,6 +8,7 @@ import { AutocompleteComponent } from './components/autocomplete/autocomplete.co
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { ClearFilterButtonComponent } from './components/clear-filter-button/clear-filter-button.component';
 import { DateComponent } from './components/date/date.component';
+import { SelectComponent } from './components/select/select.component';
 import { FilterAnchorDirective } from './filter-anchor.directive';
 import { FilterBoxComponent } from './filter-box.component';
 import { MaterialModule } from './material.module';
@@ -21,6 +22,7 @@ import { MaterialModule } from './material.module';
     DateComponent,
     AutocompleteAsyncComponent,
     AutocompleteMultipleComponent,
+    SelectComponent,
     FilterAnchorDirective,
   ],
   imports: [CommonModule, MaterialModule, ReactiveFormsModule, FlexLayoutModule],
@@ -32,6 +34,7 @@ import { MaterialModule } from './material.module';
     DateComponent,
     AutocompleteAsyncComponent,
     AutocompleteMultipleComponent,
+    SelectComponent,
   ],
   entryComponents: [
     CheckboxComponent,
@@ -39,6 +42,7 @@ import { MaterialModule } from './material.module';
     DateComponent,
     AutocompleteAsyncComponent,
     AutocompleteMultipleComponent,
+    SelectComponent,
   ],
 })
 export class FilterBoxModule {}
