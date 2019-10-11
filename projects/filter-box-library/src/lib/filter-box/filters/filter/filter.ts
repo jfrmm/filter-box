@@ -48,22 +48,22 @@ export abstract class Filter {
     this.formControl.setValue('', { emitEvent: emit });
 
     if (emit) {
-      return new FilterEvent(new FilterEmptyEvent(), this);
+      return new FilterEmptyEvent(this);
     }
 
-    return new FilterEvent(new FilterClearEvent(), this);
+    return new FilterClearEvent(this);
   }
 
   public disableFilter(): FilterEvent {
     this.formControl.disable({ onlySelf: true, emitEvent: false });
 
-    return new FilterEvent(new FilterDisabledEvent(), this);
+    return new FilterDisabledEvent(this);
   }
 
   public enableFilter(): FilterEvent {
     this.formControl.enable({ onlySelf: true, emitEvent: false });
 
-    return new FilterEvent(new FilterEnabledEvent(), this);
+    return new FilterEnabledEvent(this);
   }
 
   /**
@@ -73,11 +73,7 @@ export abstract class Filter {
     this.events = merge(
       formControl.valueChanges.pipe(
         filter(value => typeof value === 'object' || value === ''),
-        map(value =>
-          typeof value === 'object'
-            ? new FilterEvent(new FilterValidValueChangeEvent(), this)
-            : new FilterEvent(new FilterClearEvent(), this)
-        )
+        map(value => (typeof value === 'object' ? new FilterValidValueChangeEvent(this) : new FilterClearEvent(this)))
       ),
       this.internalEvent
     );
@@ -86,6 +82,6 @@ export abstract class Filter {
   public setValue(value: any): FilterEvent {
     this.formControl.setValue(value, { onlySelf: true, emitEvent: false });
 
-    return new FilterEvent(new FilterValidValueChangeEvent(), this);
+    return new FilterValidValueChangeEvent(this);
   }
 }

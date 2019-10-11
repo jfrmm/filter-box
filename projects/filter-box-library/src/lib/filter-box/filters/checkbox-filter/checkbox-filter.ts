@@ -34,11 +34,7 @@ export class CheckboxFilter extends Filter {
   public setEvents(formControl: FormControl): void {
     this.events = merge(
       formControl.valueChanges.pipe(
-        map((value: boolean) =>
-          value
-            ? new FilterEvent(new FilterValidValueChangeEvent(), this)
-            : new FilterEvent(new FilterClearEvent(), this)
-        )
+        map((value: boolean) => (value ? new FilterValidValueChangeEvent(this) : new FilterClearEvent(this)))
       ),
       this.internalEvent
     );

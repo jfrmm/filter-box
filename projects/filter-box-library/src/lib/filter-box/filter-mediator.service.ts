@@ -35,7 +35,7 @@ export class FilterMediatorService implements OnDestroy {
     return this.filterBehaviours.filter(
       behaviour =>
         behaviour.emitters.some(emitter => event.filter === emitter) &&
-        behaviour.events.some(behaviourEvent => behaviourEvent instanceof event.event.constructor)
+        behaviour.events.some(behaviourEvent => behaviourEvent instanceof event.constructor)
     );
   }
 

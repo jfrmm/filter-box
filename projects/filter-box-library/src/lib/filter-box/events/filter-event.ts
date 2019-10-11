@@ -1,3 +1,5 @@
-export class FilterEvent {
-  constructor(public event, public filter) {}
+import { Filter } from '../filters/filter/filter';
+
+export abstract class FilterEvent {
+  constructor(public filter: Filter) {}
 }

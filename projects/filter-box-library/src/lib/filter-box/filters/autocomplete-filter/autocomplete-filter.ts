@@ -59,6 +59,6 @@ export class AutocompleteFilter extends Filter {
       this.filteredOptions = this.filterSearch();
     });
 
-    return new FilterEvent(new FilterEmptyEvent(), this);
+    return new FilterEmptyEvent(this);
   }
 }

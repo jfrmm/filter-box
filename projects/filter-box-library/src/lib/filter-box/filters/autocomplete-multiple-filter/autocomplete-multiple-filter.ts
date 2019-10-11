@@ -39,9 +39,9 @@ export class AutocompleteMultipleFilter extends AutocompleteFilter {
     this.selection.clear();
 
     if (emit) {
-      return new FilterEvent(new FilterEmptyEvent(), this);
+      return new FilterEmptyEvent(this);
     }
 
-    return new FilterEvent(new FilterClearEvent(), this);
+    return new FilterClearEvent(this);
   }
 }

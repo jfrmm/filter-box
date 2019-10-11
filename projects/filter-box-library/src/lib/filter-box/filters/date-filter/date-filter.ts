@@ -34,11 +34,7 @@ export class DateFilter extends Filter {
     this.events = merge(
       formControl.valueChanges.pipe(
         filter(value => (value === '' || value) && formControl.valid),
-        map(value =>
-          value === ''
-            ? new FilterEvent(new FilterValidValueChangeEvent(), this)
-            : new FilterEvent(new FilterClearEvent(), this)
-        )
+        map(value => (value === '' ? new FilterValidValueChangeEvent(this) : new FilterClearEvent(this)))
       ),
       this.internalEvent
     );
