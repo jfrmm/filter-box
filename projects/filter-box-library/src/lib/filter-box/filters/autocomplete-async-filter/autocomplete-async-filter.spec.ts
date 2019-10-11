@@ -1,4 +1,4 @@
-import { AutocompleteAsyncFilter } from './autocomplete-async-filter';
+import { AutocompleteAsyncFilter } from '../autocomplete-async-filter';
 
 describe('AutocompleteAsyncFilter', () => {
   let autocompleteAsyncFilter: AutocompleteAsyncFilter;

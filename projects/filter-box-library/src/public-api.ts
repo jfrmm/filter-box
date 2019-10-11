@@ -4,11 +4,11 @@
 
 export * from './lib/filter-box/filter-box.module';
 
-export * from './lib/filter-box/filters/checkbox-filter';
-export * from './lib/filter-box/filters/autocomplete-filter';
-export * from './lib/filter-box/filters/autocomplete-async-filter';
-export * from './lib/filter-box/filters/date-filter';
-export * from './lib/filter-box/filters/autocomplete-multiple-filter';
+export * from './lib/filter-box/filters/checkbox-filter/checkbox-filter';
+export * from './lib/filter-box/filters/autocomplete-filter/autocomplete-filter';
+export * from './lib/filter-box/filters/autocomplete-async-filter/autocomplete-async-filter';
+export * from './lib/filter-box/filters/date-filter/date-filter';
+export * from './lib/filter-box/filters/autocomplete-multiple-filter/autocomplete-multiple-filter';
 
 export * from './lib/filter-box/filters/filter-element';
 

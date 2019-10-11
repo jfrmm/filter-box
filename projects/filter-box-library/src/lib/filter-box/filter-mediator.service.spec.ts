@@ -2,7 +2,7 @@ import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { asyncScheduler, of } from 'rxjs';
 import { FilterClearEvent } from './events/filter-clear-event';
 import { FilterMediatorService } from './filter-mediator.service';
-import { AutocompleteFilter } from './filters/autocomplete-filter';
+import { AutocompleteFilter } from './filters/autocomplete-filter/autocomplete-filter';
 import { FilterModel } from './models/filter.model';
 
 describe('FilterMediatorService', () => {

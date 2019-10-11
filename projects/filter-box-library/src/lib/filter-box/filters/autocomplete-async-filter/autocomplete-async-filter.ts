@@ -1,8 +1,8 @@
-import { FormControl } from '@angular/forms';
-
 import { Type } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, startWith, switchMap } from 'rxjs/operators';
+import { AutocompleteAsyncComponent } from '../../components/autocomplete-async/autocomplete-async.component';
 import { FilterClearEvent } from '../../events/filter-clear-event';
 import { FilterDisabledEvent } from '../../events/filter-disabled-event';
 import { FilterEmptyEvent } from '../../events/filter-empty-event';
@@ -11,31 +11,70 @@ import { FilterEvent } from '../../events/filter-event';
 import { FilterValidValueChangeEvent } from '../../events/filter-valid-value-change-event';
 import { FilterOption } from '../../models/filter-option.model';
 import { FilterParam } from '../../models/filter-param.model';
+import { FilterModel } from '../../models/filter.model';
 import { FilterElement } from '../filter-element';
 
-export abstract class Filter {
+export class AutocompleteAsyncFilter implements FilterModel {
   get param(): FilterParam {
-    return {
+    const filterParam: FilterParam = {
       name: this.paramName,
       value: this.mapControlsValues(),
     };
+    return filterParam;
   }
 
-  protected internalEvent: Subject<FilterEvent> = new Subject();
+  get type(): string {
+    return 'autocomplete-async';
+  }
+  protected internalEvent: Subject<FilterEvent>;
 
   public elements: FilterElement;
 
   public events: Observable<FilterEvent>;
 
-  public type: string;
+  public initialOptions: Observable<FilterOption[]>;
+
+  public searchFormControl: FormControl;
 
   constructor(
     public paramName: string,
     public placeholder: string,
-    public getFilterOptions: (params?: FilterParam[]) => Observable<FilterOption[]>,
-    public initialValue: FilterOption = null,
-    public component: Type<any>
-  ) {}
+    protected getAsyncOptions: (filterTerm?: string) => Observable<FilterOption[]>,
+    public component: Type<any> = AutocompleteAsyncComponent
+  ) {
+    this.internalEvent = new Subject();
+
+    this.searchFormControl = new FormControl();
+
+    const formControl = new FormControl('');
+
+    this.setEvents(formControl);
+
+    this.elements = new FilterElement(placeholder, formControl, this.filterOptions(formControl));
+
+    this.elements.options = this.filterSearch();
+  }
+
+  private filterSearch(): Observable<FilterOption[]> {
+    return this.searchFormControl.valueChanges.pipe(
+      startWith(''),
+      distinctUntilChanged(),
+      switchMap((filterTerm: string) => this.getAsyncOptions(filterTerm))
+    );
+  }
+
+  protected filterOptions(formControl: FormControl): Observable<FilterOption[]> {
+    return formControl.valueChanges.pipe(
+      filter(option => typeof option === 'string' || option === null),
+      map(option => (option ? option : '')),
+      /* With startwith the list is displayed as soon as focused
+       * without it, it will be empty first time its focused, until user types something
+       */
+      startWith(''),
+      distinctUntilChanged(),
+      switchMap((filterTerm: string) => this.getAsyncOptions(filterTerm))
+    );
+  }
 
   protected mapControlsValues(): string {
     return this.elements.formControl.value ? this.elements.formControl.value.id.toString() : null;
@@ -53,13 +92,11 @@ export abstract class Filter {
 
   public disableFilter(): FilterEvent {
     this.elements.formControl.disable({ onlySelf: true, emitEvent: false });
-
     return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
   public enableFilter(): FilterEvent {
     this.elements.formControl.enable({ onlySelf: true, emitEvent: false });
-
     return new FilterEvent(new FilterEnabledEvent(), this);
   }
 
@@ -82,7 +119,6 @@ export abstract class Filter {
 
   public setValue(value: any): FilterEvent {
     this.elements.formControl.setValue(value, { onlySelf: true, emitEvent: false });
-
     return new FilterEvent(new FilterValidValueChangeEvent(), this);
   }
 }

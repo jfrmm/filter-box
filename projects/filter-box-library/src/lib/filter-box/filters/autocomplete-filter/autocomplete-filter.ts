@@ -2,17 +2,17 @@ import { Type } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
 import { distinctUntilChanged, startWith, switchMap } from 'rxjs/operators';
-import { AutocompleteComponent } from '../components/autocomplete/autocomplete.component';
-import { FilterEmptyEvent } from '../events/filter-empty-event';
-import { FilterEvent } from '../events/filter-event';
-import { FilterOption } from '../models/filter-option.model';
-import { FilterParam } from '../models/filter-param.model';
-import { FilterElement } from './filter-element';
-import { Filter } from './filter/filter';
+import { AutocompleteComponent } from '../../components/autocomplete/autocomplete.component';
+import { FilterEmptyEvent } from '../../events/filter-empty-event';
+import { FilterEvent } from '../../events/filter-event';
+import { FilterOption } from '../../models/filter-option.model';
+import { FilterParam } from '../../models/filter-param.model';
+import { FilterElement } from '../filter-element';
+import { GenericFilter } from '../generic-filter/generic-filter';
 
 // implements FilterModel
 
-export class AutocompleteFilter extends Filter {
+export class AutocompleteFilter extends GenericFilter {
   get type(): string {
     return 'autocomplete';
   }

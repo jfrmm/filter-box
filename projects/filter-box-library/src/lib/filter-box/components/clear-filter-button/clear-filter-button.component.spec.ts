@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { asyncScheduler, of } from 'rxjs';
 import { FilterBoxModule } from '../../filter-box.module';
-import { AutocompleteFilter } from '../../filters/autocomplete-filter';
+import { AutocompleteFilter } from '../../filters/autocomplete-filter/autocomplete-filter';
 import { ClearFilterButtonComponent } from './clear-filter-button.component';
 
 describe('ClearFilterButtonComponent', () => {

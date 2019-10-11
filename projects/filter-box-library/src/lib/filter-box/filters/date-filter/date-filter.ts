@@ -2,16 +2,16 @@ import { Type } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { DateComponent } from '../components/date/date.component';
-import { FilterClearEvent } from '../events/filter-clear-event';
-import { FilterDisabledEvent } from '../events/filter-disabled-event';
-import { FilterEmptyEvent } from '../events/filter-empty-event';
-import { FilterEnabledEvent } from '../events/filter-enabled-event';
-import { FilterEvent } from '../events/filter-event';
-import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
-import { FilterParam } from '../models/filter-param.model';
-import { FilterModel } from '../models/filter.model';
-import { FilterElement } from './filter-element';
+import { DateComponent } from '../../components/date/date.component';
+import { FilterClearEvent } from '../../events/filter-clear-event';
+import { FilterDisabledEvent } from '../../events/filter-disabled-event';
+import { FilterEmptyEvent } from '../../events/filter-empty-event';
+import { FilterEnabledEvent } from '../../events/filter-enabled-event';
+import { FilterEvent } from '../../events/filter-event';
+import { FilterValidValueChangeEvent } from '../../events/filter-valid-value-change-event';
+import { FilterParam } from '../../models/filter-param.model';
+import { FilterModel } from '../../models/filter.model';
+import { FilterElement } from '../filter-element';
 
 export class DateFilter implements FilterModel {
 

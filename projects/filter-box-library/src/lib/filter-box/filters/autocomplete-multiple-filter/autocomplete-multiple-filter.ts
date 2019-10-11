@@ -1,20 +1,22 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { Type } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { merge, Observable, Subject } from 'rxjs';
+import { merge, Observable, of, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, map, startWith, switchMap } from 'rxjs/operators';
-import { AutocompleteAsyncComponent } from '../components/autocomplete-async/autocomplete-async.component';
-import { FilterClearEvent } from '../events/filter-clear-event';
-import { FilterDisabledEvent } from '../events/filter-disabled-event';
-import { FilterEmptyEvent } from '../events/filter-empty-event';
-import { FilterEnabledEvent } from '../events/filter-enabled-event';
-import { FilterEvent } from '../events/filter-event';
-import { FilterValidValueChangeEvent } from '../events/filter-valid-value-change-event';
-import { FilterOption } from '../models/filter-option.model';
-import { FilterParam } from '../models/filter-param.model';
-import { FilterModel } from '../models/filter.model';
-import { FilterElement } from './filter-element';
+import { AutocompleteMultipleComponent } from '../../components/autocomplete-multiple/autocomplete-multiple.component';
+import { FilterClearEvent } from '../../events/filter-clear-event';
+import { FilterDisabledEvent } from '../../events/filter-disabled-event';
+import { FilterEmptyEvent } from '../../events/filter-empty-event';
+import { FilterEnabledEvent } from '../../events/filter-enabled-event';
+import { FilterEvent } from '../../events/filter-event';
+import { FilterValidValueChangeEvent } from '../../events/filter-valid-value-change-event';
+import { FilterOption } from '../../models/filter-option.model';
+import { FilterParam } from '../../models/filter-param.model';
+import { FilterModel } from '../../models/filter.model';
+import { FilterElement } from '../filter-element';
 
-export class AutocompleteAsyncFilter implements FilterModel {
+export class AutocompleteMultipleFilter implements FilterModel {
+
   get param(): FilterParam {
     const filterParam: FilterParam = {
       name: this.paramName,
@@ -24,7 +26,7 @@ export class AutocompleteAsyncFilter implements FilterModel {
   }
 
   get type(): string {
-    return 'autocomplete-async';
+    return 'autocomplete-multiple';
   }
   protected internalEvent: Subject<FilterEvent>;
 
@@ -32,21 +34,31 @@ export class AutocompleteAsyncFilter implements FilterModel {
 
   public events: Observable<FilterEvent>;
 
-  public initialOptions: Observable<FilterOption[]>;
+  public initialOptions: FilterOption[];
 
   public searchFormControl: FormControl;
+
+  public selection: SelectionModel<FilterOption>;
 
   constructor(
     public paramName: string,
     public placeholder: string,
-    protected getAsyncOptions: (filterTerm?: string) => Observable<FilterOption[]>,
-    public component: Type<any> = AutocompleteAsyncComponent
+    public options: FilterOption[],
+    initialValues: FilterOption[] = null,
+    public getFilterOptions?: (params?: FilterParam[]) => Observable<FilterOption[]>,
+    public component: Type<any> = AutocompleteMultipleComponent
   ) {
     this.internalEvent = new Subject();
 
     this.searchFormControl = new FormControl();
 
-    const formControl = new FormControl('');
+    this.selection = new SelectionModel<FilterOption>(true, initialValues);
+
+    this.initialOptions = options;
+
+    this.options = options;
+
+    const formControl = new FormControl(initialValues);
 
     this.setEvents(formControl);
 
@@ -59,7 +71,13 @@ export class AutocompleteAsyncFilter implements FilterModel {
     return this.searchFormControl.valueChanges.pipe(
       startWith(''),
       distinctUntilChanged(),
-      switchMap((filterTerm: string) => this.getAsyncOptions(filterTerm))
+      switchMap((filterTerm: string) =>
+        of(
+          this.options.filter((filterOption: FilterOption) =>
+            filterOption.value.toLowerCase().includes(filterTerm.toLowerCase())
+          )
+        )
+      )
     );
   }
 
@@ -72,16 +90,21 @@ export class AutocompleteAsyncFilter implements FilterModel {
        */
       startWith(''),
       distinctUntilChanged(),
-      switchMap((filterTerm: string) => this.getAsyncOptions(filterTerm))
+      switchMap((filterTerm: string) =>
+        of(this.options.filter((option: FilterOption) => option.value.toLowerCase().includes(filterTerm.toLowerCase())))
+      )
     );
   }
 
   protected mapControlsValues(): string {
-    return this.elements.formControl.value ? this.elements.formControl.value.id.toString() : null;
+    const formValue: FilterOption[] = this.elements.formControl.value;
+
+    return formValue ? formValue.map((option: FilterOption) => option.id.toString()).join(',') : null;
   }
 
   public clearFilter(emit: boolean = false): FilterEvent {
     this.elements.clear(emit);
+    this.selection.clear();
 
     if (emit) {
       return new FilterEvent(new FilterEmptyEvent(), this);
@@ -120,5 +143,17 @@ export class AutocompleteAsyncFilter implements FilterModel {
   public setValue(value: any): FilterEvent {
     this.elements.formControl.setValue(value, { onlySelf: true, emitEvent: false });
     return new FilterEvent(new FilterValidValueChangeEvent(), this);
+  }
+
+  public updateFilterOptions(params: FilterParam[]): FilterEvent {
+    this.elements.formControl.disable({ emitEvent: false });
+
+    this.getFilterOptions(params).subscribe(options => {
+      this.options = options;
+      this.elements.formControl.enable({ emitEvent: false });
+      this.elements.options = this.filterOptions(this.elements.formControl);
+    });
+
+    return new FilterEvent(new FilterEmptyEvent(), this);
   }
 }
