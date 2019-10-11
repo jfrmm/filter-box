@@ -33,7 +33,7 @@ export class AutocompleteMultipleComponent implements OnInit, FilterComponentMod
       this.filter.initialOptions.forEach((option: FilterOption) => this.filter.selection.select(option));
     }
 
-    this.filter.elements.formControl.setValue(this.filter.selection.selected);
+    this.filter.formControl.setValue(this.filter.selection.selected);
   }
 
   public ngOnInit() {}
@@ -43,6 +43,6 @@ export class AutocompleteMultipleComponent implements OnInit, FilterComponentMod
 
     this.filter.selection.toggle(filterOption);
 
-    this.filter.elements.formControl.setValue(this.filter.selection.selected);
+    this.filter.formControl.setValue(this.filter.selection.selected);
   }
 }

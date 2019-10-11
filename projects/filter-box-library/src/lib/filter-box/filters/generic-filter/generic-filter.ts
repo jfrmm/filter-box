@@ -11,7 +11,6 @@ import { FilterEvent } from '../../events/filter-event';
 import { FilterValidValueChangeEvent } from '../../events/filter-valid-value-change-event';
 import { FilterOption } from '../../models/filter-option.model';
 import { FilterParam } from '../../models/filter-param.model';
-import { FilterElement } from '../filter-element';
 
 export abstract class GenericFilter {
   get param(): FilterParam {
@@ -23,9 +22,9 @@ export abstract class GenericFilter {
 
   protected internalEvent: Subject<FilterEvent> = new Subject();
 
-  public elements: FilterElement;
-
   public events: Observable<FilterEvent>;
+
+  public formControl: FormControl;
 
   public type: string;
 
@@ -33,16 +32,20 @@ export abstract class GenericFilter {
     public paramName: string,
     public placeholder: string,
     public getFilterOptions: (params?: FilterParam[]) => Observable<FilterOption[]>,
-    public initialValue: FilterOption = null,
+    public initialValue: FilterOption | FilterOption[] = null,
     public component: Type<any>
-  ) {}
+  ) {
+    this.formControl = new FormControl(initialValue);
+
+    this.setEvents(this.formControl);
+  }
 
   protected mapControlsValues(): string {
-    return this.elements.formControl.value ? this.elements.formControl.value.id.toString() : null;
+    return this.formControl.value ? this.formControl.value.id.toString() : null;
   }
 
   public clearFilter(emit: boolean = false): FilterEvent {
-    this.elements.clear(emit);
+    this.formControl.setValue('', { emitEvent: emit });
 
     if (emit) {
       return new FilterEvent(new FilterEmptyEvent(), this);
@@ -52,13 +55,13 @@ export abstract class GenericFilter {
   }
 
   public disableFilter(): FilterEvent {
-    this.elements.formControl.disable({ onlySelf: true, emitEvent: false });
+    this.formControl.disable({ onlySelf: true, emitEvent: false });
 
     return new FilterEvent(new FilterDisabledEvent(), this);
   }
 
   public enableFilter(): FilterEvent {
-    this.elements.formControl.enable({ onlySelf: true, emitEvent: false });
+    this.formControl.enable({ onlySelf: true, emitEvent: false });
 
     return new FilterEvent(new FilterEnabledEvent(), this);
   }
@@ -81,7 +84,7 @@ export abstract class GenericFilter {
   }
 
   public setValue(value: any): FilterEvent {
-    this.elements.formControl.setValue(value, { onlySelf: true, emitEvent: false });
+    this.formControl.setValue(value, { onlySelf: true, emitEvent: false });
 
     return new FilterEvent(new FilterValidValueChangeEvent(), this);
   }

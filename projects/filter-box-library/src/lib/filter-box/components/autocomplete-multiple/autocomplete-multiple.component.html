@@ -1,8 +1,8 @@
 <div *ngIf="filter">
   <mat-form-field>
     <mat-select
-      [value]="filter?.elements.formControl.value"
-      [placeholder]="filter?.elements.placeholder"
+      [value]="filter?.formControl.value"
+      [placeholder]="filter?.placeholder"
       [multiple]="true"
       (openedChange)="clearSearch($event)"
     >
@@ -21,7 +21,7 @@
       </div>
       <mat-option
         (click)="toggleOption($event, filterOption)"
-        *ngFor="let filterOption of filter?.elements.options | async"
+        *ngFor="let filterOption of filter?.filteredOptions | async"
         [value]="filterOption"
       >
         {{ filterOption.value }}
@@ -31,6 +31,6 @@
 
   <asp-clear-filter-button
     [filter]="filter"
-    [disabled]="!filter.elements.formControl.value?.length"
+    [disabled]="!filter.formControl.value?.length"
   ></asp-clear-filter-button>
 </div>

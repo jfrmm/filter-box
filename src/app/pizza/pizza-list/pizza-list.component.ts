@@ -14,9 +14,7 @@ import {
 import { AutocompleteMultipleComponent } from 'filter-box-library';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import {
-   RandomColorAutocompleteFilterComponent
-   } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
+import { RandomColorAutocompleteFilterComponent } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
 import { SelectFilter } from 'src/app/custom-filters/select-filter/select-filter';
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
 import { PizzaService } from '../shared/pizza.service';
@@ -27,7 +25,6 @@ import { PizzaService } from '../shared/pizza.service';
   styleUrls: ['./pizza-list.component.css'],
 })
 export class PizzaListComponent implements OnInit {
-
   get params(): FilterParam[] {
     return this.filters.map(filter => filter.param).filter(filter => filter.value !== null);
   }
@@ -46,13 +43,13 @@ export class PizzaListComponent implements OnInit {
   constructor(private readonly pizzaService: PizzaService) {}
 
   private loadFilterBoxFilters(): void {
-    forkJoin([this.pizzaService.getPizzaBases(), this.pizzaService.getRatings()]).subscribe(([pizzaBases, ratings]) => {
       this.filters.push(
-        new AutocompleteFilter('base', 'Base', this.pizzaService.getPizzaBases,  null,),
+        new AutocompleteFilter('base', 'Base', this.pizzaService.getPizzaBases, null),
         new AutocompleteAsyncFilter('restaurant', 'Restaurant', this.pizzaService.getRestaurants),
         new DateFilter('from', 'From'),
         new DateFilter('to', 'To'),
-        new CheckboxFilter('rating', ratings),
+        // new CheckboxFilter('rating', ratings),
+        new AutocompleteMultipleFilter('multiple', 'mmultiple', this.pizzaService.getPizzaBases, null)
         // new AutocompleteFilter(
         //   'base',
         //   'Custom',
@@ -119,7 +116,7 @@ export class PizzaListComponent implements OnInit {
        * updateFilterOptions inside that function, this way, it will happen at the same time,
        * this is: "not respecting the callback order"
        */
-    });
+
   }
 
   public index(reset: boolean): void {
