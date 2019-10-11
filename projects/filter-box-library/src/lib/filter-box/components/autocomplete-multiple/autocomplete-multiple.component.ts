@@ -22,15 +22,15 @@ export class AutocompleteMultipleComponent implements OnInit, FilterComponentMod
 
   public isAllSelected(): boolean {
     const numSelected = this.filter.selection.selected.length;
-    const numRows = this.filter.initialOptions.length;
+    const numRows = this.filter.options.length;
     return numSelected === numRows;
   }
 
   public masterToggle(): void {
-    if (this.filter.selection.selected.length === this.filter.initialOptions.length) {
-      this.filter.initialOptions.forEach((option: FilterOption) => this.filter.selection.deselect(option));
+    if (this.filter.selection.selected.length === this.filter.options.length) {
+      this.filter.options.forEach((option: FilterOption) => this.filter.selection.deselect(option));
     } else {
-      this.filter.initialOptions.forEach((option: FilterOption) => this.filter.selection.select(option));
+      this.filter.options.forEach((option: FilterOption) => this.filter.selection.select(option));
     }
 
     this.filter.formControl.setValue(this.filter.selection.selected);
