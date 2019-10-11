@@ -48,21 +48,21 @@ export class PizzaListComponent implements OnInit {
   private loadFilterBoxFilters(): void {
     forkJoin([this.pizzaService.getPizzaBases(), this.pizzaService.getRatings()]).subscribe(([pizzaBases, ratings]) => {
       this.filters.push(
-        new AutocompleteFilter('base', 'Base', pizzaBases, null, this.pizzaService.getPizzaBases),
+        new AutocompleteFilter('base', 'Base', this.pizzaService.getPizzaBases,  null,),
         new AutocompleteAsyncFilter('restaurant', 'Restaurant', this.pizzaService.getRestaurants),
         new DateFilter('from', 'From'),
         new DateFilter('to', 'To'),
         new CheckboxFilter('rating', ratings),
-        new AutocompleteFilter(
-          'base',
-          'Custom',
-          pizzaBases,
-          null,
-          this.pizzaService.getPizzaBases,
-          RandomColorAutocompleteFilterComponent
-        ),
-        new SelectFilter('base', 'Select', pizzaBases),
-        new AutocompleteMultipleFilter('base', 'Multiple', pizzaBases, null, null, AutocompleteMultipleComponent)
+        // new AutocompleteFilter(
+        //   'base',
+        //   'Custom',
+        //   pizzaBases,
+        //   null,
+        //   this.pizzaService.getPizzaBases,
+        //   RandomColorAutocompleteFilterComponent
+        // ),
+        // new SelectFilter('base', 'Select', pizzaBases),
+        // new AutocompleteMultipleFilter('base', 'Multiple', pizzaBases, null, null, AutocompleteMultipleComponent)
       );
 
       // this.filterBehaviours = [

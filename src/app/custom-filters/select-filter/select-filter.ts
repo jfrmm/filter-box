@@ -11,6 +11,7 @@ export class SelectFilter extends AutocompleteFilter {
   }
 
   protected filterOptions(): Observable<FilterOption[]> {
-    return of(this.initialOptions);
+    // return of(this.initialOptions);
+    return null;
   }
 }
