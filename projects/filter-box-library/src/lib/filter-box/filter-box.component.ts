@@ -12,9 +12,9 @@ import { Subscription } from 'rxjs';
 import { FilterAnchorDirective } from './filter-anchor.directive';
 import { FilterHelperService } from './filter-helper.service';
 import { FilterMediatorService } from './filter-mediator.service';
+import { Filter } from './filters/filter/filter';
 import { FilterBehaviour } from './models/filter-behaviour.model';
 import { FilterComponentModel } from './models/filter-component.model';
-import { FilterModel } from './models/filter.model';
 
 @Component({
   selector: 'asp-filter-box',
@@ -31,7 +31,7 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
   public filterBehaviours: FilterBehaviour[];
 
   @Input()
-  public filters: FilterModel[];
+  public filters: Filter[];
 
   @Output()
   public index = new EventEmitter();
@@ -68,7 +68,7 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
   }
 
   public onClickClearAllFilters(): void {
-    this.filters.forEach((filter: FilterModel) => filter.clearFilter());
+    this.filters.forEach((filter: Filter) => filter.clearFilter());
 
     this.index.emit();
   }

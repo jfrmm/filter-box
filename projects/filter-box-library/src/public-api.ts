@@ -11,6 +11,7 @@ export * from './lib/filter-box/filters/autocomplete-async-filter/autocomplete-a
 export * from './lib/filter-box/filters/date-filter/date-filter';
 export * from './lib/filter-box/filters/autocomplete-multiple-filter/autocomplete-multiple-filter';
 export * from './lib/filter-box/filters/select-filter/select-filter';
+export * from './lib/filter-box/filters/filter/filter';
 
 export * from './lib/filter-box/filters/filter-element';
 
@@ -26,7 +27,6 @@ export * from './lib/filter-box/events/filter-empty-event';
 export * from './lib/filter-box/models/filter-option.model';
 export * from './lib/filter-box/models/filter-param.model';
 export * from './lib/filter-box/models/filter-behaviour.model';
-export * from './lib/filter-box/models/filter.model';
 export * from './lib/filter-box/models/filter-component.model';
 
 // Components

@@ -1,8 +1,8 @@
 import { FilterHelperService } from '../filter-helper.service';
-import { FilterModel } from './filter.model';
+import { Filter } from '../filters/filter/filter';
 
 export interface FilterComponentModel {
-  filter: FilterModel;
+  filter: Filter;
 
   filterHelper: FilterHelperService;
 }

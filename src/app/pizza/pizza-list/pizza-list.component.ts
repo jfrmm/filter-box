@@ -17,6 +17,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { RandomColorAutocompleteFilterComponent } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
 
+import { Filter } from 'dist/filter-box-library/lib/filter-box/filters/filter/filter';
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
 import { PizzaService } from '../shared/pizza.service';
 
@@ -37,7 +38,7 @@ export class PizzaListComponent implements OnInit {
 
   public filterBehaviours: FilterBehaviour[];
 
-  public filters: FilterModel[];
+  public filters: Filter[];
 
   public indexCount = 0;
 
