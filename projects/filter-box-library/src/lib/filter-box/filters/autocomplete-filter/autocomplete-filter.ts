@@ -7,9 +7,9 @@ import { FilterEmptyEvent } from '../../events/filter-empty-event';
 import { FilterEvent } from '../../events/filter-event';
 import { FilterOption } from '../../models/filter-option.model';
 import { FilterParam } from '../../models/filter-param.model';
-import { GenericFilter } from '../generic-filter/generic-filter';
+import { Filter } from '../filter/filter';
 
-export class AutocompleteFilter extends GenericFilter {
+export class AutocompleteFilter extends Filter {
   get type(): string {
     return 'autocomplete';
   }

@@ -3,9 +3,9 @@ import { FilterClearEvent } from '../../events/filter-clear-event';
 import { FilterEmptyEvent } from '../../events/filter-empty-event';
 import { FilterOption } from '../../models/filter-option.model';
 import { FilterParam } from '../../models/filter-param.model';
-import { GenericFilter } from './generic-filter';
+import { Filter } from './filter';
 
-class MockClass extends GenericFilter {
+class MockClass extends Filter {
   constructor(
     paramName: string,
     placeholder: string,
@@ -16,7 +16,7 @@ class MockClass extends GenericFilter {
   }
 }
 
-fdescribe('GenericFilter', () => {
+fdescribe('Filter', () => {
   const mockElement: FilterOption = { id: 1, value: 'test' };
   const mockParam: FilterParam = { name: 'test', value: 'test' };
   let mockClass: MockClass;

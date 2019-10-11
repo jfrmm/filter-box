@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 import { distinctUntilChanged, startWith, switchMap } from 'rxjs/operators';
 import { AutocompleteAsyncComponent } from '../../components/autocomplete-async/autocomplete-async.component';
 import { FilterOption } from '../../models/filter-option.model';
-import { GenericFilter } from '../generic-filter/generic-filter';
+import { Filter } from '../filter/filter';
 
-export class AutocompleteAsyncFilter extends GenericFilter {
+export class AutocompleteAsyncFilter extends Filter {
   get type(): string {
     return 'autocomplete-async';
   }

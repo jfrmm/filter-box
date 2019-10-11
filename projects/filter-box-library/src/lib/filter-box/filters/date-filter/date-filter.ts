@@ -6,9 +6,9 @@ import { DateComponent } from '../../components/date/date.component';
 import { FilterClearEvent } from '../../events/filter-clear-event';
 import { FilterEvent } from '../../events/filter-event';
 import { FilterValidValueChangeEvent } from '../../events/filter-valid-value-change-event';
-import { GenericFilter } from '../generic-filter/generic-filter';
+import { Filter } from '../filter/filter';
 
-export class DateFilter extends GenericFilter {
+export class DateFilter extends Filter {
   get type(): string {
     return 'date';
   }

@@ -12,7 +12,7 @@ import { FilterValidValueChangeEvent } from '../../events/filter-valid-value-cha
 import { FilterOption } from '../../models/filter-option.model';
 import { FilterParam } from '../../models/filter-param.model';
 
-export abstract class GenericFilter {
+export abstract class Filter {
   get param(): FilterParam {
     return {
       name: this.paramName,

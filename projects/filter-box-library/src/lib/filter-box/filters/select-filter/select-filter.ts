@@ -3,9 +3,9 @@ import { Observable } from 'rxjs';
 import { SelectComponent } from '../../components/select/select.component';
 import { FilterOption } from '../../models/filter-option.model';
 import { FilterParam } from '../../models/filter-param.model';
-import { GenericFilter } from '../generic-filter/generic-filter';
+import { Filter } from '../filter/filter';
 
-export class SelectFilter extends GenericFilter {
+export class SelectFilter extends Filter {
   get type(): string {
     return 'select';
   }

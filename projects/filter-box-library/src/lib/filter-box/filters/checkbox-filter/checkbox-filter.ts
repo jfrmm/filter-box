@@ -7,9 +7,9 @@ import { FilterClearEvent } from '../../events/filter-clear-event';
 import { FilterEvent } from '../../events/filter-event';
 import { FilterValidValueChangeEvent } from '../../events/filter-valid-value-change-event';
 import { FilterOption } from '../../models/filter-option.model';
-import { GenericFilter } from '../generic-filter/generic-filter';
+import { Filter } from '../filter/filter';
 
-export class CheckboxFilter extends GenericFilter {
+export class CheckboxFilter extends Filter {
   get type(): string {
     return 'checkbox';
   }
