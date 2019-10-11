@@ -9,8 +9,6 @@ import { FilterOption } from '../../models/filter-option.model';
 import { FilterParam } from '../../models/filter-param.model';
 import { GenericFilter } from '../generic-filter/generic-filter';
 
-// implements FilterModel
-
 export class AutocompleteFilter extends GenericFilter {
   get type(): string {
     return 'autocomplete';

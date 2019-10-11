@@ -31,8 +31,8 @@ export abstract class GenericFilter {
   constructor(
     public paramName: string,
     public placeholder: string,
-    public getFilterOptions: (params?: FilterParam[]) => Observable<FilterOption[]>,
-    public initialValue: FilterOption | FilterOption[] = null,
+    public getFilterOptions: (params?: FilterParam[] | string) => Observable<FilterOption[]>,
+    public initialValue: FilterOption | FilterOption[] | string = null,
     public component: Type<any>
   ) {
     this.formControl = new FormControl(initialValue);

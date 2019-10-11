@@ -1,4 +1,4 @@
-import { AutocompleteAsyncFilter } from '../autocomplete-async-filter';
+import { AutocompleteAsyncFilter } from '../autocomplete-async-filter/autocomplete-async-filter';
 
 describe('AutocompleteAsyncFilter', () => {
   let autocompleteAsyncFilter: AutocompleteAsyncFilter;
@@ -11,25 +11,7 @@ describe('AutocompleteAsyncFilter', () => {
     expect(autocompleteAsyncFilter).toBeDefined();
   });
 
-  it('should set the filter value', () => {
-    autocompleteAsyncFilter.setValue('MOCK');
-
-    expect(autocompleteAsyncFilter.elements.formControl.value).toBe('MOCK');
-  });
-
-  it('should clear the filter value', () => {
-    autocompleteAsyncFilter.clearFilter();
-
-    expect(autocompleteAsyncFilter.elements.formControl.value).toBe('');
-  });
-
-  it('should disable & enable the filter', () => {
-    autocompleteAsyncFilter.disableFilter();
-
-    expect(autocompleteAsyncFilter.elements.formControl.disabled).toBeTruthy();
-
-    autocompleteAsyncFilter.enableFilter();
-
-    expect(autocompleteAsyncFilter.elements.formControl.enabled).toBeTruthy();
+  it(`should return correct type`, () => {
+    expect(autocompleteAsyncFilter.type).toBe('autocomplete-async');
   });
 });
