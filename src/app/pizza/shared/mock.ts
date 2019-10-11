@@ -53,3 +53,9 @@ export const PIZZASLIST: PizzaModel[] = [
   },
   { id: 7, name: 'Pugliese', base: PIZZABASES[3], rating: RATINGS[0], ratingDate: '06-03-2019' },
 ];
+
+export const FOODIETYPE: FilterOption[] = [
+  { id: 1, value: 'Instagrammer' },
+  { id: 2, value: 'Youtuber' },
+  { id: 3, value: 'Zomatoer' },
+];

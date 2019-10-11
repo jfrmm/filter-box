@@ -25,7 +25,7 @@ import { FilterComponentModel } from './models/filter-component.model';
 export class FilterBoxComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription;
 
-   @ViewChild(FilterAnchorDirective, { static: true })  public filterAnchorDirective: FilterAnchorDirective;
+  @ViewChild(FilterAnchorDirective, { static: true }) public filterAnchorDirective: FilterAnchorDirective;
 
   @Input()
   public filterBehaviours: FilterBehaviour[];

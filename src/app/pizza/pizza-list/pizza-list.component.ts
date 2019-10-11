@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatSelectChange } from '@angular/material';
 import {
   AutocompleteAsyncFilter,
   AutocompleteFilter,
@@ -6,19 +7,19 @@ import {
   CheckboxFilter,
   DateFilter,
   FilterBehaviour,
-  FilterClearEvent,
-  FilterModel,
   FilterParam,
   FilterValidValueChangeEvent,
   SelectFilter,
 } from 'filter-box-library';
 import { AutocompleteMultipleComponent } from 'filter-box-library';
+import { FilterOption } from 'projects/filter-box-library/src/public-api';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { RandomColorAutocompleteFilterComponent } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
 
 import { Filter } from 'dist/filter-box-library/lib/filter-box/filters/filter/filter';
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
+import { FoodieTypeService } from '../shared/foodie-type.service';
 import { PizzaService } from '../shared/pizza.service';
 
 @Component({
@@ -27,10 +28,13 @@ import { PizzaService } from '../shared/pizza.service';
   styleUrls: ['./pizza-list.component.css'],
 })
 export class PizzaListComponent implements OnInit {
-  get params(): FilterParam[] {
+  get filterParams(): FilterParam[] {
     return this.filters.map(filter => filter.param).filter(filter => filter.value !== null);
   }
+
   private readonly destroy$ = new Subject();
+
+  private readonly queryParams: FilterParam[] = [];
 
   public dataSource: GenericDataSource;
 
@@ -40,9 +44,13 @@ export class PizzaListComponent implements OnInit {
 
   public filters: Filter[];
 
+  public foodieTypes: FilterOption[];
+
   public indexCount = 0;
 
-  constructor(private readonly pizzaService: PizzaService) {}
+  public selectedFoodieType: FilterOption;
+
+  constructor(private readonly pizzaService: PizzaService, private readonly foodieTypeService: FoodieTypeService) {}
 
   private loadFilterBoxFilters(): void {
     this.filters.push(
@@ -121,10 +129,15 @@ export class PizzaListComponent implements OnInit {
      */
   }
 
+  public foodieTypeChanged(event: MatSelectChange) {
+    this.selectedFoodieType = event.value;
+  }
+
   public index(reset: boolean): void {
-    console.log(this.params);
+    const pizzaParams: FilterParam[] = [...this.queryParams, ...this.filterParams];
+
     this.pizzaService
-      .getPizzasList(this.params)
+      .getPizzasList(pizzaParams)
       .pipe(takeUntil(this.destroy$))
       .subscribe(response => {
         this.dataSource.update(response.elements, reset);
@@ -138,6 +151,22 @@ export class PizzaListComponent implements OnInit {
     this.displayedColumns = ['id', 'name', 'base', 'restaurant', 'price', 'rating', 'ratingDate'];
 
     this.loadFilterBoxFilters();
+    this.index(true);
+  }
+
+  public search(value: string) {
+    const i = this.queryParams.findIndex((p: FilterParam) => p.name === 'name');
+
+    if (value && i === -1) {
+      this.queryParams.push({ name: 'name', value });
+    } else if (i > -1) {
+      if (value) {
+        this.queryParams[i].value = value;
+      } else {
+        this.queryParams.splice(i, 1);
+      }
+    }
+
     this.index(true);
   }
 }

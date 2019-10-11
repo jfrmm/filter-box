@@ -1,8 +1,24 @@
-<mat-card fxLayout="row" fxLayoutAlign="start baseline">
-  <button *ngIf="filters?.length > 0" mat-icon-button type="button" (click)="onClickClearAllFilters()">
-    <mat-icon>clear</mat-icon>
-  </button>
-  <div fxLayout="row wrap" fxLayoutGap="24px" fxLayoutAlign="start baseline">
-    <ng-template aspFilterAnchor></ng-template>
+<mat-card>
+  <div fxLayout="row wrap" fxLayoutAlign="start baseline">
+    <div fxFlexOffset="40px" fxLayoutGap="24px">
+      <!-- Allow content projection to the first row of the filter box card -->
+      <ng-content select="[app-filter-box-first-row]"></ng-content>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start baseline">
+    <button *ngIf="filters?.length > 0" mat-icon-button type="button" (click)="onClickClearAllFilters()">
+      <mat-icon>clear</mat-icon>
+    </button>
+    <div fxLayout="row wrap" fxLayoutGap="24px" fxLayoutAlign="start baseline">
+      <ng-template aspFilterAnchor></ng-template>
+    </div>
+  </div>
+
+  <div fxLayout="row wrap" fxLayoutAlign="start baseline">
+    <div fxFlexOffset="40px" fxLayoutGap="24px">
+      <!-- Allow content projection to the last row of the filter box card -->
+      <ng-content select="[app-filter-box-last-row]"></ng-content>
+    </div>
   </div>
 </mat-card>
