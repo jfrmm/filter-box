@@ -31,33 +31,30 @@ export class AutocompleteFilter implements FilterModel {
 
   public events: Observable<FilterEvent>;
 
-  public initialOptions: FilterOption[];
+  public options: FilterOption[];
 
   public searchFormControl: FormControl;
 
   constructor(
     public paramName: string,
     public placeholder: string,
-    public options: FilterOption[],
-    initialValue: FilterOption = null,
-    public getFilterOptions?: (params?: FilterParam[]) => Observable<FilterOption[]>,
+    public getFilterOptions: (params?: FilterParam[]) => Observable<FilterOption[]>,
+    private initialValue: FilterOption = null,
     public component: Type<any> = AutocompleteComponent
   ) {
-    this.internalEvent = new Subject();
+    this.getFilterOptions().subscribe((options: FilterOption[]) => {
+      this.options = options;
 
-    this.searchFormControl = new FormControl();
+      this.internalEvent = new Subject();
 
-    this.initialOptions = options;
+      this.searchFormControl = new FormControl();
 
-    this.options = options;
+      const formControl = new FormControl(initialValue);
 
-    const formControl = new FormControl(initialValue);
+      this.setEvents(formControl);
 
-    this.setEvents(formControl);
-
-    this.elements = new FilterElement(placeholder, formControl, this.filterOptions(formControl));
-
-    this.elements.options = this.filterSearch();
+      this.elements = new FilterElement(placeholder, formControl, this.filterSearch());
+    });
   }
 
   private filterSearch(): Observable<FilterOption[]> {
@@ -70,21 +67,6 @@ export class AutocompleteFilter implements FilterModel {
             filterOption.value.toLowerCase().includes(filterTerm.toLowerCase())
           )
         )
-      )
-    );
-  }
-
-  protected filterOptions(formControl: FormControl): Observable<FilterOption[]> {
-    return formControl.valueChanges.pipe(
-      filter(option => typeof option === 'string' || option === null),
-      map(option => (option ? option : '')),
-      /* With startwith the list is displayed as soon as focused
-       * without it, it will be empty first time its focused, until user types something
-       */
-      startWith(''),
-      distinctUntilChanged(),
-      switchMap((filterTerm: string) =>
-        of(this.options.filter((option: FilterOption) => option.value.toLowerCase().includes(filterTerm.toLowerCase())))
       )
     );
   }
@@ -143,7 +125,7 @@ export class AutocompleteFilter implements FilterModel {
     this.getFilterOptions(params).subscribe(options => {
       this.options = options;
       this.elements.formControl.enable({ emitEvent: false });
-      this.elements.options = this.filterOptions(this.elements.formControl);
+      this.elements.options = this.filterSearch();
     });
 
     return new FilterEvent(new FilterEmptyEvent(), this);

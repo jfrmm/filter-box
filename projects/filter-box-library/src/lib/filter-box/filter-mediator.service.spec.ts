@@ -1,4 +1,5 @@
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { asyncScheduler, of } from 'rxjs';
 import { FilterClearEvent } from './events/filter-clear-event';
 import { FilterMediatorService } from './filter-mediator.service';
 import { AutocompleteFilter } from './filters/autocomplete-filter';
@@ -7,15 +8,15 @@ import { FilterModel } from './models/filter.model';
 describe('FilterMediatorService', () => {
   let filterMediatorService: FilterMediatorService;
   let mockFilter: AutocompleteFilter;
+  const mockFunction = () => of(null, asyncScheduler);
 
   beforeEach(() => {
     TestBed.configureTestingModule({ providers: [FilterMediatorService] });
     filterMediatorService = TestBed.get(FilterMediatorService);
 
-    mockFilter = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }], { id: 1, value: 'MOCK' });
+    mockFilter = new AutocompleteFilter('MOCK', 'MOCK', mockFunction, { id: 1, value: 'MOCK' });
 
     filterMediatorService.setFilters([mockFilter]);
-
   });
 
   it('should be created', () => {
@@ -56,9 +57,18 @@ describe('FilterMediatorService', () => {
   }));
 
   it('should execute behaviours', async(() => {
-    filterMediatorService.setFilters([mockFilter], [{
-      emitters: [mockFilter as FilterModel], events: [new FilterClearEvent()], callbacks: [/*() => mockFilter.setValue('Mock')*/]
-    }]);
+    filterMediatorService.setFilters(
+      [mockFilter],
+      [
+        {
+          emitters: [mockFilter as FilterModel],
+          events: [new FilterClearEvent()],
+          callbacks: [
+            /*() => mockFilter.setValue('Mock')*/
+          ],
+        },
+      ]
+    );
 
     const spy = spyOn<any>(filterMediatorService, 'findAndExecuteBehaviours');
     spy.calls.reset();

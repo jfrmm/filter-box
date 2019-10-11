@@ -3,10 +3,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FilterBoxComponent } from './filter-box.component';
 import { FilterBoxModule } from './filter-box.module';
 import { AutocompleteFilter } from './filters/autocomplete-filter';
+import { asyncScheduler, of } from 'rxjs';
 
 describe('FilterBoxComponent', () => {
   let component: FilterBoxComponent;
   let fixture: ComponentFixture<FilterBoxComponent>;
+  const mockFunction = () => of(null, asyncScheduler);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -33,7 +35,7 @@ describe('FilterBoxComponent', () => {
   });
 
   it('should render clear all button when there are filters', () => {
-    component.filters = [new AutocompleteFilter('MOCK', 'MOCK', [])];
+    component.filters = [new AutocompleteFilter('MOCK', 'MOCK', mockFunction)];
     fixture.detectChanges();
 
     const clearAllElement: HTMLElement = fixture.nativeElement;
@@ -41,8 +43,8 @@ describe('FilterBoxComponent', () => {
   });
 
   it('should clear all filters and emit only once', () => {
-    const mockFilter1 = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }], { id: 1, value: 'MOCK' });
-    const mockFilter2 = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }], { id: 1, value: 'MOCK' });
+    const mockFilter1 = new AutocompleteFilter('MOCK', 'MOCK', mockFunction);
+    const mockFilter2 = new AutocompleteFilter('MOCK', 'MOCK', mockFunction);
     component.filters = [mockFilter1, mockFilter2];
 
     const spy = spyOn(component.index, 'emit');

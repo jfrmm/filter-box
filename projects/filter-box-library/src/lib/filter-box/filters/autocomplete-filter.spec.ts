@@ -1,11 +1,12 @@
-import { of } from 'rxjs';
+import { asyncScheduler, of } from 'rxjs';
 import { AutocompleteFilter } from './autocomplete-filter';
 
 describe('AutocompleteFilter', () => {
   let autoCompleteFilter: AutocompleteFilter;
+  const mockFunction = () => of(null, asyncScheduler);
 
   beforeEach(() => {
-    autoCompleteFilter = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }]);
+    autoCompleteFilter = new AutocompleteFilter('MOCK', 'MOCK', mockFunction);
   });
 
   it('should create an instance', () => {
