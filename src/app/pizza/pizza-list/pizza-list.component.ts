@@ -7,6 +7,7 @@ import {
   CheckboxFilter,
   DateFilter,
   FilterBehaviour,
+  FilterBox,
   FilterModel,
   FilterParam,
 } from 'filter-box-library';
@@ -39,6 +40,8 @@ export class PizzaListComponent implements OnInit {
   public displayedColumns: string[];
 
   public filterBehaviours: FilterBehaviour[];
+
+  public filterBox: FilterBox;
 
   public filters: FilterModel[];
 
@@ -133,6 +136,10 @@ export class PizzaListComponent implements OnInit {
     });
   }
 
+  private setupFilterBox() {
+    this.filterBox = { clearAll: 'full' };
+  }
+
   public foodieTypeChanged(event: MatSelectChange) {
     this.selectedFoodieType = event.value;
   }
@@ -154,6 +161,7 @@ export class PizzaListComponent implements OnInit {
     this.dataSource = new GenericDataSource();
     this.displayedColumns = ['id', 'name', 'base', 'restaurant', 'price', 'rating', 'ratingDate'];
 
+    this.setupFilterBox();
     this.loadFilterBoxFilters();
     this.index(true);
   }

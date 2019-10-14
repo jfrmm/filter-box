@@ -15,6 +15,7 @@ import { FilterMediatorService } from './filter-mediator.service';
 import { FilterBehaviour } from './models/filter-behaviour.model';
 import { FilterComponentModel } from './models/filter-component.model';
 import { FilterModel } from './models/filter.model';
+import { FilterBox } from './models/filter-box.model';
 
 @Component({
   selector: 'asp-filter-box',
@@ -32,6 +33,9 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
 
   @Input()
   public filters: FilterModel[];
+
+  @Input()
+  public filterBox: FilterBox;
 
   @Output()
   public index = new EventEmitter();
@@ -65,11 +69,39 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.filterMediatorService.filterChanged.subscribe(() => this.index.emit()));
 
     this.loadFiltersComponents();
+    this.setupFilterBox();
   }
 
   public onClickClearAllFilters(): void {
     this.filters.forEach((filter: FilterModel) => filter.clearFilter());
 
     this.index.emit();
+  }
+
+  private setupFilterBox() {
+    this.filterBox = this.filterBox ? this.filterBox : { clearAll: 'simple' };
+
+    this.setupFlexOffsets();
+  }
+
+  private setupFlexOffsets() {
+    switch (this.filterBox.clearAll) {
+      case 'none':
+        this.filterBox.offset = {
+          left: '0px',
+        };
+        break;
+      case 'full':
+        this.filterBox.offset = {
+          left: '120px',
+        };
+        break;
+      case 'simple':
+      default:
+        this.filterBox.offset = {
+          left: '40px',
+        };
+        break;
+    }
   }
 }
