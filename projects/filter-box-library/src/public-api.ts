@@ -20,7 +20,7 @@ export * from './lib/filter-box/events/filter-enabled-event';
 export * from './lib/filter-box/events/filter-empty-event';
 
 export * from './lib/filter-box/models/filter-behaviour.model';
-export * from './lib/filter-box/models/filter-box.model';
+export * from './lib/filter-box/models/filter-box-config.model';
 export * from './lib/filter-box/models/filter-component.model';
 export * from './lib/filter-box/models/filter-option.model';
 export * from './lib/filter-box/models/filter-param.model';
@@ -35,3 +35,4 @@ export * from './lib/filter-box/components/date/date.component';
 export * from './lib/filter-box/components/autocomplete-multiple/autocomplete-multiple.component';
 
 export * from './lib/filter-box/filter-helper.service';
+export * from './lib/filter-box/services/filter-box-config.service';

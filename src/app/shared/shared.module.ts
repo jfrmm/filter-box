@@ -15,19 +15,26 @@ import {
   MatSelectModule,
   MatTableModule,
 } from '@angular/material';
+
 import { FilterBoxModule } from 'filter-box-library';
+import { FilterBoxConfig } from 'projects/filter-box-library/src/public-api';
+
+// Filter Box default config
+const filterBoxConfig: FilterBoxConfig = {
+  clearAll: 'simple',
+};
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
+    FilterBoxModule.forRoot(filterBoxConfig),
     MatAutocompleteModule,
     MatCardModule,
     MatInputModule,
     MatTableModule,
-    FlexLayoutModule,
-    FilterBoxModule,
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,
@@ -39,12 +46,12 @@ import { FilterBoxModule } from 'filter-box-library';
   exports: [
     CommonModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
+    FilterBoxModule,
     MatAutocompleteModule,
     MatCardModule,
     MatInputModule,
     MatTableModule,
-    FlexLayoutModule,
-    FilterBoxModule,
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
+
 import { AutocompleteAsyncComponent } from './components/autocomplete-async/autocomplete-async.component';
 import { AutocompleteMultipleComponent } from './components/autocomplete-multiple/autocomplete-multiple.component';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
@@ -11,6 +12,8 @@ import { DateComponent } from './components/date/date.component';
 import { FilterAnchorDirective } from './filter-anchor.directive';
 import { FilterBoxComponent } from './filter-box.component';
 import { MaterialModule } from './material.module';
+import { FilterBoxConfig } from './models/filter-box-config.model';
+import { FilterBoxConfigService } from './services/filter-box-config.service';
 
 @NgModule({
   declarations: [
@@ -41,4 +44,17 @@ import { MaterialModule } from './material.module';
     AutocompleteMultipleComponent,
   ],
 })
-export class FilterBoxModule {}
+export class FilterBoxModule {
+  public static forRoot(config: FilterBoxConfig): ModuleWithProviders {
+    return {
+      ngModule: FilterBoxModule,
+      providers: [
+        FilterBoxComponent,
+        {
+          provide: FilterBoxConfigService,
+          useValue: config,
+        },
+      ],
+    };
+  }
+}

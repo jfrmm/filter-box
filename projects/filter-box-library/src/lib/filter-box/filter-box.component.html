@@ -1,6 +1,6 @@
 <mat-card>
   <div fxLayout="row wrap" fxLayoutAlign="start baseline">
-    <div [fxFlexOffset]="filterBox.offset.left" fxLayoutGap="24px">
+    <div [fxFlexOffset]="filterBoxConfig.offset.left" fxLayoutGap="24px">
       <!-- Allow content projection to the first row of the filter box card -->
       <ng-content select="[app-filter-box-first-row]"></ng-content>
     </div>
@@ -8,8 +8,8 @@
 
   <div fxLayout="row" fxLayoutAlign="start baseline">
     <!-- Clear button -->
-    <div *ngIf="filters?.length > 0" [fxFlex]="filterBox.offset.left">
-      <ng-container [ngSwitch]="filterBox.clearAll">
+    <div *ngIf="filters?.length > 0" [fxFlex]="filterBoxConfig.offset.left">
+      <ng-container [ngSwitch]="filterBoxConfig.clearAll">
         <button *ngSwitchCase="'simple'" mat-icon-button type="button" (click)="onClickClearAllFilters()">
           <mat-icon>clear</mat-icon>
         </button>
@@ -28,7 +28,7 @@
   </div>
 
   <div fxLayout="row wrap" fxLayoutAlign="start baseline">
-    <div [fxFlexOffset]="filterBox.offset.left" fxLayoutGap="24px">
+    <div [fxFlexOffset]="filterBoxConfig.offset.left" fxLayoutGap="24px">
       <!-- Allow content projection to the last row of the filter box card -->
       <ng-content select="[app-filter-box-last-row]"></ng-content>
     </div>

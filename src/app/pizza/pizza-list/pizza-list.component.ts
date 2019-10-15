@@ -1,5 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material';
+import { forkJoin, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import {
   AutocompleteAsyncFilter,
   AutocompleteFilter,
@@ -7,14 +10,11 @@ import {
   CheckboxFilter,
   DateFilter,
   FilterBehaviour,
-  FilterBox,
   FilterModel,
   FilterParam,
 } from 'filter-box-library';
 import { AutocompleteMultipleComponent } from 'filter-box-library';
-import { FilterOption } from 'projects/filter-box-library/src/public-api';
-import { forkJoin, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { FilterBoxConfig, FilterOption } from 'projects/filter-box-library/src/public-api';
 import { RandomColorAutocompleteFilterComponent } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
 import { SelectFilter } from 'src/app/custom-filters/select-filter/select-filter';
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
@@ -41,7 +41,7 @@ export class PizzaListComponent implements OnInit {
 
   public filterBehaviours: FilterBehaviour[];
 
-  public filterBox: FilterBox;
+  public filterConfig: FilterBoxConfig;
 
   public filters: FilterModel[];
 
@@ -52,6 +52,18 @@ export class PizzaListComponent implements OnInit {
   public selectedFoodieType: FilterOption;
 
   constructor(private readonly pizzaService: PizzaService, private readonly foodieTypeService: FoodieTypeService) {}
+
+  /**
+   * This method is an example of how we can override the default
+   * Filter Box config. Add this data bind [filterConfig]="filterConfig"
+   * in <asp-filter-box>
+   */
+  private configFilterBox() {
+    this.filterConfig = {
+      clearAll: 'full',
+      offset: { left: '500px' },
+    };
+  }
 
   private loadFilterBoxFilters(): void {
     forkJoin([
@@ -136,10 +148,6 @@ export class PizzaListComponent implements OnInit {
     });
   }
 
-  private setupFilterBox() {
-    this.filterBox = { clearAll: 'full' };
-  }
-
   public foodieTypeChanged(event: MatSelectChange) {
     this.selectedFoodieType = event.value;
   }
@@ -161,7 +169,7 @@ export class PizzaListComponent implements OnInit {
     this.dataSource = new GenericDataSource();
     this.displayedColumns = ['id', 'name', 'base', 'restaurant', 'price', 'rating', 'ratingDate'];
 
-    this.setupFilterBox();
+    this.configFilterBox();
     this.loadFilterBoxFilters();
     this.index(true);
   }

@@ -2,6 +2,7 @@ import {
   Component,
   ComponentFactoryResolver,
   EventEmitter,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -9,13 +10,15 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+
 import { FilterAnchorDirective } from './filter-anchor.directive';
 import { FilterHelperService } from './filter-helper.service';
 import { FilterMediatorService } from './filter-mediator.service';
 import { FilterBehaviour } from './models/filter-behaviour.model';
+import { FilterBoxConfig } from './models/filter-box-config.model';
 import { FilterComponentModel } from './models/filter-component.model';
 import { FilterModel } from './models/filter.model';
-import { FilterBox } from './models/filter-box.model';
+import { FilterBoxConfigService } from './services/filter-box-config.service';
 
 @Component({
   selector: 'asp-filter-box',
@@ -24,6 +27,32 @@ import { FilterBox } from './models/filter-box.model';
   providers: [FilterMediatorService],
 })
 export class FilterBoxComponent implements OnInit, OnDestroy {
+  set filterBoxConfig(config: FilterBoxConfig) {
+    switch (config.clearAll) {
+      case 'none':
+        config.offset = {
+          left: '0px',
+        };
+        break;
+      case 'full':
+        config.offset = {
+          left: '120px',
+        };
+        break;
+      case 'simple':
+      default:
+        config.offset = {
+          left: '40px',
+        };
+        break;
+    }
+
+    this.filterConfig = config;
+  }
+
+  get filterBoxConfig(): FilterBoxConfig {
+    return this.filterConfig;
+  }
   private subscriptions: Subscription;
 
   @ViewChild(FilterAnchorDirective, { static: true }) public filterAnchorDirective: FilterAnchorDirective;
@@ -32,10 +61,10 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
   public filterBehaviours: FilterBehaviour[];
 
   @Input()
-  public filters: FilterModel[];
+  public filterConfig: FilterBoxConfig;
 
   @Input()
-  public filterBox: FilterBox;
+  public filters: FilterModel[];
 
   @Output()
   public index = new EventEmitter();
@@ -43,8 +72,11 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
   constructor(
     private readonly componentFactoryResolver: ComponentFactoryResolver,
     private readonly filterMediatorService: FilterMediatorService,
-    public filterHelper: FilterHelperService
-  ) {}
+    public filterHelper: FilterHelperService,
+    @Inject(FilterBoxConfigService) private readonly filterBoxConfigService
+  ) {
+    this.filterBoxConfig = this.filterBoxConfigService;
+  }
 
   private loadFiltersComponents(): void {
     this.filters.forEach(filter => {
@@ -69,39 +101,11 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.filterMediatorService.filterChanged.subscribe(() => this.index.emit()));
 
     this.loadFiltersComponents();
-    this.setupFilterBox();
   }
 
   public onClickClearAllFilters(): void {
     this.filters.forEach((filter: FilterModel) => filter.clearFilter());
 
     this.index.emit();
-  }
-
-  private setupFilterBox() {
-    this.filterBox = this.filterBox ? this.filterBox : { clearAll: 'simple' };
-
-    this.setupFlexOffsets();
-  }
-
-  private setupFlexOffsets() {
-    switch (this.filterBox.clearAll) {
-      case 'none':
-        this.filterBox.offset = {
-          left: '0px',
-        };
-        break;
-      case 'full':
-        this.filterBox.offset = {
-          left: '120px',
-        };
-        break;
-      case 'simple':
-      default:
-        this.filterBox.offset = {
-          left: '40px',
-        };
-        break;
-    }
   }
 }
