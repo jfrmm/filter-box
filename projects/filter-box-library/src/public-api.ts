@@ -34,5 +34,5 @@ export * from './lib/filter-box/components/checkbox/checkbox.component';
 export * from './lib/filter-box/components/date/date.component';
 export * from './lib/filter-box/components/autocomplete-multiple/autocomplete-multiple.component';
 
-export * from './lib/filter-box/filter-helper.service';
+export * from './lib/filter-box/services/filter-helper.service';
 export * from './lib/filter-box/services/filter-box-config.service';

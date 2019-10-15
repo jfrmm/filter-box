@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FilterOption } from './models/filter-option.model';
+
+import { FilterOption } from '../models/filter-option.model';
 
 @Injectable({
   providedIn: 'root',

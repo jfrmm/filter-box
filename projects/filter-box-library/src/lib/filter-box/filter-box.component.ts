@@ -12,13 +12,13 @@ import {
 import { Subscription } from 'rxjs';
 
 import { FilterAnchorDirective } from './filter-anchor.directive';
-import { FilterHelperService } from './filter-helper.service';
-import { FilterMediatorService } from './filter-mediator.service';
 import { FilterBehaviour } from './models/filter-behaviour.model';
 import { FilterBoxConfig } from './models/filter-box-config.model';
 import { FilterComponentModel } from './models/filter-component.model';
 import { FilterModel } from './models/filter.model';
 import { FilterBoxConfigService } from './services/filter-box-config.service';
+import { FilterHelperService } from './services/filter-helper.service';
+import { FilterMediatorService } from './services/filter-mediator.service';
 
 @Component({
   selector: 'asp-filter-box',

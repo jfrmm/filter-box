@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FilterHelperService } from '../../filter-helper.service';
 import { FilterComponentModel } from '../../models/filter-component.model';
+import { FilterHelperService } from '../../services/filter-helper.service';
 
 @Component({
   selector: 'asp-autocomplete',
