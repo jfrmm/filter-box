@@ -1,5 +1,6 @@
 <asp-filter-box
   *ngIf="filters.length > 0"
+  [filterBox]="filterBox"
   [filters]="filters"
   [filterBehaviours]="filterBehaviours"
   (index)="index(true)"

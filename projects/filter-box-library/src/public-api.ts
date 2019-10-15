@@ -28,6 +28,11 @@ export * from './lib/filter-box/models/filter-option.model';
 export * from './lib/filter-box/models/filter-param.model';
 export * from './lib/filter-box/models/filter-behaviour.model';
 export * from './lib/filter-box/models/filter-component.model';
+export * from './lib/filter-box/models/filter-behaviour.model';
+export * from './lib/filter-box/models/filter-box.model';
+export * from './lib/filter-box/models/filter-component.model';
+export * from './lib/filter-box/models/filter-option.model';
+export * from './lib/filter-box/models/filter-param.model';
 
 // Components
 export * from './lib/filter-box/filter-box.component';

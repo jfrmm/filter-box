@@ -14,6 +14,7 @@ import { FilterHelperService } from './filter-helper.service';
 import { FilterMediatorService } from './filter-mediator.service';
 import { Filter } from './filters/filter/filter';
 import { FilterBehaviour } from './models/filter-behaviour.model';
+import { FilterBox } from './models/filter-box.model';
 import { FilterComponentModel } from './models/filter-component.model';
 
 @Component({
@@ -29,6 +30,9 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
 
   @Input()
   public filterBehaviours: FilterBehaviour[];
+
+  @Input()
+  public filterBox: FilterBox;
 
   @Input()
   public filters: Filter[];
@@ -53,6 +57,33 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
     });
   }
 
+  private setupFilterBox() {
+    this.filterBox = this.filterBox ? this.filterBox : { clearAll: 'simple' };
+
+    this.setupFlexOffsets();
+  }
+
+  private setupFlexOffsets() {
+    switch (this.filterBox.clearAll) {
+      case 'none':
+        this.filterBox.offset = {
+          left: '0px',
+        };
+        break;
+      case 'full':
+        this.filterBox.offset = {
+          left: '120px',
+        };
+        break;
+      case 'simple':
+      default:
+        this.filterBox.offset = {
+          left: '40px',
+        };
+        break;
+    }
+  }
+
   public ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
@@ -65,6 +96,7 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.filterMediatorService.filterChanged.subscribe(() => this.index.emit()));
 
     this.loadFiltersComponents();
+    this.setupFilterBox();
   }
 
   public onClickClearAllFilters(): void {
