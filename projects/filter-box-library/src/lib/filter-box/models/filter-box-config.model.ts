@@ -1,6 +1,11 @@
 export interface FilterBoxConfig {
-  clearAll: 'none' | 'simple' | 'full';
-  offset?: {
-    left: string;
+  buttons: {
+    clearAll: 'none' | 'simple' | 'full';
+  };
+  flex?: {
+    gap: string;
+    offset: {
+      left: string;
+    };
   };
 }

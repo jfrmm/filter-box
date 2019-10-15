@@ -27,41 +27,30 @@ import { FilterMediatorService } from './services/filter-mediator.service';
   providers: [FilterMediatorService],
 })
 export class FilterBoxComponent implements OnInit, OnDestroy {
-  set filterBoxConfig(config: FilterBoxConfig) {
-    switch (config.clearAll) {
-      case 'none':
-        config.offset = {
-          left: '0px',
-        };
-        break;
-      case 'full':
-        config.offset = {
-          left: '120px',
-        };
-        break;
-      case 'simple':
-      default:
-        config.offset = {
-          left: '40px',
-        };
-        break;
+  @Input()
+  public set filterConfig(value: FilterBoxConfig) {
+    if (value) {
+      this.updateConfig(value);
     }
-
-    this.filterConfig = config;
   }
 
-  get filterBoxConfig(): FilterBoxConfig {
-    return this.filterConfig;
-  }
   private subscriptions: Subscription;
 
+  public config: FilterBoxConfig = {
+    buttons: {
+      clearAll: 'simple',
+    },
+    flex: {
+      gap: '24px',
+      offset: {
+        left: '40px',
+      },
+    },
+  };
   @ViewChild(FilterAnchorDirective, { static: true }) public filterAnchorDirective: FilterAnchorDirective;
 
   @Input()
   public filterBehaviours: FilterBehaviour[];
-
-  @Input()
-  public filterConfig: FilterBoxConfig;
 
   @Input()
   public filters: FilterModel[];
@@ -75,7 +64,7 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
     public filterHelper: FilterHelperService,
     @Inject(FilterBoxConfigService) private readonly filterBoxConfigService
   ) {
-    this.filterBoxConfig = this.filterBoxConfigService;
+    this.updateConfig(this.filterBoxConfigService);
   }
 
   private loadFiltersComponents(): void {
@@ -87,6 +76,32 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
       const componentRef = viewContainerRef.createComponent(componentFactory);
       (componentRef.instance as FilterComponentModel).filter = filter;
     });
+  }
+
+  private updateConfig(config: FilterBoxConfig) {
+    if (config) {
+      this.updateConfigButtons(config);
+      this.updateConfigFlex(config);
+    }
+  }
+
+  private updateConfigButtons(config: FilterBoxConfig) {
+    this.config.buttons = config.buttons;
+  }
+
+  private updateConfigFlex(config: FilterBoxConfig) {
+    switch (config.buttons.clearAll) {
+      case 'none':
+        this.config.flex.offset = {
+          left: '0px',
+        };
+        break;
+      case 'full':
+        this.config.flex.offset = {
+          left: '120px',
+        };
+        break;
+    }
   }
 
   public ngOnDestroy() {

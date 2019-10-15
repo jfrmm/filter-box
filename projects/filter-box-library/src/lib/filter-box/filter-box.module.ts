@@ -45,7 +45,7 @@ import { FilterBoxConfigService } from './services/filter-box-config.service';
   ],
 })
 export class FilterBoxModule {
-  public static forRoot(config: FilterBoxConfig): ModuleWithProviders {
+  public static forRoot(config?: FilterBoxConfig): ModuleWithProviders {
     return {
       ngModule: FilterBoxModule,
       providers: [

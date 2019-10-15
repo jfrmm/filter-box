@@ -60,8 +60,9 @@ export class PizzaListComponent implements OnInit {
    */
   private configFilterBox() {
     this.filterConfig = {
-      clearAll: 'full',
-      offset: { left: '500px' },
+      buttons: {
+        clearAll: 'none',
+      },
     };
   }
 

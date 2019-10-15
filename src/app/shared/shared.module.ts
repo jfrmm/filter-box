@@ -21,7 +21,9 @@ import { FilterBoxConfig } from 'projects/filter-box-library/src/public-api';
 
 // Filter Box default config
 const filterBoxConfig: FilterBoxConfig = {
-  clearAll: 'simple',
+  buttons: {
+    clearAll: 'full',
+  },
 };
 
 @NgModule({
