@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material';
 import {
   AutocompleteAsyncFilter,
@@ -8,16 +8,13 @@ import {
   DateFilter,
   FilterBehaviour,
   FilterParam,
-  FilterValidValueChangeEvent,
   SelectFilter,
 } from 'filter-box-library';
-import { AutocompleteMultipleComponent } from 'filter-box-library';
 import { FilterOption } from 'projects/filter-box-library/src/public-api';
-import { forkJoin, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { RandomColorAutocompleteFilterComponent } from 'src/app/custom-filters/random-color-autocomplete-filter/random-color-autocomplete-filter.component';
 
-import { Filter } from 'dist/filter-box-library/lib/filter-box/filters/filter/filter';
+import { Filter } from 'filter-box-library';
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
 import { FoodieTypeService } from '../shared/foodie-type.service';
 import { PizzaService } from '../shared/pizza.service';
@@ -54,13 +51,13 @@ export class PizzaListComponent implements OnInit {
 
   private loadFilterBoxFilters(): void {
     this.filters.push(
-      new AutocompleteFilter('base', 'Base', this.pizzaService.getPizzaBases, null),
-      new AutocompleteAsyncFilter('restaurant', 'Restaurant', this.pizzaService.getRestaurants),
+      new AutocompleteFilter('base', 'Base', () => this.pizzaService.getPizzaBases(), null),
+      new AutocompleteAsyncFilter('restaurant', 'Restaurant', () => this.pizzaService.getRestaurants()),
       new DateFilter('from', 'From'),
       new DateFilter('to', 'To'),
-      new SelectFilter('select', 'select', this.pizzaService.getPizzaBases),
+      new SelectFilter('select', 'select', () => this.pizzaService.getPizzaBases()),
       new CheckboxFilter('rating', 'MEDIUM', { id: 2, value: 'MEDIUM' }),
-      new AutocompleteMultipleFilter('multiple', 'mmultiple', this.pizzaService.getPizzaBases, null)
+      new AutocompleteMultipleFilter('multiple', 'mmultiple', () => this.pizzaService.getPizzaBases(), null)
       // new AutocompleteFilter(
       //   'base',
       //   'Custom',
