@@ -9,7 +9,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FilterBox } from 'dist/filter-box-library/lib/filter-box/models/filter-box.model';
 import { Subscription } from 'rxjs';
 import { FilterAnchorDirective } from './filter-anchor.directive';
 import { Filter } from './filters/filter/filter';
@@ -51,9 +50,6 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
 
   @Input()
   public filterBehaviours: FilterBehaviour[];
-
-  @Input()
-  public filterBox: FilterBox;
 
   @Input()
   public filters: Filter[];
