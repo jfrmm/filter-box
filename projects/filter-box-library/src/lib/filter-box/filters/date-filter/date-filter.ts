@@ -23,7 +23,7 @@ export class DateFilter extends Filter {
     public initialValue: string = '',
     public component: Type<any> = DateComponent
   ) {
-    super(paramName, placeholder, null, initialValue, component);
+    super(paramName, placeholder, null, new Date(initialValue), component);
   }
 
   protected mapControlsValues(): string {
@@ -34,7 +34,7 @@ export class DateFilter extends Filter {
     this.events = merge(
       formControl.valueChanges.pipe(
         filter(value => (value === '' || value) && formControl.valid),
-        map(value => (value === '' ? new FilterValidValueChangeEvent(this) : new FilterClearEvent(this)))
+        map(value => (value === '' ? new FilterClearEvent(this) : new FilterValidValueChangeEvent(this)))
       ),
       this.internalEvent
     );

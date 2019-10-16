@@ -32,7 +32,7 @@ export abstract class Filter {
     public paramName: string,
     public placeholder: string,
     public getFilterOptions: (params?: FilterParam[] | string) => Observable<FilterOption[]>,
-    public initialValue: FilterOption | FilterOption[] | string | boolean = null,
+    public initialValue: FilterOption | FilterOption[] | string | boolean | Date = null,
     public component: Type<any>
   ) {
     this.formControl = new FormControl(initialValue);

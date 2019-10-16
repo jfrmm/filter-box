@@ -13,8 +13,6 @@ export * from './lib/filter-box/filters/autocomplete-multiple-filter/autocomplet
 export * from './lib/filter-box/filters/select-filter/select-filter';
 export * from './lib/filter-box/filters/filter/filter';
 
-export * from './lib/filter-box/filters/filter-element';
-
 // Events
 export * from './lib/filter-box/events/filter-valid-value-change-event';
 export * from './lib/filter-box/events/filter-event';

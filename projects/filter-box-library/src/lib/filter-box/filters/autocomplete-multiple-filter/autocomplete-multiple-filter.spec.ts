@@ -1,4 +1,6 @@
 import { asyncScheduler, of } from 'rxjs';
+import { FilterClearEvent } from '../../events/filter-clear-event';
+import { FilterEmptyEvent } from '../../events/filter-empty-event';
 import { AutocompleteMultipleFilter } from './autocomplete-multiple-filter';
 
 describe('AutocompleteMultiple', () => {
@@ -24,5 +26,21 @@ describe('AutocompleteMultiple', () => {
 
   it(`should map the value correctly`, () => {
     expect(autocompleteMultipleFilter.param.value).toEqual(mockData.map(value => value.id.toString()).join(','));
+
+    autocompleteMultipleFilter.formControl.setValue(null);
+    expect(autocompleteMultipleFilter.param.value).toBeNull();
+  });
+
+  it(`should clear the filter`, () => {
+    autocompleteMultipleFilter.formControl.setValue(mockData);
+
+    let event = autocompleteMultipleFilter.clearFilter();
+    expect(event instanceof FilterClearEvent).toBeTruthy();
+    expect(autocompleteMultipleFilter.selection.selected.length).toBe(0);
+
+    autocompleteMultipleFilter.formControl.setValue(mockData);
+    event = autocompleteMultipleFilter.clearFilter(true);
+    expect(event instanceof FilterEmptyEvent).toBeTruthy();
+    expect(autocompleteMultipleFilter.selection.selected.length).toBe(0);
   });
 });
