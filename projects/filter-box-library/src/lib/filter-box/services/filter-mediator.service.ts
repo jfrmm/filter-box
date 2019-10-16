@@ -1,9 +1,9 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FilterEvent } from './events/filter-event';
-import { Filter } from './filters/filter/filter';
-import { FilterBehaviour } from './models/filter-behaviour.model';
+import { FilterEvent } from '../events/filter-event';
+import { Filter } from '../filters/filter/filter';
+import { FilterBehaviour } from '../models/filter-behaviour.model';
 
 @Injectable()
 export class FilterMediatorService implements OnDestroy {

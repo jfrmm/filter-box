@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import {
   AutocompleteAsyncFilter,
   AutocompleteFilter,
@@ -10,11 +13,10 @@ import {
   FilterParam,
   SelectFilter,
 } from 'filter-box-library';
-import { FilterOption } from 'projects/filter-box-library/src/public-api';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { Filter } from 'filter-box-library';
+import { FilterBoxConfig, FilterOption } from 'projects/filter-box-library/src/public-api';
+
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
 import { FoodieTypeService } from '../shared/foodie-type.service';
 import { PizzaService } from '../shared/pizza.service';
@@ -39,6 +41,8 @@ export class PizzaListComponent implements OnInit {
 
   public filterBehaviours: FilterBehaviour[];
 
+  public filterConfig: FilterBoxConfig;
+
   public filters: Filter[];
 
   public foodieTypes: FilterOption[];
@@ -48,6 +52,19 @@ export class PizzaListComponent implements OnInit {
   public selectedFoodieType: FilterOption;
 
   constructor(private readonly pizzaService: PizzaService, private readonly foodieTypeService: FoodieTypeService) {}
+
+  /**
+   * This method is an example of how we can override the default
+   * Filter Box config. Add this data bind [filterConfig]="filterConfig"
+   * in <asp-filter-box>
+   */
+  private configFilterBox() {
+    this.filterConfig = {
+      buttons: {
+        clearAll: 'none',
+      },
+    };
+  }
 
   private loadFilterBoxFilters(): void {
     this.filters.push(

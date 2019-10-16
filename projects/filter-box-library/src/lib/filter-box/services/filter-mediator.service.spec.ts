@@ -1,9 +1,18 @@
+<<<<<<< HEAD:projects/filter-box-library/src/lib/filter-box/filter-mediator.service.spec.ts
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { asyncScheduler, of } from 'rxjs';
 import { FilterClearEvent } from './events/filter-clear-event';
 import { FilterMediatorService } from './filter-mediator.service';
 import { AutocompleteFilter } from './filters/autocomplete-filter/autocomplete-filter';
 import { Filter } from './filters/filter/filter';
+=======
+import { async, TestBed } from '@angular/core/testing';
+
+import { FilterClearEvent } from '../events/filter-clear-event';
+import { AutocompleteFilter } from '../filters/autocomplete-filter';
+import { FilterModel } from '../models/filter.model';
+import { FilterMediatorService } from './filter-mediator.service';
+>>>>>>> develop:projects/filter-box-library/src/lib/filter-box/services/filter-mediator.service.spec.ts
 
 describe('FilterMediatorService', () => {
   let filterMediatorService: FilterMediatorService;
@@ -61,7 +70,11 @@ describe('FilterMediatorService', () => {
       [mockFilter],
       [
         {
+<<<<<<< HEAD:projects/filter-box-library/src/lib/filter-box/filter-mediator.service.spec.ts
           emitters: [mockFilter as Filter],
+=======
+          emitters: [mockFilter as FilterModel],
+>>>>>>> develop:projects/filter-box-library/src/lib/filter-box/services/filter-mediator.service.spec.ts
           events: [new FilterClearEvent()],
           callbacks: [
             /*() => mockFilter.setValue('Mock')*/

@@ -2,20 +2,23 @@ import {
   Component,
   ComponentFactoryResolver,
   EventEmitter,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
+import { FilterBox } from 'dist/filter-box-library/lib/filter-box/models/filter-box.model';
 import { Subscription } from 'rxjs';
 import { FilterAnchorDirective } from './filter-anchor.directive';
-import { FilterHelperService } from './filter-helper.service';
-import { FilterMediatorService } from './filter-mediator.service';
 import { Filter } from './filters/filter/filter';
 import { FilterBehaviour } from './models/filter-behaviour.model';
-import { FilterBox } from './models/filter-box.model';
+import { FilterBoxConfig } from './models/filter-box-config.model';
 import { FilterComponentModel } from './models/filter-component.model';
+import { FilterBoxConfigService } from './services/filter-box-config.service';
+import { FilterHelperService } from './services/filter-helper.service';
+import { FilterMediatorService } from './services/filter-mediator.service';
 
 @Component({
   selector: 'asp-filter-box',
@@ -24,8 +27,26 @@ import { FilterComponentModel } from './models/filter-component.model';
   providers: [FilterMediatorService],
 })
 export class FilterBoxComponent implements OnInit, OnDestroy {
+  @Input()
+  public set filterConfig(value: FilterBoxConfig) {
+    if (value) {
+      this.updateConfig(value);
+    }
+  }
+
   private subscriptions: Subscription;
 
+  public config: FilterBoxConfig = {
+    buttons: {
+      clearAll: 'simple',
+    },
+    flex: {
+      gap: '24px',
+      offset: {
+        left: '40px',
+      },
+    },
+  };
   @ViewChild(FilterAnchorDirective, { static: true }) public filterAnchorDirective: FilterAnchorDirective;
 
   @Input()
@@ -43,8 +64,11 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
   constructor(
     private readonly componentFactoryResolver: ComponentFactoryResolver,
     private readonly filterMediatorService: FilterMediatorService,
-    public filterHelper: FilterHelperService
-  ) {}
+    public filterHelper: FilterHelperService,
+    @Inject(FilterBoxConfigService) private readonly filterBoxConfigService
+  ) {
+    this.updateConfig(this.filterBoxConfigService);
+  }
 
   private loadFiltersComponents(): void {
     this.filters.forEach(filter => {
@@ -57,28 +81,27 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
     });
   }
 
-  private setupFilterBox() {
-    this.filterBox = this.filterBox ? this.filterBox : { clearAll: 'simple' };
-
-    this.setupFlexOffsets();
+  private updateConfig(config: FilterBoxConfig) {
+    if (config) {
+      this.updateConfigButtons(config);
+      this.updateConfigFlex(config);
+    }
   }
 
-  private setupFlexOffsets() {
-    switch (this.filterBox.clearAll) {
+  private updateConfigButtons(config: FilterBoxConfig) {
+    this.config.buttons = config.buttons;
+  }
+
+  private updateConfigFlex(config: FilterBoxConfig) {
+    switch (config.buttons.clearAll) {
       case 'none':
-        this.filterBox.offset = {
+        this.config.flex.offset = {
           left: '0px',
         };
         break;
       case 'full':
-        this.filterBox.offset = {
+        this.config.flex.offset = {
           left: '120px',
-        };
-        break;
-      case 'simple':
-      default:
-        this.filterBox.offset = {
-          left: '40px',
         };
         break;
     }
@@ -96,7 +119,6 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.filterMediatorService.filterChanged.subscribe(() => this.index.emit()));
 
     this.loadFiltersComponents();
-    this.setupFilterBox();
   }
 
   public onClickClearAllFilters(): void {
