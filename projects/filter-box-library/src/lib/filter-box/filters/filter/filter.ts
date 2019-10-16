@@ -26,6 +26,8 @@ export abstract class Filter {
 
   public formControl: FormControl;
 
+  public isRequesting: boolean;
+
   public type: string;
 
   constructor(
@@ -79,9 +81,19 @@ export abstract class Filter {
     );
   }
 
+  public setIsRequesting(): void {
+    this.isRequesting = true;
+    this.formControl.disable({ emitEvent: false });
+  }
+
   public setValue(value: any): FilterEvent {
     this.formControl.setValue(value, { onlySelf: true, emitEvent: false });
 
     return new FilterValidValueChangeEvent(this);
+  }
+
+  public unsetIsRequesting(): void {
+    this.isRequesting = false;
+    this.formControl.enable({ emitEvent: true });
   }
 }

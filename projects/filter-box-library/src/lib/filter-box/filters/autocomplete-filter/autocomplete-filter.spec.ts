@@ -1,4 +1,5 @@
 import { of } from 'rxjs';
+import { FilterParam } from '../../models/filter-param.model';
 import { AutocompleteFilter } from './autocomplete-filter';
 
 describe('AutocompleteFilter', () => {
@@ -35,5 +36,17 @@ describe('AutocompleteFilter', () => {
       async();
     });
     autoCompleteFilter.searchFormControl.setValue('tes');
+  });
+
+  it('should update the filter options', () => {
+    const optionsFunction = (param: FilterParam[]) =>
+      param ? of([{ id: 1, value: 'test' }]) : of([{ id: 2, value: 'angular' }]);
+
+    const filter = new AutocompleteFilter('test', 'test', optionsFunction);
+
+    expect(filter.options[0].id).toBe(2);
+
+    filter.updateFilterOptions([{name: 'test', value: 'test'}]);
+    expect(filter.options[0].id).toBe(1);
   });
 });

@@ -41,7 +41,7 @@ export class PizzaService {
   }
 
   public getPizzaBases(params?: FilterParam[]): Observable<FilterOption[]> {
-    return timer(500).pipe(
+    return timer(2000).pipe(
       map(() => {
         if (params && params[0].value !== null) {
           return [PIZZABASES[1]];

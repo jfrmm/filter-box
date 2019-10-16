@@ -29,10 +29,14 @@ export class AutocompleteFilter extends Filter {
   ) {
     super(paramName, placeholder, getFilterOptions, initialValue, component);
 
+    this.setIsRequesting();
+
     this.getFilterOptions().subscribe((options: FilterOption[]) => {
       this.options = options;
 
       this.filteredOptions = this.filterSearch();
+
+      this.unsetIsRequesting();
     });
   }
 
@@ -50,12 +54,14 @@ export class AutocompleteFilter extends Filter {
     );
   }
 
-  // TODO: Add to filter?
   public updateFilterOptions(params: FilterParam[]): FilterEvent {
-    this.formControl.disable({ emitEvent: false });
+    this.setIsRequesting();
+
     this.getFilterOptions(params).subscribe(options => {
       this.options = options;
-      this.formControl.enable({ emitEvent: false });
+
+      this.unsetIsRequesting();
+
       this.filteredOptions = this.filterSearch();
     });
 

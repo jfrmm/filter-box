@@ -69,4 +69,16 @@ describe('Filter', () => {
     mockClass.enableFilter();
     expect(mockClass.formControl.disabled).toBeFalsy();
   });
+
+  it(`should set isRequesting`, () => {
+    mockClass.setIsRequesting();
+    expect(mockClass.isRequesting).toBe(true);
+    expect(mockClass.formControl.enabled).toBe(false);
+  });
+
+  it(`should unset isRequesting`, () => {
+    mockClass.unsetIsRequesting();
+    expect(mockClass.isRequesting).toBe(false);
+    expect(mockClass.formControl.enabled).toBe(true);
+  });
 });
