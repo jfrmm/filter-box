@@ -12,7 +12,7 @@ describe('FilterBoxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FilterBoxModule, BrowserAnimationsModule],
+      imports: [FilterBoxModule.forRoot(null), BrowserAnimationsModule],
     }).compileComponents();
   }));
 

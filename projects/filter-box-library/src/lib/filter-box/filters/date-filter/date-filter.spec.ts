@@ -25,9 +25,9 @@ describe('DateFilter', () => {
     expect(dateFilter.param.value).toBeNull();
   });
 
-  it('should set initial value to empty', () => {
+  it('should set initial value to null', () => {
     const filter = new DateFilter('test', 'test');
-    expect(filter.initialValue).toBe('');
+    expect(filter.initialValue).toBe(null);
   });
 
   it('should return the Filter Valid Value Event', async => {

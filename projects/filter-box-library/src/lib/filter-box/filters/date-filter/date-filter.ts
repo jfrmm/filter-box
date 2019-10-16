@@ -20,10 +20,10 @@ export class DateFilter extends Filter {
   constructor(
     public paramName: string,
     public placeholder: string,
-    public initialValue: string = '',
+    public initialValue: string = null,
     public component: Type<any> = DateComponent
   ) {
-    super(paramName, placeholder, null, new Date(initialValue), component);
+    super(paramName, placeholder, null, initialValue ? new Date(initialValue) : initialValue, component);
   }
 
   protected mapControlsValues(): string {
