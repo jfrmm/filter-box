@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FilterModel } from '../../models/filter.model';
+import { Filter } from '../../filters/filter/filter';
 
 @Component({
   selector: 'asp-clear-filter-button',
@@ -11,7 +11,7 @@ export class ClearFilterButtonComponent implements OnInit {
   public disabled = false;
 
   @Input()
-  public filter: FilterModel;
+  public filter: Filter;
 
   constructor() { }
 

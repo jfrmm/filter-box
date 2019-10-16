@@ -1,3 +1,3 @@
 import { FilterEvent } from './filter-event';
 
-export class FilterValidValueChangeEvent {}
+export class FilterValidValueChangeEvent extends FilterEvent {}

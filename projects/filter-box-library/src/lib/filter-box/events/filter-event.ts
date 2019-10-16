@@ -1,5 +1,5 @@
-import { FilterModel } from '../models/filter.model';
+import { Filter } from '../filters/filter/filter';
 
-export class FilterEvent {
-  constructor(public event, public filter: FilterModel) {}
+export abstract class FilterEvent {
+  constructor(public filter?: Filter) {}
 }

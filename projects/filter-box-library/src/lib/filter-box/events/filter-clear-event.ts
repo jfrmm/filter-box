@@ -1,1 +1,3 @@
-export class FilterClearEvent {}
+import { FilterEvent } from './filter-event';
+
+export class FilterClearEvent extends FilterEvent {}

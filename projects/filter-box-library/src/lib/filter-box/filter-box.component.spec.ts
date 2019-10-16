@@ -1,16 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { asyncScheduler, of } from 'rxjs';
 import { FilterBoxComponent } from './filter-box.component';
 import { FilterBoxModule } from './filter-box.module';
-import { AutocompleteFilter } from './filters/autocomplete-filter';
+import { AutocompleteFilter } from './filters/autocomplete-filter/autocomplete-filter';
 
 describe('FilterBoxComponent', () => {
   let component: FilterBoxComponent;
   let fixture: ComponentFixture<FilterBoxComponent>;
+  const mockFunction = () => of(null, asyncScheduler);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FilterBoxModule, BrowserAnimationsModule],
+      imports: [FilterBoxModule.forRoot(null), BrowserAnimationsModule],
     }).compileComponents();
   }));
 
@@ -33,7 +35,7 @@ describe('FilterBoxComponent', () => {
   });
 
   it('should render clear all button when there are filters', () => {
-    component.filters = [new AutocompleteFilter('MOCK', 'MOCK', [])];
+    component.filters = [new AutocompleteFilter('MOCK', 'MOCK', mockFunction)];
     fixture.detectChanges();
 
     const clearAllElement: HTMLElement = fixture.nativeElement;
@@ -41,8 +43,8 @@ describe('FilterBoxComponent', () => {
   });
 
   it('should clear all filters and emit only once', () => {
-    const mockFilter1 = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }], { id: 1, value: 'MOCK' });
-    const mockFilter2 = new AutocompleteFilter('MOCK', 'MOCK', [{ id: 1, value: 'MOCK' }], { id: 1, value: 'MOCK' });
+    const mockFilter1 = new AutocompleteFilter('MOCK', 'MOCK', mockFunction);
+    const mockFilter2 = new AutocompleteFilter('MOCK', 'MOCK', mockFunction);
     component.filters = [mockFilter1, mockFilter2];
 
     const spy = spyOn(component.index, 'emit');
@@ -52,8 +54,8 @@ describe('FilterBoxComponent', () => {
     component.onClickClearAllFilters();
     fixture.detectChanges();
 
-    expect(mockFilter1.elements.formControl.value).toBe('');
-    expect(mockFilter2.elements.formControl.value).toBe('');
+    expect(mockFilter1.formControl.value).toBe('');
+    expect(mockFilter2.formControl.value).toBe('');
     expect(spy.calls.count()).toBe(1, 'Should be 1');
   });
 });
