@@ -75,7 +75,8 @@ export class PizzaListComponent implements OnInit {
       new DateFilter('from', 'From'),
       new DateFilter('to', 'To'),
       new SelectFilter('select', 'select', () => this.pizzaService.getPizzaBases()),
-      new CheckboxFilter('rating', 'MEDIUM', { id: 2, value: 'MEDIUM' }),
+      new CheckboxFilter('rating', 'MEDIUM', { id: 2, value: 'MEDIUM' }, false, 'RATING'),
+      new CheckboxFilter('rating_medium', 'HIGH', { id: 2, value: 'HIGH' }, false, 'RATING'),
       new AutocompleteMultipleFilter('multiple', 'mmultiple', () => this.pizzaService.getPizzaBases(), null)
     );
 
@@ -99,6 +100,8 @@ export class PizzaListComponent implements OnInit {
 
   public index(reset: boolean): void {
     const pizzaParams: FilterParam[] = [...this.queryParams, ...this.filterParams];
+
+    console.log(this.filters.filterParams);
 
     this.pizzaService
       .getPizzasList(pizzaParams)
