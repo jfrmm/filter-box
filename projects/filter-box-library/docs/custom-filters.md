@@ -78,14 +78,14 @@ To make it look like a real `SelectOption`, create a new `component` and add you
 ```html
 <div *ngIf="filter">
   <mat-form-field>
-    <mat-select [formControl]="filter?.elements.formControl" [placeholder]="filter?.elements.placeholder">
-      <mat-option *ngFor="let filterOption of filter?.elements.options | async" [value]="filterOption">
+    <mat-select [formControl]="filter?.formControl" [placeholder]="filter?.placeholder">
+      <mat-option *ngFor="let filterOption of filter?.options | async" [value]="filterOption">
         {{ filterOption.value }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <asp-clear-filter-button [disabled]="!filter.elements.formControl.value" [filter]="filter"></asp-clear-filter-button>
+  <asp-clear-filter-button [disabled]="!filter.formControl.value" [filter]="filter"></asp-clear-filter-button>
 </div>
 ```
 
@@ -104,7 +104,7 @@ export class SelectFilter extends AutocompleteFilter {
 > To keep a consistent filterbox behaviour when clearing the filter, dont forget to include the provided `clear-filter-button-component` in your custom templates:
 
 ```html
-<asp-clear-filter-button [disabled]="!filter.elements.formControl.value" [filter]="filter"></asp-clear-filter-button>
+<asp-clear-filter-button [disabled]="!filter.formControl.value" [filter]="filter"></asp-clear-filter-button>
 ```
 
 ### Create A Filter From Scratch
