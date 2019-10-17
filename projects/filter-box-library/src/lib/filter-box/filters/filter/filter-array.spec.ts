@@ -13,21 +13,25 @@ describe('FilterArray', () => {
     expect(filters).toBeTruthy();
   });
 
-  it('should get the filter with the correct paramName', () => {
+  it('should get the filter with the correct name', () => {
     filters.push(
-      new AutocompleteFilter('test', 'test', () => of()),
-      new AutocompleteFilter('base', 'base', () => of())
+      new AutocompleteFilter('test', 'test', 'test', () => of()),
+      new AutocompleteFilter('base', 'base', 'base', () => of())
     );
 
-    expect(filters.get('test').paramName).toBe('test');
+    expect(filters.get('test').name).toBe('test');
   });
 
   it('should throw error if there are two filters with the same name', () => {
     expect(() =>
       filters.push(
-        new AutocompleteFilter('test', 'test', () => of()),
-        new AutocompleteFilter('test', 'base', () => of())
+        new AutocompleteFilter('test', 'test', 'test', () => of()),
+        new AutocompleteFilter('test', 'test', 'base', () => of())
       )
     ).toThrow();
   });
+
+  // it('should group filters by group id', () => {
+
+  // });
 });

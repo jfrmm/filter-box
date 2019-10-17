@@ -12,8 +12,14 @@ export class FilterArray extends Array<Filter> {
 
     return params;
   }
+  private hasDuplicate(): boolean {
+    return new Set(this.map(filter => filter.paramName)).size !== this.length;
+  }
+  public get(paramName: string): Filter {
+    return this.find(filter => filter.paramName === paramName);
+  }
 
-  private groupByGroupId(array: CheckboxFilter[]): Filter[] {
+  public groupByGroupId(array: CheckboxFilter[]): Filter[] {
     return array.reduce(
       (objectsByKeyValue, obj) => {
         const value = obj.groupId;
@@ -22,12 +28,6 @@ export class FilterArray extends Array<Filter> {
       },
       {} as Filter[]
     );
-  }
-  private hasDuplicate(): boolean {
-    return new Set(this.map(filter => filter.paramName)).size !== this.length;
-  }
-  public get(paramName: string): Filter {
-    return this.find(filter => filter.paramName === paramName);
   }
 
   public push(...items: Filter[]): number {

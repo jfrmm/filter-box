@@ -14,7 +14,7 @@ describe('FilterMediatorService', () => {
     TestBed.configureTestingModule({ providers: [FilterMediatorService] });
     filterMediatorService = TestBed.get(FilterMediatorService);
 
-    mockFilter = new AutocompleteFilter('MOCK', 'MOCK', mockFunction, { id: 1, value: 'MOCK' });
+    mockFilter = new AutocompleteFilter('MOCK', 'MOCK', 'MOCK', mockFunction, { id: 1, value: 'MOCK' });
 
     filterMediatorService.setFilters([mockFilter]);
   });

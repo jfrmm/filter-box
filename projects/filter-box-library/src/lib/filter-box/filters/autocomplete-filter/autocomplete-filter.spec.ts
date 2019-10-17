@@ -7,7 +7,7 @@ describe('AutocompleteFilter', () => {
   const mockFunction = () => of(null);
 
   beforeEach(() => {
-    autoCompleteFilter = new AutocompleteFilter('MOCK', 'MOCK', mockFunction);
+    autoCompleteFilter = new AutocompleteFilter('MOCK', 'MOCK', 'MOCK', mockFunction);
   });
 
   it(`sould return the correct type`, () => {
@@ -42,7 +42,7 @@ describe('AutocompleteFilter', () => {
     const optionsFunction = (param: FilterParam[]) =>
       param ? of([{ id: 1, value: 'test' }]) : of([{ id: 2, value: 'angular' }]);
 
-    const filter = new AutocompleteFilter('test', 'test', optionsFunction);
+    const filter = new AutocompleteFilter('test', 'test', 'test', optionsFunction);
 
     expect(filter.options[0].id).toBe(2);
 

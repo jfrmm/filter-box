@@ -14,6 +14,7 @@ export class CheckboxFilter extends Filter {
   }
 
   constructor(
+    name: string,
     paramName: string,
     placeholder: string,
     private readonly option: FilterOption,
@@ -21,7 +22,7 @@ export class CheckboxFilter extends Filter {
     public groupId: string = null,
     component: Type<any> = CheckboxComponent
   ) {
-    super(paramName, placeholder, null, initialValue, component);
+    super(name, paramName, placeholder, null, initialValue, component);
   }
 
   protected mapControlsValues(): string {

@@ -17,13 +17,14 @@ export class AutocompleteMultipleFilter extends AutocompleteFilter {
   public selection: SelectionModel<FilterOption>;
 
   constructor(
+    name: string,
     paramName: string,
     placeholder: string,
     getFilterOptions: (params?: FilterParam[]) => Observable<FilterOption[]>,
     initialValue: FilterOption[] = null,
     component: Type<any> = AutocompleteMultipleComponent
   ) {
-    super(paramName, placeholder, getFilterOptions, initialValue, component);
+    super(name, paramName, placeholder, getFilterOptions, initialValue, component);
 
     this.selection = new SelectionModel<FilterOption>(true, initialValue);
   }

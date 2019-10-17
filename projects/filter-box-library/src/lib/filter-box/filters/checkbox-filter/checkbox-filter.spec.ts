@@ -6,7 +6,7 @@ describe('CheckboxFilter', () => {
   let checkboxFilter: CheckboxFilter;
 
   beforeEach(() => {
-    checkboxFilter = new CheckboxFilter('test', 'test', { id: 'testID', value: 'test' }, true);
+    checkboxFilter = new CheckboxFilter('test', 'test', 'test', { id: 'testID', value: 'test' }, true);
   });
 
   it('should create an instance', () => {

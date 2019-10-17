@@ -31,6 +31,7 @@ export abstract class Filter {
   public type: string;
 
   constructor(
+    public readonly name: string,
     public paramName: string,
     public placeholder: string,
     public getFilterOptions: (params?: FilterParam[] | string) => Observable<FilterOption[]>,

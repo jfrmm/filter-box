@@ -70,14 +70,14 @@ export class PizzaListComponent implements OnInit {
 
   private loadFilterBoxFilters(): void {
     this.filters.push(
-      new AutocompleteFilter('base', 'Base', () => this.pizzaService.getPizzaBases(), null),
-      new AutocompleteAsyncFilter('restaurant', 'Restaurant', () => this.pizzaService.getRestaurants()),
-      new DateFilter('from', 'From'),
-      new DateFilter('to', 'To'),
-      new SelectFilter('select', 'select', () => this.pizzaService.getPizzaBases()),
-      new CheckboxFilter('rating', 'MEDIUM', { id: 2, value: 'MEDIUM' }, false, 'RATING'),
-      new CheckboxFilter('rating_medium', 'HIGH', { id: 2, value: 'HIGH' }, false, 'RATING'),
-      new AutocompleteMultipleFilter('multiple', 'mmultiple', () => this.pizzaService.getPizzaBases(), null)
+      new AutocompleteFilter('base', 'base', 'Base', () => this.pizzaService.getPizzaBases(), null),
+      new AutocompleteAsyncFilter('restaurant', 'restaurant', 'Restaurant', () => this.pizzaService.getRestaurants()),
+      new DateFilter('from', 'from', 'From'),
+      new DateFilter('from', 'to', 'To'),
+      new SelectFilter('select', 'select', 'select', () => this.pizzaService.getPizzaBases()),
+      new CheckboxFilter('rating', 'rating', 'MEDIUM', { id: 2, value: 'MEDIUM' }, false, 'RATING'),
+      new CheckboxFilter('rating_medium', 'rating', 'HIGH', { id: 2, value: 'HIGH' }, false, 'RATING'),
+      new AutocompleteMultipleFilter('multiple', 'multiple', 'mmultiple', () => this.pizzaService.getPizzaBases(), null)
     );
 
     this.filterBehaviours = [

@@ -27,7 +27,7 @@ describe('AutocompleteComponent', () => {
   });
 
   it('should clear filter', () => {
-    const mockFilter = new AutocompleteFilter('test', 'test', () => of());
+    const mockFilter = new AutocompleteFilter('test', 'test', 'test', () => of());
     component.filter = mockFilter;
 
     mockFilter.searchFormControl.setValue('test');

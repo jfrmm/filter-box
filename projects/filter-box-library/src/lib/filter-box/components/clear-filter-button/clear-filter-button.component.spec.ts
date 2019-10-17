@@ -28,7 +28,7 @@ describe('ClearFilterButtonComponent', () => {
   });
 
   it('should clear the filter control value', () => {
-    const mockFilter = new AutocompleteFilter('MOCK', 'MOCK', mockFunction, { id: 1, value: 'MOCK' });
+    const mockFilter = new AutocompleteFilter('MOCK', 'MOCK', 'MOCK', mockFunction, { id: 1, value: 'MOCK' });
     component.filter = mockFilter;
 
     fixture.detectChanges();

@@ -7,7 +7,7 @@ describe('ClearEvent', () => {
   let mockFilter: MockFilter;
 
   beforeEach(() => {
-    mockFilter = new MockFilter('test', 'test', null, null, null);
+    mockFilter = new MockFilter('test', 'test', 'test', null, null, null);
   });
 
   it('should create an instance', () => {

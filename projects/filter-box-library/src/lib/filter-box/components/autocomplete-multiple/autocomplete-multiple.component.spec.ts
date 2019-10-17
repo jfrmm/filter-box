@@ -9,7 +9,7 @@ import { AutocompleteMultipleComponent } from './autocomplete-multiple.component
 describe('AutocompleteMultipleComponent', () => {
   let component: AutocompleteMultipleComponent;
   let fixture: ComponentFixture<AutocompleteMultipleComponent>;
-  const mockFilter = new AutocompleteMultipleFilter('test', 'test', () => of());
+  const mockFilter = new AutocompleteMultipleFilter('test', 'test', 'test', () => of());
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

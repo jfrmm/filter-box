@@ -4,7 +4,7 @@ describe('AutocompleteAsyncFilter', () => {
   let autocompleteAsyncFilter: AutocompleteAsyncFilter;
 
   beforeEach(() => {
-    autocompleteAsyncFilter = new AutocompleteAsyncFilter('test', 'test1', () => null);
+    autocompleteAsyncFilter = new AutocompleteAsyncFilter('test', 'test', 'test1', () => null);
   });
 
   it('should create an instance', () => {

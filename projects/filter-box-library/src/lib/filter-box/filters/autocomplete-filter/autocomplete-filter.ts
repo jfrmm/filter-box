@@ -21,13 +21,14 @@ export class AutocompleteFilter extends Filter {
   public searchFormControl: FormControl = new FormControl();
 
   constructor(
+    name: string,
     paramName: string,
     placeholder: string,
     getFilterOptions: (params?: FilterParam[]) => Observable<FilterOption[]>,
     initialValue: FilterOption | FilterOption[] = null,
     component: Type<any> = AutocompleteComponent
   ) {
-    super(paramName, placeholder, getFilterOptions, initialValue, component);
+    super(name, paramName, placeholder, getFilterOptions, initialValue, component);
 
     this.setIsRequesting();
 
