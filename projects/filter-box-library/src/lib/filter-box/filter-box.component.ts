@@ -95,6 +95,11 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
           left: '0px',
         };
         break;
+      case 'simple':
+        this.config.flex.offset = {
+          left: '40px',
+        };
+        break;
       case 'full':
         this.config.flex.offset = {
           left: '120px',
