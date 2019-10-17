@@ -2,6 +2,7 @@
   [filters]="filters"
   [filterBehaviours]="filterBehaviours"
   (index)="index(true)"
+  [filterConfig]="filterConfig"
 >
   <!-- This container is has flex row functionality -->
   <ng-container app-filter-box-first-row>
@@ -13,15 +14,6 @@
       <button mat-icon-button matSuffix (click)="searchBox.value = null; search(null)">
         <mat-icon>clear</mat-icon>
       </button>
-    </mat-form-field>
-
-    <mat-form-field fxFlex="150px">
-      <mat-label>Foodie type</mat-label>
-      <mat-select (selectionChange)="foodieTypeChanged($event)">
-        <mat-option *ngFor="let foodieType of foodieTypes" [value]="foodieType">
-          {{ foodieType.value }}
-        </mat-option>
-      </mat-select>
     </mat-form-field>
   </ng-container>
 

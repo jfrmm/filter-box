@@ -10,13 +10,15 @@ import {
   CheckboxFilter,
   DateFilter,
   FilterBehaviour,
+  FilterClearEvent,
   FilterParam,
+  FilterValidValueChangeEvent,
   SelectFilter,
 } from 'filter-box-library';
 
-import { Filter } from 'filter-box-library';
-import { FilterBoxConfig, FilterOption } from 'projects/filter-box-library/src/public-api';
+import { FilterBoxConfig, FilterOption } from 'filter-box-library';
 
+import { FilterArray } from 'filter-box-library';
 import { GenericDataSource } from 'src/app/shared/generic.datasource';
 import { FoodieTypeService } from '../shared/foodie-type.service';
 import { PizzaService } from '../shared/pizza.service';
@@ -43,7 +45,7 @@ export class PizzaListComponent implements OnInit {
 
   public filterConfig: FilterBoxConfig;
 
-  public filters: Filter[];
+  public filters = new FilterArray();
 
   public foodieTypes: FilterOption[];
 
@@ -75,72 +77,20 @@ export class PizzaListComponent implements OnInit {
       new SelectFilter('select', 'select', () => this.pizzaService.getPizzaBases()),
       new CheckboxFilter('rating', 'MEDIUM', { id: 2, value: 'MEDIUM' }),
       new AutocompleteMultipleFilter('multiple', 'mmultiple', () => this.pizzaService.getPizzaBases(), null)
-      // new AutocompleteFilter(
-      //   'base',
-      //   'Custom',
-      //   pizzaBases,
-      //   null,
-      //   this.pizzaService.getPizzaBases,
-      //   RandomColorAutocompleteFilterComponent
-      // ),
-      // new SelectFilter('base', 'Select', pizzaBases),
-      // new AutocompleteMultipleFilter('base', 'Multiple', pizzaBases, null, null, AutocompleteMultipleComponent)
     );
 
-    // this.filterBehaviours = [
-    //   {
-    //     emitters: [this.filters[1]],
-    //     events: [new FilterClearEvent(), new FilterValidValueChangeEvent()],
-    //     callbacks: [
-    //       () =>
-    //         (this.filters[0] as AutocompleteFilter).updateFilterOptions(
-    //           this.filters[1].param ? [this.filters[1].param] : null
-    //         ),
-    //     ],
-    //   },
-    // ];
-
-    // this.filterBehaviours = [
-    //   {
-    //     emitters: [this.filters[0]],
-    //     events: [new FilterClearEvent(), new FilterValidValueChangeEvent()],
-    //     callbacks: [() => this.filters[1].clearFilter(), () => this.filters[2].clearFilter()],
-    //   },
-    //   {
-    //     emitters: [this.filters[1]],
-    //     events: [new FilterValidValueChangeEvent()],
-    //     callbacks: [
-    //       () => this.filters[2].disableFilter(),
-    //       () => this.filters[4].disableFilter(),
-    //       () => this.filters[4].enableFilter(0),
-    //       () => this.filters[4].setValue(true, 0),
-    //     ],
-    //   },
-    //   {
-    //     emitters: [this.filters[1]],
-    //     events: [new FilterClearEvent()],
-    //     callbacks: [() => this.filters[2].enableFilter()],
-    //   },
-    //   {
-    //     emitters: [this.filters[2]],
-    //     events: [new FilterClearEvent()],
-    //     callbacks: [() => this.filters[3].disableFilter(), () => this.filters[4].enableFilter()],
-    //   },
-    //   {
-    //     emitters: [this.filters[3]],
-    //     events: [new FilterClearEvent()],
-    //     callbacks: [
-    //       () => this.filters[0].setValue({ id: 1, value: 'Tomato' }),
-    //       () => (this.filters[0] as AutocompleteFilter).updateFilterOptions(this.params),
-    //     ],
-    //   },
-    // ];
-    /** TODO:
-     * If the goal is to have a group of filters become reactive to eachother
-     * Create a function that returns the null event and then call the filters
-     * updateFilterOptions inside that function, this way, it will happen at the same time,
-     * this is: "not respecting the callback order"
-     */
+    this.filterBehaviours = [
+      {
+        emitters: [this.filters.get('restaurant')],
+        events: [new FilterClearEvent(), new FilterValidValueChangeEvent()],
+        callbacks: [
+          () =>
+            (this.filters.get('base') as AutocompleteFilter).updateFilterOptions(
+              this.filters.get('restaurant').param ? [this.filters.get('restaurant').param] : null
+            ),
+        ],
+      },
+    ];
   }
 
   public foodieTypeChanged(event: MatSelectChange) {
@@ -160,10 +110,10 @@ export class PizzaListComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.filters = [];
     this.dataSource = new GenericDataSource();
     this.displayedColumns = ['id', 'name', 'base', 'restaurant', 'price', 'rating', 'ratingDate'];
 
+    this.configFilterBox();
     this.loadFilterBoxFilters();
     this.index(true);
   }

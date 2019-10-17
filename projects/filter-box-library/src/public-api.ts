@@ -43,3 +43,4 @@ export * from './lib/filter-box/components/autocomplete-multiple/autocomplete-mu
 
 export * from './lib/filter-box/services/filter-helper.service';
 export * from './lib/filter-box/services/filter-box-config.service';
+export * from './lib/filter-box/filters/filter/filter-array';
