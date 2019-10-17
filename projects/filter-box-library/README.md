@@ -1,7 +1,7 @@
 # Filter Box Library
 
 This package provides a simple way to add filters to an Angular application, abstracting from all the logic.
-Additionally, it provides an easy way to define complex event based behaviours, triggered by changes in the filters value or state.
+Additionally, it allows the definition of complex event based behaviours, triggered by changes in the filters value or state.
 
 > **Filter Box** is an Angular package developed by ALTER SOLUTIONS PORTUGAL. It has been developed using Angular 8.0.
 
@@ -16,6 +16,12 @@ Additionally, it provides an easy way to define complex event based behaviours, 
 ## Getting started
 
 Run `npm install @asp-devteam/filter-box` to install the package in your project.
+> Be aware that this package requires some peer dependencies to be installed:
+> - "@angular/common"
+> - "@angular/cdk"
+> - "@angular/core"
+> - "@angular/material"
+> - "@angular/flex-layout"
 
 ## Usage
 
@@ -63,10 +69,10 @@ To set up a Filter Box, start by instanciating the filters you want to use.
 import {
   AutocompleteFilter,
   CheckboxFilter,
-  FilterModel
+  FilterArray
 } from '@asp-devteam/filter-box';
 
-filters: FilterModel[] = [];
+filters: FilterArray = new FilterArray();
 
 this.filters.push(
   new AutocompleteFilter('base', 'Base', pizzaBases),
@@ -119,9 +125,9 @@ filterBehaviours: FilterBehaviour[];
 
 this.filterBehaviours = [
   {
-    emitters: [this.filters[0]],
+    emitters: [this.filters.get('filterParamName'),
     events: [new FilterValidValueChangeEvent()],
-    callbacks: [() => this.filters[1].disableFilter()]
+    callbacks: [() => this.filters.get('filter2ParamName').disableFilter()]
   }
 ];
 ```
@@ -145,6 +151,8 @@ import {
   FilterValidValueChangeEvent
 } from '@asp-devteam/filter-box';
 ```
+
+>Note that you can use the `FilterArray` class instead of a `Filter[]`, gaining access to the method `get(paramName)`. This helps making your code more legible and less error prone.
 
 For more information on behaviours, see the [advanced filter behaviours guide](./docs/advanced-filter-behaviours.md).
 
