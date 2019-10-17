@@ -63,7 +63,7 @@ export class PizzaListComponent implements OnInit {
   private configFilterBox() {
     this.filterConfig = {
       buttons: {
-        clearAll: 'none',
+        clearAll: 'full',
       },
     };
   }

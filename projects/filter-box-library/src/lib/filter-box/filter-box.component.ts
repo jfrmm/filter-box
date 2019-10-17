@@ -10,6 +10,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+
+import { configuration } from './configs/configuration';
 import { FilterAnchorDirective } from './filter-anchor.directive';
 import { Filter } from './filters/filter/filter';
 import { FilterBehaviour } from './models/filter-behaviour.model';
@@ -35,17 +37,8 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription;
 
-  public config: FilterBoxConfig = {
-    buttons: {
-      clearAll: 'simple',
-    },
-    flex: {
-      gap: '24px',
-      offset: {
-        left: '40px',
-      },
-    },
-  };
+  public config: FilterBoxConfig = configuration;
+
   @ViewChild(FilterAnchorDirective, { static: true }) public filterAnchorDirective: FilterAnchorDirective;
 
   @Input()

@@ -2,12 +2,11 @@
   [filters]="filters"
   [filterBehaviours]="filterBehaviours"
   (index)="index(true)"
-  [filterConfig]="filterConfig"
 >
   <!-- This container is has flex row functionality -->
   <ng-container app-filter-box-first-row>
     <mat-form-field fxFlex="300px">
-      <button mat-icon-button matPrefix (click)="search(searchBox.value)">
+      <button mat-icon-button matSuffix (click)="search(searchBox.value)">
         <mat-icon>search</mat-icon>
       </button>
       <input #searchBox matInput placeholder="Search" />
