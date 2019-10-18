@@ -25,7 +25,10 @@ import { filterBoxConfiguration } from '../configs/filter-box.configuration';
     CommonModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    // Add parameter filterBoxConfiguration to override the default config
+    /**
+     * Add your modified filterBoxConfiguration here,
+     * to override the default config
+     */
     FilterBoxModule.forRoot(),
     MatAutocompleteModule,
     MatCardModule,
