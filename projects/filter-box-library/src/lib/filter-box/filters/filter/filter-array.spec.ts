@@ -35,14 +35,16 @@ describe('FilterArray', () => {
   it('should group filters by group id', () => {
     filters.push(
       new CheckboxFilter('test', 'rating', 'Rating', { id: 1, value: 'test' }, false, 'RATING'),
-      new CheckboxFilter('test', 'rating', 'Rating', { id: 1, value: 'test' }, false, 'RATING'),
+      new CheckboxFilter('test1', 'rating', 'Rating', { id: 1, value: 'test' }, false, 'RATING'),
       new CheckboxFilter('stuff', 'stuff', 'Stuff', { id: 2, value: 'MEDIUM' }, false, 'STUFF'),
       new CheckboxFilter('stuff_2', 'stuff', 'Stuff2', { id: 2, value: 'HIGH' }, false, 'STUFF'),
       new CheckboxFilter('alone', 'alone', 'Alone', { id: 2, value: 'HIGH' }, false, 'ALONE'),
+      new CheckboxFilter('alone2', 'alone', 'Alone', { id: 2, value: 'HIGH' }, false)
     );
 
-    const groupedFilters = filters.groupByGroupId(filters as unknown as CheckboxFilter[]);
+    const groupedFilters = filters.groupByGroupId((filters as unknown) as CheckboxFilter[]);
 
-    expect(groupedFilters.length).toBe(3);
+    // Only three because filters without group id are rejected
+    expect(Object.values(groupedFilters).length).toBe(3);
   });
 });
