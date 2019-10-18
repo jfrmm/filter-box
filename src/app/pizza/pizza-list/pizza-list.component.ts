@@ -73,10 +73,13 @@ export class PizzaListComponent implements OnInit {
       new AutocompleteFilter('base', 'base', 'Base', () => this.pizzaService.getPizzaBases(), null),
       new AutocompleteAsyncFilter('restaurant', 'restaurant', 'Restaurant', () => this.pizzaService.getRestaurants()),
       new DateFilter('from', 'from', 'From'),
-      new DateFilter('from', 'to', 'To'),
       new SelectFilter('select', 'select', 'select', () => this.pizzaService.getPizzaBases()),
       new CheckboxFilter('rating', 'rating', 'MEDIUM', { id: 2, value: 'MEDIUM' }, false, 'RATING'),
       new CheckboxFilter('rating_medium', 'rating', 'HIGH', { id: 2, value: 'HIGH' }, false, 'RATING'),
+      new CheckboxFilter('stuff', 'stuff', 'Stuff', { id: 2, value: 'MEDIUM' }, false, 'STUFF'),
+      new CheckboxFilter('stuff_2', 'stuff', 'Stuff2', { id: 2, value: 'HIGH' }, false, 'STUFF'),
+      new CheckboxFilter('alone', 'alone', 'Alone', { id: 2, value: 'HIGH' }, false, 'ALONE'),
+      new CheckboxFilter('t', 'not group', 'no group', { id: 2, value: 'HIGH' }, false),
       new AutocompleteMultipleFilter('multiple', 'multiple', 'mmultiple', () => this.pizzaService.getPizzaBases(), null)
     );
 

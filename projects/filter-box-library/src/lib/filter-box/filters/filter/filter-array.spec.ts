@@ -1,5 +1,6 @@
 import { of } from 'rxjs';
 import { AutocompleteFilter } from '../autocomplete-filter/autocomplete-filter';
+import { CheckboxFilter } from '../checkbox-filter/checkbox-filter';
 import { FilterArray } from './filter-array';
 
 describe('FilterArray', () => {
@@ -31,7 +32,17 @@ describe('FilterArray', () => {
     ).toThrow();
   });
 
-  // it('should group filters by group id', () => {
+  it('should group filters by group id', () => {
+    filters.push(
+      new CheckboxFilter('test', 'rating', 'Rating', { id: 1, value: 'test' }, false, 'RATING'),
+      new CheckboxFilter('test', 'rating', 'Rating', { id: 1, value: 'test' }, false, 'RATING'),
+      new CheckboxFilter('stuff', 'stuff', 'Stuff', { id: 2, value: 'MEDIUM' }, false, 'STUFF'),
+      new CheckboxFilter('stuff_2', 'stuff', 'Stuff2', { id: 2, value: 'HIGH' }, false, 'STUFF'),
+      new CheckboxFilter('alone', 'alone', 'Alone', { id: 2, value: 'HIGH' }, false, 'ALONE'),
+    );
 
-  // });
+    const groupedFilters = filters.groupByGroupId(filters as unknown as CheckboxFilter[]);
+
+    expect(groupedFilters.length).toBe(3);
+  });
 });
