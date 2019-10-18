@@ -104,7 +104,7 @@ export class PizzaListComponent implements OnInit {
   public index(reset: boolean): void {
     const pizzaParams: FilterParam[] = [...this.queryParams, ...this.filterParams];
 
-    console.log(this.filters.filterParams);
+    console.log(this.filters.toQueryParam());
 
     this.pizzaService
       .getPizzasList(pizzaParams)

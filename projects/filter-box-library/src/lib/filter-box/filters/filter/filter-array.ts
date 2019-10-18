@@ -64,8 +64,6 @@ export class FilterArray extends Array<Filter> {
   }
 
   public toQueryParam(): string {
-    // TODO: Map filter params to a queryParam string
-
-    return;
+    return this.filterParams.map(param => `${param.name}=${param.value}`).toString();
   }
 }
