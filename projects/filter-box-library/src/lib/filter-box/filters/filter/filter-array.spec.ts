@@ -47,4 +47,16 @@ describe('FilterArray', () => {
     // Only three because filters without group id are rejected
     expect(Object.values(groupedFilters).length).toBe(3);
   });
+
+  it('should return queryParams as string', () => {
+    filters.push(
+      new CheckboxFilter('test', 'rating', 'Rating', { id: 1, value: 'test' }, true),
+      new CheckboxFilter('test1', 'check', 'check', { id: 1, value: 'check' }, true),
+      new CheckboxFilter('stuff', 'stuff', 'Stuff', { id: 2, value: 'MEDIUM' }, true, 'STUFF'),
+      new CheckboxFilter('stuff_2', 'stuff', 'Stuff2', { id: 3, value: 'HIGH' }, true, 'STUFF'),
+      new CheckboxFilter('stuff_3', 'stuff', 'Stuff2', { id: 3, value: 'HIGH' }, false, 'STUFF')
+    );
+
+    expect(filters.toQueryParam()).toBe('rating=1&check=1&stuff=2,3');
+  });
 });
