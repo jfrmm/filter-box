@@ -17,6 +17,7 @@ Additionally, it allows the definition of complex event based behaviours, trigge
   - [Defining filter behaviours](#defining-filter-behaviours)
   - [Custom filters](#custom-filters)
   - [FilterArray](#filter-array)
+  - [i18n](#i18n)
 
 ## Getting started
 
@@ -207,6 +208,10 @@ The `Filter Array` class not only provides the `Array API` but also some additio
   -get(name) -> Returns the filter which name matches the given name;
 
 Additionaly, to avoid collisions, the filter array will throw an error if there are two filters with the same name.
+
+### i18n
+
+Unfortunetly, until https://github.com/angular/angular/issues/29536 and https://github.com/ng-packagr/ng-packagr/issues/695 are solved, i think the only viable solution is to rewrite the filters components with project specific i8n.
 
 ---
 
