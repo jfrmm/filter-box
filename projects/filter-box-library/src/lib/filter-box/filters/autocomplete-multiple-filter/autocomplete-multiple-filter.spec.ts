@@ -9,7 +9,7 @@ describe('AutocompleteMultiple', () => {
   const mockData = [{ id: 1, value: 'test' }, { id: 2, value: 'test' }];
 
   beforeEach(() => {
-    autocompleteMultipleFilter = new AutocompleteMultipleFilter('test', 'test', mockFunction, mockData);
+    autocompleteMultipleFilter = new AutocompleteMultipleFilter('test', 'test', 'test', mockFunction, mockData);
   });
 
   it('should create an instance', () => {

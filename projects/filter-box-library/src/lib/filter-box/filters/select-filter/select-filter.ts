@@ -13,13 +13,14 @@ export class SelectFilter extends Filter {
   public options: Observable<FilterOption[]>;
 
   constructor(
+    name: string,
     paramName: string,
     placeholder: string,
     getFilterOptions: (params?: FilterParam[]) => Observable<FilterOption[]>,
     initialValue: FilterOption | FilterOption[] = null,
     component: Type<any> = SelectComponent
   ) {
-    super(paramName, placeholder, getFilterOptions, initialValue, component);
+    super(name, paramName, placeholder, getFilterOptions, initialValue, component);
 
     this.options = this.getFilterOptions();
   }

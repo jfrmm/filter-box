@@ -65,13 +65,17 @@ export class PizzaListComponent implements OnInit {
 
   private loadFilterBoxFilters(): void {
     this.filters.push(
-      new AutocompleteFilter('base', 'Base', () => this.pizzaService.getPizzaBases(), null),
-      new AutocompleteAsyncFilter('restaurant', 'Restaurant', () => this.pizzaService.getRestaurants()),
-      new DateFilter('from', 'From'),
-      new DateFilter('to', 'To'),
-      new SelectFilter('select', 'select', () => this.pizzaService.getPizzaBases()),
-      new CheckboxFilter('rating', 'MEDIUM', { id: 2, value: 'MEDIUM' }),
-      new AutocompleteMultipleFilter('multiple', 'mmultiple', () => this.pizzaService.getPizzaBases(), null)
+      new AutocompleteFilter('base', 'base', 'Base', () => this.pizzaService.getPizzaBases(), null),
+      new AutocompleteAsyncFilter('restaurant', 'restaurant', 'Restaurant', () => this.pizzaService.getRestaurants()),
+      new DateFilter('from', 'from', 'From'),
+      new SelectFilter('select', 'select', 'select', () => this.pizzaService.getPizzaBases()),
+      new CheckboxFilter('rating', 'rating', 'MEDIUM', { id: 2, value: 'MEDIUM' }, false, 'RATING'),
+      new CheckboxFilter('rating_medium', 'rating', 'HIGH', { id: 2, value: 'HIGH' }, false, 'RATING'),
+      new CheckboxFilter('stuff', 'stuff', 'Stuff', { id: 2, value: 'MEDIUM' }, false, 'STUFF'),
+      new CheckboxFilter('stuff_2', 'stuff', 'Stuff2', { id: 2, value: 'HIGH' }, false, 'STUFF'),
+      new CheckboxFilter('alone', 'alone', 'Alone', { id: 2, value: 'HIGH' }, false, 'ALONE'),
+      new CheckboxFilter('t', 'not group', 'no group', { id: 2, value: 'HIGH' }, false),
+      new AutocompleteMultipleFilter('multiple', 'multiple', 'mmultiple', () => this.pizzaService.getPizzaBases(), null)
     );
 
     this.filterBehaviours = [
@@ -94,6 +98,8 @@ export class PizzaListComponent implements OnInit {
 
   public index(reset: boolean): void {
     const pizzaParams: FilterParam[] = [...this.queryParams, ...this.filterParams];
+
+    console.log(this.filters.toQueryParam());
 
     this.pizzaService
       .getPizzasList(pizzaParams)

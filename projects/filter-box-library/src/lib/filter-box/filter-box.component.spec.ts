@@ -35,7 +35,7 @@ describe('FilterBoxComponent', () => {
   });
 
   it('should render clear all button when there are filters', () => {
-    component.filters = [new AutocompleteFilter('MOCK', 'MOCK', mockFunction)];
+    component.filters = [new AutocompleteFilter('MOCK', 'MOCK', 'MOCK', mockFunction)];
     fixture.detectChanges();
 
     const clearAllElement: HTMLElement = fixture.nativeElement;
@@ -43,8 +43,8 @@ describe('FilterBoxComponent', () => {
   });
 
   it('should clear all filters and emit only once', () => {
-    const mockFilter1 = new AutocompleteFilter('MOCK', 'MOCK', mockFunction);
-    const mockFilter2 = new AutocompleteFilter('MOCK', 'MOCK', mockFunction);
+    const mockFilter1 = new AutocompleteFilter('MOCK', 'MOCK', 'MOCK', mockFunction);
+    const mockFilter2 = new AutocompleteFilter('MOCK', 'MOCK', 'MOCK', mockFunction);
     component.filters = [mockFilter1, mockFilter2];
 
     const spy = spyOn(component.index, 'emit');

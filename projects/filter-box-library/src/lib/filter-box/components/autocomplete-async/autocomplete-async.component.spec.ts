@@ -28,7 +28,7 @@ describe('AutocompleteAsyncComponent', () => {
   });
 
   it('should clear filter', () => {
-    const mockFilter = new AutocompleteAsyncFilter('test', 'test', () => of());
+    const mockFilter = new AutocompleteAsyncFilter('test', 'test', 'test', () => of());
     component.filter = mockFilter;
 
     mockFilter.searchFormControl.setValue('test');

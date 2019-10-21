@@ -7,12 +7,13 @@ import { Filter } from './filter';
 
 class MockClass extends Filter {
   constructor(
+    name: string,
     paramName: string,
     placeholder: string,
     getFilterOptions: (params?: FilterParam[]) => Observable<FilterOption[]>,
     initialValue: FilterOption | FilterOption[] = null
   ) {
-    super(paramName, placeholder, getFilterOptions, initialValue, null);
+    super(name, paramName, placeholder, getFilterOptions, initialValue, null);
   }
 }
 
@@ -22,7 +23,7 @@ describe('Filter', () => {
   let mockClass: MockClass;
 
   beforeEach(() => {
-    mockClass = new MockClass('test', 'test', () => of([mockElement], asyncScheduler), null);
+    mockClass = new MockClass('test', 'test', 'test', () => of([mockElement], asyncScheduler), null);
   });
 
   it(`should create an instance`, () => {

@@ -16,13 +16,14 @@ export class AutocompleteAsyncFilter extends Filter {
   public searchFormControl: FormControl = new FormControl();
 
   constructor(
+    name: string,
     paramName: string,
     placeholder: string,
     getFilterOptions: (filterTerm?: string) => Observable<FilterOption[]>,
     initialValue: FilterOption = null,
     component: Type<any> = AutocompleteAsyncComponent
   ) {
-    super(paramName, placeholder, getFilterOptions, initialValue, component);
+    super(name, paramName, placeholder, getFilterOptions, initialValue, component);
 
     this.filteredOptions = this.filterSearch();
   }
