@@ -1,0 +1,17 @@
+import { Type } from '@angular/core';
+import { AutocompleteFilter, FilterOption } from 'filter-box-library';
+import { Observable, of } from 'rxjs';
+import { SelectFilterComponent } from './select-filter.component';
+
+export class SelectFilter extends AutocompleteFilter {
+  public component: Type<any> = SelectFilterComponent;
+
+  get type(): string {
+    return 'select';
+  }
+
+  protected filterOptions(): Observable<FilterOption[]> {
+    // return of(this.initialOptions);
+    return null;
+  }
+}

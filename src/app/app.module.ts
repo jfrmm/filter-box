@@ -1,14 +1,12 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule} from '@angular/flex-layout';
-import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FilterBoxModule } from 'filter-box-library';
-
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, FilterBoxModule, FlexLayoutModule],
+  imports: [AppRoutingModule, BrowserModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

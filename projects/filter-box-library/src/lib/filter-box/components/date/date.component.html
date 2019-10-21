@@ -1,0 +1,14 @@
+<div *ngIf="filter">
+  <mat-form-field>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      [formControl]="filter?.formControl"
+      [placeholder]="filter?.placeholder"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <asp-clear-filter-button [disabled]="!filter?.formControl.value" [filter]="filter"></asp-clear-filter-button>
+</div>

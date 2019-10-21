@@ -1,0 +1,11 @@
+<div *ngIf="filter">
+  <mat-form-field>
+    <mat-select [formControl]="filter?.elements.formControl" [placeholder]="filter?.elements.placeholder">
+      <mat-option *ngFor="let filterOption of filter?.elements.options | async" [value]="filterOption">
+        {{ filterOption.value }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <asp-clear-filter-button [disabled]="!filter.elements.formControl.value" [filter]="filter"></asp-clear-filter-button>
+</div>

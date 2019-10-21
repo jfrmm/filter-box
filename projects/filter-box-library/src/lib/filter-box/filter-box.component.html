@@ -1,44 +1,36 @@
 <mat-card>
-  <div fxLayout="row wrap" fxLayoutGap="24px" fxLayoutAlign="start baseline">
-    <button mat-icon-button type="button" (click)="onClickClearAllFilters()">
-      <mat-icon>clear</mat-icon>
-    </button>
+  <div fxLayout="row wrap" fxLayoutAlign="start baseline">
+    <div [fxFlexOffset]="config.flex.offset.left" [fxLayoutGap]="config.flex.gap">
+      <!-- Allow content projection to the first row of the filter box card -->
+      <ng-content select="[app-filter-box-first-row]"></ng-content>
+    </div>
+  </div>
 
-    <div *ngFor="let filter of filters" [ngSwitch]="filter.type">
-      <div *ngSwitchCase="'default'">
-        <mat-form-field>
-          <input
-            type="text"
-            matInput
-            [formControl]="filter.elements[0].formControl"
-            [placeholder]="filter.elements[0].placeholder"
-            [matAutocomplete]="auto"
-          />
-          <mat-autocomplete
-            (optionSelected)="index.next()"
-            autoActiveFirstOption
-            #auto="matAutocomplete"
-            [displayWith]="filterHelper.displayFilter"
-          >
-            <mat-option *ngFor="let filterOption of filter.elements[0].options | async" [value]="filterOption">
-              {{ filterOption.value }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-        <button mat-icon-button (click)="onClickClearFilter($event, filter.elements[0])">
+  <div fxLayout="row" fxLayoutAlign="start baseline">
+    <!-- Clear button -->
+    <div *ngIf="filters?.length > 0" [fxFlex]="config.flex.offset.left">
+      <ng-container [ngSwitch]="config.buttons.clearAll">
+        <button *ngSwitchCase="'simple'" mat-icon-button type="button" (click)="onClickClearAllFilters()">
           <mat-icon>clear</mat-icon>
         </button>
-      </div>
 
-      <div *ngSwitchCase="'checkbox'" fxLayout="row" fxLayoutGap="14px">
-        <mat-checkbox
-          *ngFor="let element of filter.elements; index as i"
-          [formControl]="element.formControl"
-          (change)="index.next()"
-        >
-          {{ element.placeholder }}
-        </mat-checkbox>
-      </div>
+        <button *ngSwitchCase="'full'" mat-raised-button type="button" (click)="onClickClearAllFilters()">
+          <span>Clear all</span>
+          <mat-icon>clear</mat-icon>
+        </button>
+      </ng-container>
+    </div>
+
+    <!-- Filters -->
+    <div fxLayout="row wrap" [fxLayoutGap]="config.flex.gap" fxLayoutAlign="start baseline">
+      <ng-template aspFilterAnchor></ng-template>
+    </div>
+  </div>
+
+  <div fxLayout="row wrap" fxLayoutAlign="start baseline">
+    <div [fxFlexOffset]="config.flex.offset.left" [fxLayoutGap]="config.flex.gap">
+      <!-- Allow content projection to the last row of the filter box card -->
+      <ng-content select="[app-filter-box-last-row]"></ng-content>
     </div>
   </div>
 </mat-card>

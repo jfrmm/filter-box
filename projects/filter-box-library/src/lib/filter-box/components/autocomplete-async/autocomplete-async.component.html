@@ -1,0 +1,20 @@
+<div *ngIf="filter">
+  <mat-form-field>
+    <mat-select
+      [formControl]="filter.formControl"
+      [placeholder]="filter?.placeholder"
+      (openedChange)="clearSearch($event)"
+    >
+      <div fxLayout="row" class="search-option">
+        <mat-form-field class="custom-wrapper">
+          <input matInput type="text" [formControl]="filter?.searchFormControl" (keydown)="$event.stopPropagation()" />
+        </mat-form-field>
+      </div>
+      <mat-option *ngFor="let filterOption of filter?.filteredOptions | async" [value]="filterOption">
+        {{ filterOption.value }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <asp-clear-filter-button [disabled]="!filter.formControl.value" [filter]="filter"></asp-clear-filter-button>
+</div>

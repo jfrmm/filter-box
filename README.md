@@ -1,47 +1,88 @@
-# AspFilterBoxLibrary
+# ALTER SOLUTIONS PORTUGAL - Filter Box
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.1.
+> **Filter Box** is an Angular package developed by ALTER SOLUTIONS PORTUGAL. It has been developed using Angular 8.0.
 
-## Generating a new angular workspace & project
+## Table of Contents
+- [Getting started](#getting-started)
+  - [Configure environment](#configure-environment)
+    - [Docker](#docker)
+  - [Install](#install)
+    - [Build the package](#build-the-package)
+- [Unit Testing](#unit-testing)
+- [Developing and running this demo app](#developing-and-running-this-demo-app)
+  - [Library access points](#library-access-points)
+- [Contributing](#contributing)
+- [Troubleshooting](#troubleshooting)
+  - [Package generation not working](#package-generation-not-working)
+  
+## Getting started
 
-Run `ng new my-project-lib`. Optionally run: `ng new my-project-lib --createApplication=false` to generate a new angular workspace without a project.
+The following instructions are guidelines for a development environment based on Docker.
 
-## Generate a new library
+### Configure environment
 
-Run `ng generate library my-lib` to generate a new my-lib inside src/projects. Adding the `-p my-lib` flag, adds a prefix to the library (recommended).
+#### Docker
 
-## Build the library
+There's a customized Docker environment available for the project.
 
-Run `ng build my-lib` to build the library. The build artifacts will be stored in the `dist/` directory. Adding the `--watch` flag while developing, allows to see the imediate changes.
+To start using it, in the project root run
 
-## Running unit tests on the library
+```
+git submodule init
+git submodule update
+```
 
-Run `ng test my-lib` to execute the unit test via [Karma](https://karma-runner.github.io).
+> Please note that this submodule is located in a private repository, so you cannot use it.
 
-## Library access points
+### Install
 
-The public-api.ts file defines what is available for the consumers. Use a NgModule to expose services and components. A consumer of the library should be able to acces public functionality through a single import path.
+Start by downloading and installing dependencies.
 
-## Development server
+```shell
+npm install
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+#### Build the package
 
-## Code scaffolding
+You can now build the filter box package by running:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```shell script
+ng build filter-box-library [--watch]
+```
 
-## Build
+This outputs an angular package to `dist/filter-box-library`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+> Adding the `--watch` flag will make it so that when you make changes to the library, angular-cli will rebuild the package, to make it available to your application. 
 
-## Running unit tests
+## Unit Testing
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+There are unit tests that you can run.
 
-## Running end-to-end tests
+```shell script
+ng test filter-box-library
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+> See also [Karma](https://karma-runner.github.io).
 
-## Further help
+## Developing and running this demo app
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Follow the development guidelines and standards found in [Angular](https://angular.io).
+To run this project in a development environment simply run:
+
+```shell script
+ng serve
+```
+
+### Library access points
+
+The public-api.ts file defines what is available for the consumers. Use a NgModule to expose services and components. A consumer of the library should be able to access public functionality through a single import path.
+
+## Contributing
+
+Please follow our contributing guide in [CONTRIBUTING.md](CONTRIBUTING.md)
+
+## Troubleshooting
+
+### Package generation not working
+
+Sometimes the angular-cli will not generate our package when it has been ran a long time ago. usually removing the `dist` folder solves this problem.
