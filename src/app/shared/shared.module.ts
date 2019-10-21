@@ -17,14 +17,7 @@ import {
 } from '@angular/material';
 
 import { FilterBoxModule } from 'filter-box-library';
-import { FilterBoxConfig } from 'projects/filter-box-library/src/public-api';
-
-// Filter Box default config
-const filterBoxConfig: FilterBoxConfig = {
-  buttons: {
-    clearAll: 'full',
-  },
-};
+import { filterBoxConfiguration } from '../configs/filter-box.configuration';
 
 @NgModule({
   declarations: [],
@@ -32,7 +25,11 @@ const filterBoxConfig: FilterBoxConfig = {
     CommonModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    FilterBoxModule.forRoot(filterBoxConfig),
+    /**
+     * Add your modified filterBoxConfiguration here,
+     * to override the default config
+     */
+    FilterBoxModule.forRoot(),
     MatAutocompleteModule,
     MatCardModule,
     MatInputModule,

@@ -43,7 +43,15 @@ export class PizzaListComponent implements OnInit {
 
   public filterBehaviours: FilterBehaviour[];
 
-  public filterConfig: FilterBoxConfig;
+  /**
+   * Override the default Filter Box config with input data binding.
+   * Add this data bind [filterConfig]="filterConfig", in <asp-filter-box>
+   */
+  public filterConfig: FilterBoxConfig = {
+    buttons: {
+      clearAll: 'full',
+    },
+  };
 
   public filters = new FilterArray();
 
@@ -54,19 +62,6 @@ export class PizzaListComponent implements OnInit {
   public selectedFoodieType: FilterOption;
 
   constructor(private readonly pizzaService: PizzaService, private readonly foodieTypeService: FoodieTypeService) {}
-
-  /**
-   * This method is an example of how we can override the default
-   * Filter Box config. Add this data bind [filterConfig]="filterConfig"
-   * in <asp-filter-box>
-   */
-  private configFilterBox() {
-    this.filterConfig = {
-      buttons: {
-        clearAll: 'none',
-      },
-    };
-  }
 
   private loadFilterBoxFilters(): void {
     this.filters.push(
@@ -119,7 +114,6 @@ export class PizzaListComponent implements OnInit {
     this.dataSource = new GenericDataSource();
     this.displayedColumns = ['id', 'name', 'base', 'restaurant', 'price', 'rating', 'ratingDate'];
 
-    this.configFilterBox();
     this.loadFilterBoxFilters();
     this.index(true);
   }

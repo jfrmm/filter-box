@@ -4,6 +4,9 @@
 
 export * from './lib/filter-box/filter-box.module';
 
+// Configurations
+export * from './lib/filter-box/configs/configuration';
+
 // Filters
 export * from './lib/filter-box/filters/checkbox-filter/checkbox-filter';
 export * from './lib/filter-box/filters/autocomplete-filter/autocomplete-filter';
@@ -12,6 +15,7 @@ export * from './lib/filter-box/filters/date-filter/date-filter';
 export * from './lib/filter-box/filters/autocomplete-multiple-filter/autocomplete-multiple-filter';
 export * from './lib/filter-box/filters/select-filter/select-filter';
 export * from './lib/filter-box/filters/filter/filter';
+export * from './lib/filter-box/filters/filter/filter-array';
 
 // Events
 export * from './lib/filter-box/events/filter-valid-value-change-event';
@@ -41,6 +45,6 @@ export * from './lib/filter-box/components/checkbox/checkbox.component';
 export * from './lib/filter-box/components/date/date.component';
 export * from './lib/filter-box/components/autocomplete-multiple/autocomplete-multiple.component';
 
+// Services
 export * from './lib/filter-box/services/filter-helper.service';
 export * from './lib/filter-box/services/filter-box-config.service';
-export * from './lib/filter-box/filters/filter/filter-array';
