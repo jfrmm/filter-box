@@ -95,6 +95,6 @@ export abstract class Filter {
 
   public unsetIsRequesting(): void {
     this.isRequesting = false;
-    this.formControl.enable({ emitEvent: true });
+    this.formControl.enable({ emitEvent: false });
   }
 }
