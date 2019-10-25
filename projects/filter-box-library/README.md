@@ -170,7 +170,7 @@ filterBehaviours: FilterBehaviour[];
 
 this.filterBehaviours = [
   {
-    emitters: [this.filters.get('filterParamName'),
+    emitters: [this.filters.get('filterParamName')],
     events: [new FilterValidValueChangeE} from '@asp-devteam/filter-box';vent()],
     callbacks: [() => this.filters.get('filter2ParamName').disableFilter()]
   }
