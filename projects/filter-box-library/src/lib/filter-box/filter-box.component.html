@@ -2,7 +2,7 @@
   <div fxLayout="row wrap" fxLayoutAlign="start baseline">
     <div [fxFlexOffset]="config.flex.offset.left" [fxLayoutGap]="config.flex.gap">
       <!-- Allow content projection to the first row of the filter box card -->
-      <ng-content select="[app-filter-box-first-row]"></ng-content>
+      <ng-content select="[beforeFilters]"></ng-content>
     </div>
   </div>
 
@@ -30,7 +30,7 @@
   <div fxLayout="row wrap" fxLayoutAlign="start baseline">
     <div [fxFlexOffset]="config.flex.offset.left" [fxLayoutGap]="config.flex.gap">
       <!-- Allow content projection to the last row of the filter box card -->
-      <ng-content select="[app-filter-box-last-row]"></ng-content>
+      <ng-content select="[afterFilters]"></ng-content>
     </div>
   </div>
 </mat-card>

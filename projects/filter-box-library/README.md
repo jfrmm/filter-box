@@ -17,6 +17,7 @@ Additionally, it allows the definition of complex event based behaviours, trigge
   - [Defining filter behaviours](#defining-filter-behaviours)
   - [Custom filters](#custom-filters)
   - [FilterArray](#filter-array)
+  - [Project Content](#project-content)
   - [i18n](#i18n)
 
 ## Getting started
@@ -30,6 +31,7 @@ Run `npm install @asp-devteam/filter-box` to install the package in your project
 > - "@angular/core"
 > - "@angular/material"
 > - "@angular/flex-layout"
+>   project
 
 ## Usage
 
@@ -199,15 +201,31 @@ For more information on behaviours, see the [advanced filter behaviours guide](.
 
 [Available here](./docs/custom-filters.md)
 
-
 ### Filter Array
 
 The `Filter Array` class not only provides the `Array API` but also some additional helper methods. These are:
-  -filterParams -> Returns the filter values as filter params (with grouped values);
-  -toQueryParam() -> Returns the queryParams, built from the filter params;
-  -get(name) -> Returns the filter which name matches the given name;
+-filterParams -> Returns the filter values as filter params (with grouped values);
+-toQueryParam() -> Returns the queryParams, built from the filter params;
+-get(name) -> Returns the filter which name matches the given name;
 
 Additionaly, to avoid collisions, the filter array will throw an error if there are two filters with the same name.
+
+### Project Content
+
+To project content inside the filter box, we provided to selectors. `beforeFilters` Will project your content before the filters & `afterFilters` will project your content after the filters.
+
+```html
+<asp-filter-box [filters]="filters">
+  <ng-container beforeFilters>
+    My before filters custom content
+  </ng-container>
+
+  <ng-container afterFilters>
+    My after filters custom content
+  </ng-container>
+  <asp-filter-box> </asp-filter-box
+></asp-filter-box>
+```
 
 ### i18n
 
