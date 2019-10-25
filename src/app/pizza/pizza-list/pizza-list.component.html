@@ -5,7 +5,7 @@
   [filterConfig]="filterConfig"
 >
   <!-- This container is has flex row functionality -->
-  <ng-container app-filter-box-first-row>
+  <ng-container beforeFilters>
     <mat-form-field fxFlex="300px">
       <button mat-icon-button matSuffix (click)="search(searchBox.value)">
         <mat-icon>search</mat-icon>
@@ -18,7 +18,7 @@
   </ng-container>
 
   <!-- This container is has flex row functionality -->
-  <ng-container app-filter-box-last-row>
+  <ng-container afterFilters>
     <mat-chip-list fxFlex="auto">
       <mat-chip disabled>Italian connoisseur</mat-chip>
       <mat-chip disabled>Meat lover</mat-chip>

@@ -63,7 +63,10 @@ export class FilterArray extends Array<Filter> {
     return newArrayLength;
   }
 
-  public toQueryParam(): string {
-    return this.filterParams.map(param => `${param.name}=${param.value}`).join('&').toString();
+  public toQueryParam(): { [param: string]: string } {
+    return (this.filterParams as any).reduce((previousParam: FilterParam, currentParam: FilterParam) => {
+      previousParam = { ...previousParam, [currentParam.name]: currentParam.value };
+      return previousParam;
+    }, {});
   }
 }

@@ -7,7 +7,13 @@
     >
       <div fxLayout="row" class="search-option">
         <mat-form-field class="custom-wrapper">
-          <input matInput type="text" [formControl]="filter?.searchFormControl" (keydown)="$event.stopPropagation()" />
+          <input
+            matInput
+            type="text"
+            [formControl]="filter?.searchFormControl"
+            (keydown)="$event.stopPropagation()"
+            autocomplete="off"
+          />
         </mat-form-field>
       </div>
       <mat-option *ngFor="let filterOption of filter?.filteredOptions | async" [value]="filterOption">

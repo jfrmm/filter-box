@@ -17,6 +17,7 @@ Additionally, it allows the definition of complex event based behaviours, trigge
   - [Defining filter behaviours](#defining-filter-behaviours)
   - [Custom filters](#custom-filters)
   - [FilterArray](#filter-array)
+  - [Project Content](#project-content)
   - [i18n](#i18n)
 
 ## Getting started
@@ -30,6 +31,7 @@ Run `npm install @asp-devteam/filter-box` to install the package in your project
 > - "@angular/core"
 > - "@angular/material"
 > - "@angular/flex-layout"
+>   project
 
 ## Usage
 
@@ -100,13 +102,15 @@ And bind it to the FilterBox component
 
 ### Basic filters
 
-This package provides four commonly used filters:
+This filters provided by this package are:
 
 <ul>
     <li>Autocomplete Filter</li>
     <li>Autocomplete Async Filter</li>
+    <li>Autocomplete Multiple Filter</li>
     <li>Checkbox Filter</li>
     <li>Date Filter</li>
+    <li>Select Filter</li>
 </ul>
 
 To set up a FilterBox, start by instanciating the filters you want to use.
@@ -116,7 +120,9 @@ import { AutocompleteFilter, CheckboxFilter, FilterArray } from '@asp-devteam/fi
 
 filters: FilterArray = new FilterArray();
 
-this.filters.push(new AutocompleteFilter('base', 'Base', pizzaBases), new CheckboxFilter('rating', ratings));
+this.filters.push(
+  new AutocompleteFilter('base', 'base', 'Base', () => this.pizzaService.getPizzaBases(), null),
+  new CheckboxFilter('rating_medium', 'rating', 'HIGH', { id: 2, value: 'HIGH' }, false, 'RATING')
 ```
 
 Next, insert the `FilterBoxComponent` selector in your template.
@@ -164,8 +170,8 @@ filterBehaviours: FilterBehaviour[];
 
 this.filterBehaviours = [
   {
-    emitters: [this.filters.get('filterParamName'),
-    events: [new FilterValidValueChangeEvent()],
+    emitters: [this.filters.get('filterParamName')],
+    events: [new FilterValidValueChangeE} from '@asp-devteam/filter-box';vent()],
     callbacks: [() => this.filters.get('filter2ParamName').disableFilter()]
   }
 ];
@@ -182,13 +188,7 @@ And adding the behaviours array to the template:
 The available events are
 
 ```typescript
-import {
-  FilterClearEvent,
-  FilterDisabledEvent,
-  FilterEmptyEvent,
-  FilterEnabledEvent,
-  FilterValidValueChangeEvent
-} from '@asp-devteam/filter-box';
+FilterClearEvent, FilterDisabledEvent, FilterEmptyEvent, FilterEnabledEvent, FilterValidValueChangeEvent;
 ```
 
 > Note that you can use the `FilterArray` class instead of a `Filter[]`, gaining access to the method `get(paramName)`. This helps making your code more legible and less error prone.
@@ -199,15 +199,31 @@ For more information on behaviours, see the [advanced filter behaviours guide](.
 
 [Available here](./docs/custom-filters.md)
 
-
 ### Filter Array
 
 The `Filter Array` class not only provides the `Array API` but also some additional helper methods. These are:
-  -filterParams -> Returns the filter values as filter params (with grouped values);
-  -toQueryParam() -> Returns the queryParamString, built from the filter params;
-  -get(name) -> Returns the filter which name matches the given name;
+-filterParams -> Returns the filter values as filter params (with grouped values);
+-toQueryParam() -> Returns the queryParams, built from the filter params;
+-get(name) -> Returns the filter which name matches the given name;
 
 Additionaly, to avoid collisions, the filter array will throw an error if there are two filters with the same name.
+
+### Project Content
+
+To project content inside the filter box, we provided to selectors. `beforeFilters` Will project your content before the filters & `afterFilters` will project your content after the filters.
+
+```html
+<asp-filter-box [filters]="filters">
+  <ng-container beforeFilters>
+    My before filters custom content
+  </ng-container>
+
+  <ng-container afterFilters>
+    My after filters custom content
+  </ng-container>
+  <asp-filter-box> </asp-filter-box
+></asp-filter-box>
+```
 
 ### i18n
 
