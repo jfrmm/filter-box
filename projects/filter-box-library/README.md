@@ -118,7 +118,9 @@ import { AutocompleteFilter, CheckboxFilter, FilterArray } from '@asp-devteam/fi
 
 filters: FilterArray = new FilterArray();
 
-this.filters.push(new AutocompleteFilter('base', 'Base', pizzaBases), new CheckboxFilter('rating', ratings));
+this.filters.push(
+  new AutocompleteFilter('base', 'base', 'Base', () => this.pizzaService.getPizzaBases(), null),
+  new CheckboxFilter('rating_medium', 'rating', 'HIGH', { id: 2, value: 'HIGH' }, false, 'RATING')
 ```
 
 Next, insert the `FilterBoxComponent` selector in your template.
