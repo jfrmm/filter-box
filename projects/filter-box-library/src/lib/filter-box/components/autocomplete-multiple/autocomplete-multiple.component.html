@@ -16,7 +16,13 @@
         </mat-checkbox>
 
         <mat-form-field class="custom-wrapper">
-          <input matInput type="text" [formControl]="filter?.searchFormControl" (keydown)="$event.stopPropagation()" />
+          <input
+            matInput
+            type="text"
+            [formControl]="filter?.searchFormControl"
+            (keydown)="$event.stopPropagation()"
+            autocomplete="off"
+          />
         </mat-form-field>
       </div>
       <mat-option
@@ -29,8 +35,5 @@
     </mat-select>
   </mat-form-field>
 
-  <asp-clear-filter-button
-    [filter]="filter"
-    [disabled]="!filter.formControl.value?.length"
-  ></asp-clear-filter-button>
+  <asp-clear-filter-button [filter]="filter" [disabled]="!filter.formControl.value?.length"></asp-clear-filter-button>
 </div>
