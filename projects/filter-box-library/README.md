@@ -102,13 +102,15 @@ And bind it to the FilterBox component
 
 ### Basic filters
 
-This package provides four commonly used filters:
+This filters provided by this package are:
 
 <ul>
     <li>Autocomplete Filter</li>
     <li>Autocomplete Async Filter</li>
+    <li>Autocomplete Multiple Filter</li>
     <li>Checkbox Filter</li>
     <li>Date Filter</li>
+    <li>Select Filter</li>
 </ul>
 
 To set up a FilterBox, start by instanciating the filters you want to use.
@@ -169,7 +171,7 @@ filterBehaviours: FilterBehaviour[];
 this.filterBehaviours = [
   {
     emitters: [this.filters.get('filterParamName'),
-    events: [new FilterValidValueChangeEvent()],
+    events: [new FilterValidValueChangeE} from '@asp-devteam/filter-box';vent()],
     callbacks: [() => this.filters.get('filter2ParamName').disableFilter()]
   }
 ];
@@ -186,13 +188,7 @@ And adding the behaviours array to the template:
 The available events are
 
 ```typescript
-import {
-  FilterClearEvent,
-  FilterDisabledEvent,
-  FilterEmptyEvent,
-  FilterEnabledEvent,
-  FilterValidValueChangeEvent
-} from '@asp-devteam/filter-box';
+FilterClearEvent, FilterDisabledEvent, FilterEmptyEvent, FilterEnabledEvent, FilterValidValueChangeEvent;
 ```
 
 > Note that you can use the `FilterArray` class instead of a `Filter[]`, gaining access to the method `get(paramName)`. This helps making your code more legible and less error prone.
