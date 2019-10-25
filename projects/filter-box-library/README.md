@@ -204,7 +204,7 @@ For more information on behaviours, see the [advanced filter behaviours guide](.
 
 The `Filter Array` class not only provides the `Array API` but also some additional helper methods. These are:
   -filterParams -> Returns the filter values as filter params (with grouped values);
-  -toQueryParam() -> Returns the queryParamString, built from the filter params;
+  -toQueryParam() -> Returns the queryParams, built from the filter params;
   -get(name) -> Returns the filter which name matches the given name;
 
 Additionaly, to avoid collisions, the filter array will throw an error if there are two filters with the same name.
