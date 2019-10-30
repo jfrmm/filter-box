@@ -16,7 +16,7 @@ export class AutocompleteFilter extends Filter {
 
   public filteredOptions: Observable<FilterOption[]>;
 
-  public options: FilterOption[];
+  public options: FilterOption[] = [];
 
   public searchFormControl: FormControl = new FormControl();
 

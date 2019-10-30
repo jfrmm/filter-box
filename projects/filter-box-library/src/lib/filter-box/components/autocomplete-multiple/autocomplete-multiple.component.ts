@@ -44,5 +44,7 @@ export class AutocompleteMultipleComponent implements OnInit, FilterComponentMod
     this.filter.selection.toggle(filterOption);
 
     this.filter.formControl.setValue(this.filter.selection.selected);
+
+    console.log(this.filter.selection.selected);
   }
 }

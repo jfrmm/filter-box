@@ -27,6 +27,7 @@ export class AutocompleteMultipleFilter extends AutocompleteFilter {
     super(name, paramName, placeholder, getFilterOptions, initialValue, component);
 
     this.selection = new SelectionModel<FilterOption>(true, initialValue);
+    // TODO: Initial Value -> Object in selection is different from object in filterOptions
   }
 
   protected mapControlsValues(): string {

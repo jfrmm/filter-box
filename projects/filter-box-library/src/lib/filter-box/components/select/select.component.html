@@ -1,6 +1,10 @@
 <div *ngIf="filter">
   <mat-form-field>
-    <mat-select [formControl]="filter?.formControl" [placeholder]="filter?.placeholder">
+    <mat-select
+      [formControl]="filter?.formControl"
+      [placeholder]="filter?.placeholder"
+      [compareWith]="filterHelper.compareFn"
+    >
       <mat-option *ngFor="let filterOption of filter?.options | async" [value]="filterOption">
         {{ filterOption.value }}
       </mat-option>

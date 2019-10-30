@@ -5,6 +5,7 @@
       [placeholder]="filter?.placeholder"
       [multiple]="true"
       (openedChange)="clearSearch($event)"
+      [compareWith]="filterHelper.compareFn"
     >
       <div fxLayout="row" class="search-option">
         <mat-checkbox
