@@ -4,13 +4,10 @@ import {
   EventEmitter,
   Inject,
   Input,
-  OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
-
 import { configuration } from './configs/configuration';
 import { FilterAnchorDirective } from './filter-anchor.directive';
 import { Filter } from './filters/filter/filter';
@@ -27,15 +24,13 @@ import { FilterMediatorService } from './services/filter-mediator.service';
   styleUrls: ['./filter-box.component.css'],
   providers: [FilterMediatorService],
 })
-export class FilterBoxComponent implements OnInit, OnDestroy {
+export class FilterBoxComponent implements OnInit {
   @Input()
   public set filterConfig(value: FilterBoxConfig) {
     if (value) {
       this.updateConfig(value);
     }
   }
-
-  private subscriptions: Subscription;
 
   public config: FilterBoxConfig = configuration;
 
@@ -101,16 +96,10 @@ export class FilterBoxComponent implements OnInit, OnDestroy {
     }
   }
 
-  public ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
   public ngOnInit() {
-    this.subscriptions = new Subscription();
-
     this.filterMediatorService.setFilters(this.filters, this.filterBehaviours);
 
-    this.subscriptions.add(this.filterMediatorService.filterChanged.subscribe(() => this.index.emit()));
+    this.filterMediatorService.filterChanged.subscribe(() => this.index.emit());
 
     this.loadFiltersComponents();
   }
