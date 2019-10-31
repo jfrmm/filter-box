@@ -32,16 +32,10 @@ export class AutocompleteFilter extends Filter {
 
     this.setIsRequesting();
 
-    this.getFilterOptions().subscribe((options: FilterOption[]) => {
-      this.options = options;
-
-      this.filteredOptions = this.filterSearch();
-
-      this.unsetIsRequesting();
-    });
+    this.getOptions();
   }
 
-  private filterSearch(): Observable<FilterOption[]> {
+  protected filterSearch(): Observable<FilterOption[]> {
     return this.searchFormControl.valueChanges.pipe(
       startWith(''),
       distinctUntilChanged(),
@@ -53,6 +47,16 @@ export class AutocompleteFilter extends Filter {
         )
       )
     );
+  }
+
+  protected getOptions(): void {
+    this.getFilterOptions().subscribe((options: FilterOption[]) => {
+      this.options = options;
+
+      this.filteredOptions = this.filterSearch();
+
+      this.unsetIsRequesting();
+    });
   }
 
   public updateFilterOptions(params: FilterParam[]): FilterEvent {

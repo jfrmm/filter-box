@@ -21,13 +21,25 @@ export class AutocompleteMultipleFilter extends AutocompleteFilter {
     paramName: string,
     placeholder: string,
     getFilterOptions: (params?: FilterParam[]) => Observable<FilterOption[]>,
-    initialValue: FilterOption[] = null,
+    public initialValue: FilterOption[] = null,
     component: Type<any> = AutocompleteMultipleComponent
   ) {
     super(name, paramName, placeholder, getFilterOptions, initialValue, component);
+  }
 
-    this.selection = new SelectionModel<FilterOption>(true, initialValue);
-    // TODO: Initial Value -> Object in selection is different from object in filterOptions
+  protected getOptions(): void {
+    this.getFilterOptions().subscribe((options: FilterOption[]) => {
+      this.options = options;
+
+      this.filteredOptions = super.filterSearch();
+
+      this.selection = new SelectionModel<FilterOption>(
+        true,
+        this.options.filter(option => this.initialValue.find(o => o.id === option.id))
+      );
+
+      this.unsetIsRequesting();
+    });
   }
 
   protected mapControlsValues(): string {
