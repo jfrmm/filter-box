@@ -78,10 +78,13 @@ export class PizzaListComponent implements OnInit {
       new CheckboxFilter('stuff_2', 'stuff', 'Stuff2', { id: 2, value: 'HIGH' }, false, 'STUFF'),
       new CheckboxFilter('alone', 'alone', 'Alone', { id: 2, value: 'HIGH' }, false, 'ALONE'),
       new CheckboxFilter('t', 'not_group', 'no group', { id: 2, value: 'HIGH' }, false),
-      new AutocompleteMultipleFilter('multiple', 'multiple', 'mmultiple', () => this.pizzaService.getPizzaBases(), [{
-        id: 1,
-        value: 'Tomato',
-      }])
+      new AutocompleteMultipleFilter('multiple', 'multiple', 'mmultiple', () => this.pizzaService.getPizzaBases(), [
+        {
+          id: 1,
+          value: 'Tomato',
+        },
+        { id: 2, value: 'Cheese' },
+      ])
     );
 
     this.filterBehaviours = [

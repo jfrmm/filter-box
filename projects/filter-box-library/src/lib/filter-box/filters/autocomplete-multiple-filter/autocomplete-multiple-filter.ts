@@ -14,7 +14,7 @@ export class AutocompleteMultipleFilter extends AutocompleteFilter {
     return 'autocomplete-multiple';
   }
 
-  public selection: SelectionModel<FilterOption>;
+  public selection: SelectionModel<FilterOption> = new SelectionModel(true);
 
   constructor(
     name: string,
@@ -31,11 +31,11 @@ export class AutocompleteMultipleFilter extends AutocompleteFilter {
     this.getFilterOptions().subscribe((options: FilterOption[]) => {
       this.options = options;
 
-      this.filteredOptions = super.filterSearch();
+      this.filteredOptions = this.filterSearch();
 
       this.selection = new SelectionModel<FilterOption>(
         true,
-        this.options.filter(option => this.initialValue.find(o => o.id === option.id))
+        this.initialValue ? this.options.filter(option => this.initialValue.find(o => o.id === option.id)) : null
       );
 
       this.unsetIsRequesting();
