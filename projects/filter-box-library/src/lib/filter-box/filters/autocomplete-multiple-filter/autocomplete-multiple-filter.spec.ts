@@ -1,12 +1,12 @@
-import { asyncScheduler, of } from 'rxjs';
+import { of } from 'rxjs';
 import { FilterClearEvent } from '../../events/filter-clear-event';
 import { FilterEmptyEvent } from '../../events/filter-empty-event';
 import { AutocompleteMultipleFilter } from './autocomplete-multiple-filter';
 
-describe('AutocompleteMultiple', () => {
+describe('AutocompleteMultipleFilter', () => {
   let autocompleteMultipleFilter: AutocompleteMultipleFilter;
-  const mockFunction = () => of(null, asyncScheduler);
   const mockData = [{ id: 1, value: 'test' }, { id: 2, value: 'test' }];
+  const mockFunction = () => of(mockData);
 
   beforeEach(() => {
     autocompleteMultipleFilter = new AutocompleteMultipleFilter('test', 'test', 'test', mockFunction, mockData);
@@ -17,6 +17,8 @@ describe('AutocompleteMultiple', () => {
   });
 
   it(`should select initial value in the selection`, () => {
+    autocompleteMultipleFilter.selection.select(...mockData);
+
     expect(autocompleteMultipleFilter.selection.selected).toEqual(mockData);
   });
 

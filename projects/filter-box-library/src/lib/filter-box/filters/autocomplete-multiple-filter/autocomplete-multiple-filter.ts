@@ -14,19 +14,32 @@ export class AutocompleteMultipleFilter extends AutocompleteFilter {
     return 'autocomplete-multiple';
   }
 
-  public selection: SelectionModel<FilterOption>;
+  public selection: SelectionModel<FilterOption> = new SelectionModel(true);
 
   constructor(
     name: string,
     paramName: string,
     placeholder: string,
     getFilterOptions: (params?: FilterParam[]) => Observable<FilterOption[]>,
-    initialValue: FilterOption[] = null,
+    public initialValue: FilterOption[] = null,
     component: Type<any> = AutocompleteMultipleComponent
   ) {
     super(name, paramName, placeholder, getFilterOptions, initialValue, component);
+  }
 
-    this.selection = new SelectionModel<FilterOption>(true, initialValue);
+  protected getOptions(): void {
+    this.getFilterOptions().subscribe((options: FilterOption[]) => {
+      this.options = options;
+
+      this.filteredOptions = this.filterSearch();
+
+      this.selection = new SelectionModel<FilterOption>(
+        true,
+        this.initialValue ? this.options.filter(option => this.initialValue.find(o => o.id === option.id)) : null
+      );
+
+      this.unsetIsRequesting();
+    });
   }
 
   protected mapControlsValues(): string {

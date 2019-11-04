@@ -1,9 +1,10 @@
-<div *ngIf="filter">
+<div *ngIf="filter" fxLayout="row" fxLayoutAlign="center center">
   <mat-form-field>
     <mat-select
       [formControl]="filter.formControl"
       [placeholder]="filter?.placeholder"
       (openedChange)="clearSearch($event)"
+      [compareWith]="filterHelper.compareFn"
     >
       <div fxLayout="row" class="search-option">
         <mat-form-field class="custom-wrapper">

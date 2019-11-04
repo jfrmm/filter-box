@@ -74,5 +74,11 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+
+    <mat-form-field>
+      <input matInput placeholder="Test"/>
+    </mat-form-field>
+    <button (click)="filters.clearAll()">Clear All</button>
+    <button (click)="filters.get('base').updateFilterOptions()">Test Loading</button>
   </mat-card-content>
 </mat-card>

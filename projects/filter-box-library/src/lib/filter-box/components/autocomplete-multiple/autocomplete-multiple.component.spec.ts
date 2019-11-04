@@ -9,7 +9,7 @@ import { AutocompleteMultipleComponent } from './autocomplete-multiple.component
 describe('AutocompleteMultipleComponent', () => {
   let component: AutocompleteMultipleComponent;
   let fixture: ComponentFixture<AutocompleteMultipleComponent>;
-  const mockFilter = new AutocompleteMultipleFilter('test', 'test', 'test', () => of());
+  let mockFilter: AutocompleteMultipleFilter;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -19,6 +19,9 @@ describe('AutocompleteMultipleComponent', () => {
   }));
 
   beforeEach(() => {
+    mockFilter = new AutocompleteMultipleFilter('test', 'test', 'test', () =>
+    of([{ id: 1, value: '1' }, { id: 2, value: '2' }, { id: 3, value: '3' }])
+  );
     fixture = TestBed.createComponent(AutocompleteMultipleComponent);
     component = fixture.componentInstance;
     component.filter = mockFilter;
@@ -46,7 +49,6 @@ describe('AutocompleteMultipleComponent', () => {
   });
 
   it('should toggle all options', () => {
-    component.filter.options = [1, 2, 3];
     component.masterToggle();
     fixture.detectChanges();
 
@@ -59,7 +61,6 @@ describe('AutocompleteMultipleComponent', () => {
   });
 
   it('should return if all options are selected', () => {
-    component.filter.options = [1, 2, 3];
     component.masterToggle();
     fixture.detectChanges();
 
@@ -71,7 +72,6 @@ describe('AutocompleteMultipleComponent', () => {
   });
 
   it('should toggle an option', () => {
-    component.filter.options = [1, 2, 3];
     const mockOption = { id: 1, value: 'test' };
     component.toggleOption(new MouseEvent('click'), mockOption);
     fixture.detectChanges();

@@ -4,6 +4,7 @@ import { asyncScheduler, of } from 'rxjs';
 import { FilterBoxComponent } from './filter-box.component';
 import { FilterBoxModule } from './filter-box.module';
 import { AutocompleteFilter } from './filters/autocomplete-filter/autocomplete-filter';
+import { FilterArray } from './filters/filter/filter-array';
 
 describe('FilterBoxComponent', () => {
   let component: FilterBoxComponent;
@@ -26,7 +27,7 @@ describe('FilterBoxComponent', () => {
   });
 
   it('should not render clear all button when there are no filters', () => {
-    component.filters = [];
+    component.filters = new FilterArray();
     fixture.detectChanges();
 
     // TODO: Check if this is the right way to text the button
@@ -35,7 +36,8 @@ describe('FilterBoxComponent', () => {
   });
 
   it('should render clear all button when there are filters', () => {
-    component.filters = [new AutocompleteFilter('MOCK', 'MOCK', 'MOCK', mockFunction)];
+    component.filters = new FilterArray();
+    component.filters.push(new AutocompleteFilter('MOCK', 'MOCK', 'MOCK', mockFunction));
     fixture.detectChanges();
 
     const clearAllElement: HTMLElement = fixture.nativeElement;
@@ -43,9 +45,10 @@ describe('FilterBoxComponent', () => {
   });
 
   it('should clear all filters and emit only once', () => {
-    const mockFilter1 = new AutocompleteFilter('MOCK', 'MOCK', 'MOCK', mockFunction);
+    const mockFilter1 = new AutocompleteFilter('MOCK_1', 'MOCK', 'MOCK', mockFunction);
     const mockFilter2 = new AutocompleteFilter('MOCK', 'MOCK', 'MOCK', mockFunction);
-    component.filters = [mockFilter1, mockFilter2];
+    component.filters = new FilterArray();
+    component.filters.push(mockFilter1, mockFilter2);
 
     const spy = spyOn(component.index, 'emit');
 

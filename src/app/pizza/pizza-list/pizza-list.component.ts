@@ -65,7 +65,10 @@ export class PizzaListComponent implements OnInit {
 
   private loadFilterBoxFilters(): void {
     this.filters.push(
-      new AutocompleteFilter('base', 'base', 'Base', () => this.pizzaService.getPizzaBases(), null),
+      new AutocompleteFilter('base', 'base', 'Base', () => this.pizzaService.getPizzaBases(), {
+        id: 1,
+        value: 'Tomato',
+      }),
       new AutocompleteAsyncFilter('restaurant', 'restaurant', 'Restaurant', () => this.pizzaService.getRestaurants()),
       new DateFilter('from', 'from', 'From'),
       new SelectFilter('select', 'select', 'select', () => this.pizzaService.getPizzaBases()),
@@ -75,7 +78,13 @@ export class PizzaListComponent implements OnInit {
       new CheckboxFilter('stuff_2', 'stuff', 'Stuff2', { id: 2, value: 'HIGH' }, false, 'STUFF'),
       new CheckboxFilter('alone', 'alone', 'Alone', { id: 2, value: 'HIGH' }, false, 'ALONE'),
       new CheckboxFilter('t', 'not_group', 'no group', { id: 2, value: 'HIGH' }, false),
-      new AutocompleteMultipleFilter('multiple', 'multiple', 'mmultiple', () => this.pizzaService.getPizzaBases(), null)
+      new AutocompleteMultipleFilter('multiple', 'multiple', 'mmultiple', () => this.pizzaService.getPizzaBases(), [
+        {
+          id: 1,
+          value: 'Tomato',
+        },
+        { id: 2, value: 'Cheese' },
+      ])
     );
 
     this.filterBehaviours = [

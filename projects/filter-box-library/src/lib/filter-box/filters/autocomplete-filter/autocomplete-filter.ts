@@ -16,7 +16,7 @@ export class AutocompleteFilter extends Filter {
 
   public filteredOptions: Observable<FilterOption[]>;
 
-  public options: FilterOption[];
+  public options: FilterOption[] = [];
 
   public searchFormControl: FormControl = new FormControl();
 
@@ -32,16 +32,10 @@ export class AutocompleteFilter extends Filter {
 
     this.setIsRequesting();
 
-    this.getFilterOptions().subscribe((options: FilterOption[]) => {
-      this.options = options;
-
-      this.filteredOptions = this.filterSearch();
-
-      this.unsetIsRequesting();
-    });
+    this.getOptions();
   }
 
-  private filterSearch(): Observable<FilterOption[]> {
+  protected filterSearch(): Observable<FilterOption[]> {
     return this.searchFormControl.valueChanges.pipe(
       startWith(''),
       distinctUntilChanged(),
@@ -55,7 +49,17 @@ export class AutocompleteFilter extends Filter {
     );
   }
 
-  public updateFilterOptions(params: FilterParam[]): FilterEvent {
+  protected getOptions(): void {
+    this.getFilterOptions().subscribe((options: FilterOption[]) => {
+      this.options = options;
+
+      this.filteredOptions = this.filterSearch();
+
+      this.unsetIsRequesting();
+    });
+  }
+
+  public updateFilterOptions(params?: FilterParam[]): FilterEvent {
     this.setIsRequesting();
 
     this.getFilterOptions(params).subscribe(options => {

@@ -1,17 +1,19 @@
-<div *ngIf="filter">
+<div *ngIf="filter" fxLayout="row" fxLayoutAlign="center center">
   <mat-form-field>
     <mat-select
       [value]="filter?.formControl.value"
       [placeholder]="filter?.placeholder"
       [multiple]="true"
       (openedChange)="clearSearch($event)"
+      [compareWith]="filterHelper.compareFn"
+      [disabled]="filter?.formControl.disabled"
     >
       <div fxLayout="row" class="search-option">
         <mat-checkbox
           class="mat-option-pseudo-checkbox"
           (change)="$event ? masterToggle() : null"
-          [checked]="filter?.selection.hasValue() && isAllSelected()"
-          [indeterminate]="filter?.selection.hasValue() && !isAllSelected()"
+          [checked]="filter?.selection?.hasValue() && isAllSelected()"
+          [indeterminate]="filter?.selection?.hasValue() && !isAllSelected()"
         >
         </mat-checkbox>
 
