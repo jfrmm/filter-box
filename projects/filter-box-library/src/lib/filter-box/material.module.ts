@@ -9,6 +9,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatNativeDateModule,
+  MatProgressSpinnerModule,
   MatSelectModule,
 } from '@angular/material';
 
@@ -25,6 +26,7 @@ import {
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatInputModule,
@@ -37,6 +39,7 @@ import {
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatProgressSpinnerModule
   ],
   providers: [MatDatepickerModule],
 })

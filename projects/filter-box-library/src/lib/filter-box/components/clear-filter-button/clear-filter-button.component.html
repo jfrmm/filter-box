@@ -1,3 +1,14 @@
-<button mat-icon-button [disabled]="disabled" (click)="onClickClearFilter($event)">
+<button
+  mat-icon-button
+  [disabled]="disabled"
+  (click)="onClickClearFilter($event)"
+  *ngIf="!filter.isRequesting; else loading"
+>
   <mat-icon>clear</mat-icon>
 </button>
+
+<ng-template #loading>
+  <div class="spinner-container">
+    <mat-spinner diameter="20"></mat-spinner>
+  </div>
+</ng-template>
