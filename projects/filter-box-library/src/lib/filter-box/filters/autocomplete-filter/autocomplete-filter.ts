@@ -59,7 +59,7 @@ export class AutocompleteFilter extends Filter {
     });
   }
 
-  public updateFilterOptions(params: FilterParam[]): FilterEvent {
+  public updateFilterOptions(params?: FilterParam[]): FilterEvent {
     this.setIsRequesting();
 
     this.getFilterOptions(params).subscribe(options => {
