@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { configuration } from './configs/configuration';
 import { FilterAnchorDirective } from './filter-anchor.directive';
-import { Filter } from './filters/filter/filter';
+import { FilterArray } from './filters/filter/filter-array';
 import { FilterBehaviour } from './models/filter-behaviour.model';
 import { FilterBoxConfig } from './models/filter-box-config.model';
 import { FilterComponentModel } from './models/filter-component.model';
@@ -40,7 +40,7 @@ export class FilterBoxComponent implements OnInit {
   public filterBehaviours: FilterBehaviour[];
 
   @Input()
-  public filters: Filter[];
+  public filters: FilterArray;
 
   @Output()
   public index = new EventEmitter();
@@ -105,7 +105,7 @@ export class FilterBoxComponent implements OnInit {
   }
 
   public onClickClearAllFilters(): void {
-    this.filters.forEach((filter: Filter) => filter.clearFilter());
+    this.filters.clearAll();
 
     this.index.emit();
   }

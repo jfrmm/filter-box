@@ -41,6 +41,10 @@ export class FilterArray extends Array<Filter> {
     return params;
   }
 
+  public clearAll(): void {
+    this.forEach(filter => filter.clearFilter());
+  }
+
   public get(name: string): Filter {
     return this.find(filter => filter.name === name);
   }
