@@ -2,7 +2,7 @@
   mat-icon-button
   [disabled]="disabled"
   (click)="onClickClearFilter($event)"
-  *ngIf="!filter.isRequesting; else loading"
+  *ngIf="!filter?.isRequesting; else loading"
 >
   <mat-icon>clear</mat-icon>
 </button>
