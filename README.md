@@ -1,6 +1,6 @@
 # ALTER SOLUTIONS PORTUGAL - Filter Box
 
-> **Filter Box** is an Angular package developed by ALTER SOLUTIONS PORTUGAL. It has been developed using Angular 8.0.
+> **Filter Box** is an Angular package developed by ALTER SOLUTIONS PORTUGAL. It has been developed using Angular 9.0.
 
 ## Table of Contents
 

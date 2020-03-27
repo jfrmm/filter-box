@@ -3,7 +3,7 @@
 This package provides a simple way to add filters to an Angular application, abstracting from all the logic.
 Additionally, it allows the definition of complex event based behaviours, triggered by changes in the filters value or state.
 
-> **Filter Box** is an Angular package developed by ALTER SOLUTIONS PORTUGAL. It has been developed using Angular 8.0.
+> **Filter Box** is an Angular package developed by ALTER SOLUTIONS PORTUGAL. It has been developed using Angular 9.0.
 
 ## Table of Contents
 
