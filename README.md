@@ -3,18 +3,20 @@
 > **Filter Box** is an Angular package developed by ALTER SOLUTIONS PORTUGAL. It has been developed using Angular 8.0.
 
 ## Table of Contents
+
 - [Getting started](#getting-started)
   - [Configure environment](#configure-environment)
     - [Docker](#docker)
   - [Install](#install)
     - [Build the package](#build-the-package)
+    - [Publish the package](#publish-the-package)
 - [Unit Testing](#unit-testing)
 - [Developing and running this demo app](#developing-and-running-this-demo-app)
   - [Library access points](#library-access-points)
 - [Contributing](#contributing)
 - [Troubleshooting](#troubleshooting)
   - [Package generation not working](#package-generation-not-working)
-  
+
 ## Getting started
 
 The following instructions are guidelines for a development environment based on Docker.
@@ -47,12 +49,22 @@ npm install
 You can now build the filter box package by running:
 
 ```shell script
-ng build filter-box-library [--watch]
+npm run build-lib
 ```
 
-This outputs an angular package to `dist/filter-box-library`
+This outputs the package to `dist/filter-box-library`
 
-> Adding the `--watch` flag will make it so that when you make changes to the library, angular-cli will rebuild the package, to make it available to your application. 
+> Adding the `--watch` flag will make it so that when you make changes to the library, angular-cli will rebuild the package, to make it available to your application.
+
+#### Publish the package
+
+Just run
+
+```shell script
+npm run publish-lib
+```
+
+> You'll have to login first with `npm login`
 
 ## Unit Testing
 

@@ -1,13 +1,18 @@
 {
   "name": "asp-filter-box-library",
-  "version": "0.0.0",
+  "version": "0.2.6",
   "scripts": {
+    "dc-up": "cd docker-environment && docker-compose -p asp-filter-box up -d",
+    "dc-stop": "cd docker-environment && docker-compose -p asp-filter-box stop",
+    "de-bash": "cd docker-environment && docker-compose -p asp-filter-box exec node bash",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-lib": "ng build filter-box-library",
+    "publish-lib": "cd dist/filter-box-library && npm publish --access public"
   },
   "private": true,
   "dependencies": {
