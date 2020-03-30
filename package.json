@@ -5,6 +5,7 @@
     "dc-up": "cd docker-environment && docker-compose -p asp-filter-box up -d",
     "dc-stop": "cd docker-environment && docker-compose -p asp-filter-box stop",
     "de-bash": "cd docker-environment && docker-compose -p asp-filter-box exec node bash",
+    "de-serve": "cd docker-environment && docker-compose -p asp-filter-box exec node ng serve --disableHostCheck true --host 0.0.0.0",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
