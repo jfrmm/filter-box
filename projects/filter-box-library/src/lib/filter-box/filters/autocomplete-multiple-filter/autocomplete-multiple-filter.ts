@@ -42,16 +42,15 @@ export class AutocompleteMultipleFilter extends AutocompleteFilter {
     });
   }
 
-  protected mapControlsValues(): string {
+  protected mapControlsValues(): any {
     const formValue: FilterOption[] = this.formControl.value;
 
-    return formValue ? formValue.map((option: FilterOption) => option.id.toString()).join(',') : null;
+    return formValue ? formValue.map((option: FilterOption) => option.id.toString()) : null;
   }
 
   public clearFilter(emit: boolean = false): FilterEvent {
     this.formControl.setValue('', { emitEvent: emit });
     this.selection.clear();
-
     if (emit) {
       return new FilterEmptyEvent(this);
     }
