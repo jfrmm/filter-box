@@ -3,6 +3,10 @@ import { CheckboxFilter } from '../checkbox-filter/checkbox-filter';
 import { Filter } from './filter';
 
 export class FilterArray extends Array<Filter> {
+  constructor() {
+    super();
+    Object.setPrototypeOf(this, FilterArray.prototype);
+  }
   public get filterParams(): FilterParam[] {
     const checkboxes: CheckboxFilter[] = this.filter(
       filter => filter.type === 'checkbox' && filter.param.value !== null && (filter as CheckboxFilter).groupId !== null

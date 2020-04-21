@@ -51,6 +51,9 @@
                   "maximumWarning": "6kb"
                 }
               ]
+            },
+            "es5": {
+              "tsConfig": "./tsconfig-es5.app.json"
             }
           }
         },
@@ -62,6 +65,9 @@
           "configurations": {
             "production": {
               "browserTarget": "asp-filter-box-library:build:production"
+            },
+            "es5": {
+              "browserTarget": "asp-filter-box-library:build:es5"
             }
           }
         },
