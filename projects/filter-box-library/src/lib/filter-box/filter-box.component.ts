@@ -106,9 +106,7 @@ export class FilterBoxComponent implements OnInit {
   }
 
   public onClickClearAllFilters(): void {
-    // this.filters.forEach((filter: Filter) => filter.clearFilter());
     this.filters.clearAll();
-    // console.log((this.filters.get('base')));
 
     this.index.emit();
   }
