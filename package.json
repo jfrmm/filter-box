@@ -1,6 +1,6 @@
 {
   "name": "asp-filter-box-library",
-  "version": "9.0.2",
+  "version": "9.0.3",
   "scripts": {
     "dc-up": "cd docker-environment && docker-compose -p asp-filter-box up -d",
     "dc-stop": "cd docker-environment && docker-compose -p asp-filter-box stop",
