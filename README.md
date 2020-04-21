@@ -58,7 +58,7 @@ This outputs the package to `dist/filter-box-library`
 
 #### Publish the package
 
-Just run
+Update your package version on `package.json`, and then just run
 
 ```shell script
 npm run publish-lib
