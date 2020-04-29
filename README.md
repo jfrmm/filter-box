@@ -58,7 +58,7 @@ This outputs the package to `dist/filter-box-library`
 
 #### Publish the package
 
-Update your package version on `package.json`, `projects/filter-box-library/package.json`, create the tag, and then just run
+Update your package version on `package.json` and `projects/filter-box-library/package.json`, create the tag, and then just run
 
 ```shell script
 npm run publish-lib
@@ -87,7 +87,7 @@ ng serve
 
 ### Library access points
 
-The public-api.ts file defines what is available for the consumers. Use a NgModule to expose services and components. A consumer of the library should be able to access public functionality through a single import path.
+The `public-api.ts` file defines what is available for the consumers. Use a **NgModule** to expose services and components. A consumer of the library should be able to access public functionality through a single import path.
 
 ## Contributing
 
@@ -97,4 +97,8 @@ Please follow our contributing guide in [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ### Package generation not working
 
-Sometimes the angular-cli will not generate our package when it has been ran a long time ago. usually removing the `dist` folder solves this problem.
+Sometimes the **angular-cli** will not generate our package when it has been ran a long time ago. usually removing the `dist` folder solves this problem.
+
+---
+
+Copyright © 2020 Alter Solutions Portugal
