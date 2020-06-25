@@ -1,3 +1,4 @@
 [submodule "docker-environment"]
 	path = docker-environment
 	url = git@gitlab.alter.lan:asp/dev-ops/docker-environment.git
+	branch = projects/angular/asp-filter-box
