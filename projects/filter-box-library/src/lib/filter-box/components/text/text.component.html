@@ -1,0 +1,28 @@
+<div
+  *ngIf="filter"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+
+  <mat-form-field>
+    <div
+      fxLayout="row"
+      class="search-option"
+    >
+      <input
+        matInput
+        #searchBox
+        type="text"
+        [formControl]="filter?.formControl"
+        [placeholder]="filter?.placeholder"
+        (keydown)="$event.stopPropagation()"
+        autocomplete="off"
+      >
+    </div>
+
+  </mat-form-field>
+  <asp-clear-filter-button
+    [disabled]="!filter.formControl.value"
+    [filter]="filter"
+  ></asp-clear-filter-button>
+</div>

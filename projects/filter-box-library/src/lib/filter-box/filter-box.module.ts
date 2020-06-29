@@ -10,6 +10,7 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { ClearFilterButtonComponent } from './components/clear-filter-button/clear-filter-button.component';
 import { DateComponent } from './components/date/date.component';
 import { SelectComponent } from './components/select/select.component';
+import { TextComponent } from './components/text/text.component';
 import { FilterAnchorDirective } from './filter-anchor.directive';
 import { FilterBoxComponent } from './filter-box.component';
 import { MaterialModule } from './material.module';
@@ -26,7 +27,9 @@ import { FilterBoxConfigService } from './services/filter-box-config.service';
     AutocompleteAsyncComponent,
     AutocompleteMultipleComponent,
     SelectComponent,
+    TextComponent,
     FilterAnchorDirective,
+    TextComponent,
   ],
   imports: [CommonModule, MaterialModule, ReactiveFormsModule, FlexLayoutModule],
   exports: [
@@ -38,6 +41,7 @@ import { FilterBoxConfigService } from './services/filter-box-config.service';
     AutocompleteAsyncComponent,
     AutocompleteMultipleComponent,
     SelectComponent,
+    TextComponent
   ],
   entryComponents: [
     CheckboxComponent,
@@ -46,6 +50,7 @@ import { FilterBoxConfigService } from './services/filter-box-config.service';
     AutocompleteAsyncComponent,
     AutocompleteMultipleComponent,
     SelectComponent,
+    TextComponent
   ],
 })
 export class FilterBoxModule {

@@ -50,6 +50,7 @@ You can now build the filter box package by running:
 
 ```shell script
 npm run build-lib
+ ng build filter-box-library --prod --watch
 ```
 
 This outputs the package to `dist/filter-box-library`
