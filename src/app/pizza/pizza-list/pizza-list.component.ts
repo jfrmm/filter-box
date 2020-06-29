@@ -14,6 +14,7 @@ import {
   FilterParam,
   FilterValidValueChangeEvent,
   SelectFilter,
+  TextFilter,
 } from 'filter-box-library';
 
 import { FilterBoxConfig, FilterOption } from 'filter-box-library';
@@ -30,7 +31,7 @@ import { PizzaService } from '../shared/pizza.service';
 })
 export class PizzaListComponent implements OnInit {
   get filterParams(): FilterParam[] {
-    return this.filters.map(filter => filter.param).filter(filter => filter.value !== null);
+    return this.filters.map((filter) => filter.param).filter((filter) => filter.value !== null);
   }
 
   private readonly destroy$ = new Subject();
@@ -72,6 +73,7 @@ export class PizzaListComponent implements OnInit {
       new AutocompleteAsyncFilter('restaurant', 'restaurant', 'Restaurant', () => this.pizzaService.getRestaurants()),
       new DateFilter('from', 'from', 'From'),
       new SelectFilter('select', 'select', 'select', () => this.pizzaService.getPizzaBases()),
+      new TextFilter('free_text', 'free_text', 'Free text'),
       new CheckboxFilter('rating', 'rating', 'MEDIUM', { id: 2, value: 'MEDIUM' }, false, 'RATING'),
       new CheckboxFilter('rating_medium', 'rating', 'HIGH', { id: 2, value: 'HIGH' }, false, 'RATING'),
       new CheckboxFilter('stuff', 'stuff', 'Stuff', { id: 2, value: 'MEDIUM' }, false, 'STUFF'),
@@ -108,12 +110,13 @@ export class PizzaListComponent implements OnInit {
   public index(reset: boolean): void {
     const pizzaParams: FilterParam[] = [...this.queryParams, ...this.filterParams];
 
-    console.log(this.filters.toQueryParam());
+    console.log('this.filters.toQueryParam() --> ' + JSON.stringify(this.filters.toQueryParam()));
+    // console.log(this.filters.get('text'));
 
     this.pizzaService
       .getPizzasList(pizzaParams)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(response => {
+      .subscribe((response) => {
         this.dataSource.update(response.elements, reset);
       });
     this.indexCount++;
