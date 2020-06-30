@@ -60,6 +60,9 @@ This outputs the package to `dist/filter-box-library`
 
 Update your package version on `package.json` and `projects/filter-box-library/package.json`, create the tag, and then just run
 
+ctrl + shift + p (create tag)
+repo = v9, 🔖 vx.x.x 
+ctrl + shift + p ( push follow tags)
 ```shell script
 npm run publish-lib
 ```
