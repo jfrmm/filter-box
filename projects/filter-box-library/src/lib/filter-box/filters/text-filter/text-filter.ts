@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { merge, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, startWith } from 'rxjs/operators';
 import { TextComponent } from '../../components/text/text.component';
 import { FilterClearEvent } from '../../events/filter-clear-event';
 import { FilterValidValueChangeEvent } from '../../events/filter-valid-value-change-event';
@@ -35,8 +35,8 @@ export class TextFilter extends Filter {
     this.events = merge(
       formControl.valueChanges.pipe(
         debounceTime(500),
+        startWith(''),
         distinctUntilChanged(),
-        filter(value => value.length >= 3),
         map((value: string) => (value ? new FilterValidValueChangeEvent(this) : new FilterClearEvent(this)))
       ),
       this.internalEvent
